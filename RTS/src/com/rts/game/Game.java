@@ -45,14 +45,18 @@ public class Game implements ApplicationListener {
     public void render() {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         sprite.draw(batch);
         batch.end();
+        update(Gdx.graphics.getDeltaTime());
     }
 
-    public void update() {
+    /**
+     * Master update function. This function should update all the objects there are
+     * @param deltaT the time that has passed since the previous update
+     */
+    public void update(float deltaT) {
     }
 
     @Override
