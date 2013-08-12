@@ -25,8 +25,9 @@ public class Game implements ApplicationListener {
 
         batch = new SpriteBatch();
 
-        texture = new Texture(Gdx.files.internal("data/libgdx.png"));
+        texture = new Texture(Gdx.files.internal("Images/Environment/Grass.png"));
         texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+        texture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
 
         TextureRegion region = new TextureRegion(texture, 0, 0, 512, 275);
 
@@ -58,6 +59,7 @@ public class Game implements ApplicationListener {
 
     /**
      * Master update function. This function should update all the objects there are
+     *
      * @param deltaT the time that has passed since the previous update
      */
     public void update(float deltaT) {
