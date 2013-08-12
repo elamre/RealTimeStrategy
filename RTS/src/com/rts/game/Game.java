@@ -11,22 +11,18 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Game implements ApplicationListener {
-    private OrthographicCamera camera;
     private SpriteBatch batch;
     private Texture texture;
     private Sprite sprite;
 
-    private Entity entity;
+    private Camera currentCam;
 
     @Override
     public void create() {
 
-        entity = new EntityTest();
+        currentCam = new Camera();
+        currentCam.create();
 
-        float w = Gdx.graphics.getWidth();
-        float h = Gdx.graphics.getHeight();
-
-        camera = new OrthographicCamera(1, h / w);
         batch = new SpriteBatch();
 
         texture = new Texture(Gdx.files.internal("data/libgdx.png"));
@@ -48,12 +44,14 @@ public class Game implements ApplicationListener {
 
     @Override
     public void render() {
+        currentCam.update(Gdx.graphics.getDeltaTime());
+
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-        batch.setProjectionMatrix(camera.combined);
+
+        batch.setProjectionMatrix(currentCam.getCamera().combined);
         batch.begin();
-        //sprite.draw(batch);
-        entity.draw(batch);
+        sprite.draw(batch);
         batch.end();
         update(Gdx.graphics.getDeltaTime());
     }
@@ -63,7 +61,6 @@ public class Game implements ApplicationListener {
      * @param deltaT the time that has passed since the previous update
      */
     public void update(float deltaT) {
-        entity.update();
     }
 
     @Override

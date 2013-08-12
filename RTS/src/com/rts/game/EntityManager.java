@@ -33,13 +33,13 @@ public class EntityManager {
     /**
      * Run the update function for all Entities, and do basic entity management.
      */
-    public void update() {
+    public void update(float delta) {
 
         addEntities();
         removeEntities();
 
         for (Map.Entry<Integer, Entity> entry : entities.entrySet()) {
-            entry.getValue().update();
+            entry.getValue().update(delta);
         }
 
     }

@@ -28,7 +28,7 @@ public abstract class Entity {
 
     }
 
-    public void update() {
+    public void update(float delta) {
 
     }
 
