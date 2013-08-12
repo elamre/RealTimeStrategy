@@ -19,7 +19,9 @@ public class Camera {
     private float x = 0;
     private float y = 0;
     private float cameraMoveSensitivityMouse = 1.0f;
+    private float cameraMoveSensitivityKeys = .004f;
     private float zoom = 1;
+    private float zoomSensitivity = 0.01f;
 
     public OrthographicCamera getCamera() {
         return camera;
@@ -65,5 +67,26 @@ public class Camera {
             x += (Gdx.input.getDeltaX() / w) * cameraMoveSensitivityMouse * zoom;
             y += (Gdx.input.getDeltaY() / h) * cameraMoveSensitivityMouse * zoom;
         }
+
+
+        if(Gdx.input.isKeyPressed(Input.Keys.W)) {
+            y += cameraMoveSensitivityKeys * zoom;
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.S)) {
+            y -= cameraMoveSensitivityKeys * zoom;
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.A)) {
+            x += cameraMoveSensitivityKeys * zoom;
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.D)) {
+            x -= cameraMoveSensitivityKeys * zoom;
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.MINUS)) {
+            zoom *= (1 + zoomSensitivity);
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.EQUALS)) {
+            zoom *= (1 - zoomSensitivity);
+        }
+
     }
 }
