@@ -16,8 +16,13 @@ public class Game implements ApplicationListener {
     private Texture texture;
     private Sprite sprite;
 
+    private Entity entity;
+
     @Override
     public void create() {
+
+        entity = new EntityTest();
+
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
 
@@ -47,7 +52,8 @@ public class Game implements ApplicationListener {
         Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        sprite.draw(batch);
+        //sprite.draw(batch);
+        entity.draw(batch);
         batch.end();
         update(Gdx.graphics.getDeltaTime());
     }
@@ -57,6 +63,7 @@ public class Game implements ApplicationListener {
      * @param deltaT the time that has passed since the previous update
      */
     public void update(float deltaT) {
+        entity.update();
     }
 
     @Override
