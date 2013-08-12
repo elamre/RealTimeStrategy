@@ -1,8 +1,13 @@
 package com.rts.networking.host;
 
 import com.rts.networking.packets.Packet;
+import com.rts.networking.packets.PacketManager;
+import com.rts.util.Configuration;
 import com.rts.util.Logger;
 
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.ArrayList;
 
 /**
@@ -12,29 +17,48 @@ import java.util.ArrayList;
  * Time: 2:00 AM
  * To change this template use File | Settings | File Templates.
  */
-public class Server implements Runnable {
+public class Server {
+    Logger logger = Logger.getInstance();
+    TCPServer tcpServer;
+    Thread tcpThread;
+    UDPServer udpServer;
+    Thread udpThread;
     /* ArrayList containing all the connected clients */
     private ArrayList<ServerClient> serverClients = new ArrayList<ServerClient>();
     /* enum holding the status of the server */
     private ServerStatus serverStatus = ServerStatus.STOPPED;
     /* Simple boolean holding if the server is running or not */
     private boolean running = false;
+    private int connectionId = 1;
 
     public static void main(String[] args) {
-        Thread serverThread;
         Server server = new Server();
-        serverThread = new Thread(server);
-        serverThread.start();
         server.startServer();
+        server.stopServer();
     }
 
     /**
      * This function will start the server.
      */
     public void startServer() {
-        Logger.getInstance().system("Starting server...");
-        running = true;
-        Logger.getInstance().system("Server successfully started!");
+        tcpServer = new TCPServer(this);
+        tcpServer.startListening(Configuration.TCP_PORT);
+        tcpThread = new Thread(tcpServer);
+        tcpThread.start();
+        udpServer = new UDPServer(this);
+        udpServer.startListening(Configuration.UDP_PORT);
+        udpThread = new Thread(udpServer);
+        udpThread.start();
+
+        // Wait for them both to be up and running. And add a timeout TODO
+    }
+
+    public void addClient(Socket socket) {
+        try {
+            serverClients.add(new ServerClient(connectionId++, socket));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -42,7 +66,10 @@ public class Server implements Runnable {
      */
     public void stopServer() {
         Logger.getInstance().system("Stopping server...");
-        running = false; // TODO wait for processes
+        tcpServer.stopListening();
+        udpServer.stopListening();
+        while (tcpServer.isRunning() || udpServer.isRunning()) ;
+        running = false;
         Logger.getInstance().system("Server successfully stopped!");
     }
 
@@ -60,20 +87,16 @@ public class Server implements Runnable {
         }
     }
 
-    @Override
-    public void run() {
-        while (true) {
-
-        }
-    }
-
     /**
      * Function to send all clients a packet
      *
      * @param packet the packet to send
      */
     public void sendAllTCP(Packet packet) {
-
+        for (int i = 0; i < serverClients.size(); i++) {
+            if (packet.getConnectionId() != serverClients.get(i).getId())
+                serverClients.get(i).writePacket(packet);
+        }
     }
 
     /**

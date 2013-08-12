@@ -1,5 +1,7 @@
 package com.rts.networking.packets;
 
+import com.rts.networking.packets.system.ChatPacket;
+import com.rts.networking.packets.system.PingPacket;
 import com.rts.util.Logger;
 
 import java.util.HashMap;
@@ -17,6 +19,8 @@ public class PacketManager {
      * are able to obtain the ID's.
      */
     static {
+        registerPacket(new PingPacket());
+        registerPacket(new ChatPacket());
     }
 
     /**

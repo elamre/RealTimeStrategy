@@ -12,5 +12,7 @@ public class Configuration {
     public static final int LOG_LEVEL = Logger.ALL;
     public static final boolean LOG_TO_FILE = false;
 
-    public static final int PORT = 2345;
+    public static final int TCP_PORT = 2345;
+    public static final int UDP_PORT = 4567;
+    public static final int MM_PORT = 3456;
 }
