@@ -63,7 +63,7 @@ public class Game implements ApplicationListener {
      * @param deltaT the time that has passed since the previous update
      */
     public void update(float deltaT) {
-        entity.update();
+        entity.update(deltaT);
     }
 
     @Override
