@@ -15,13 +15,15 @@ public class Game implements ApplicationListener {
     private Texture texture;
     private Sprite sprite;
 
-    private Camera currentCam;
+    Player player = new Player();
+    EntityManager ents = new EntityManager();
 
     @Override
     public void create() {
 
-        currentCam = new Camera();
-        currentCam.create();
+        player.create();
+
+        ents.addEntity(new EntityTest());
 
         batch = new SpriteBatch();
 
@@ -45,14 +47,16 @@ public class Game implements ApplicationListener {
 
     @Override
     public void render() {
-        currentCam.update(Gdx.graphics.getDeltaTime());
+
+        player.cameraUpdates();
 
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 
-        batch.setProjectionMatrix(currentCam.getCamera().combined);
+        batch.setProjectionMatrix(player.cam.getCamera().combined);
         batch.begin();
         sprite.draw(batch);
+        ents.draw(batch);
         batch.end();
         update(Gdx.graphics.getDeltaTime());
     }
@@ -63,6 +67,8 @@ public class Game implements ApplicationListener {
      * @param deltaT the time that has passed since the previous update
      */
     public void update(float deltaT) {
+        ents.update(deltaT);
+        player.update(deltaT, ents);
     }
 
     @Override

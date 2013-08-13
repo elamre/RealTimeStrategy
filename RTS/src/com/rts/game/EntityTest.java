@@ -1,4 +1,5 @@
 package com.rts.game;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -22,18 +23,18 @@ public class EntityTest extends Entity {
         TextureRegion region = new TextureRegion(texture, 0, 0, 256, 256);
 
         sprites[0] = new Sprite(region);
+
+        setUpBoundaries();
     }
 
     public void update(float delta) {
-        sprites[0].setX(0);
-
-        sprites[0].setSize(0.9f, 0.9f * sprites[0].getHeight() / sprites[0].getWidth());
-        sprites[0].setOrigin(sprites[0].getWidth() / 2, sprites[0].getHeight() / 2);
+        sprites[0].setSize(0.1f, 0.1f * sprites[0].getHeight() / sprites[0].getWidth());
+        sprites[0].setOrigin(0, 0);
 
     }
 
     public void draw(SpriteBatch batch) {
-        for(Sprite s : sprites) {
+        for (Sprite s : sprites) {
             s.draw(batch);
         }
     }

@@ -1,5 +1,7 @@
 package com.rts.game;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Map;
@@ -78,6 +80,12 @@ public class EntityManager {
      */
     public void addEntity(Entity e) {
         addList.add(e);
+    }
+
+    public void draw(SpriteBatch batch) {
+        for (Map.Entry<Integer, Entity> entry : entities.entrySet()) {
+            entry.getValue().draw(batch);
+        }
     }
 
     /**

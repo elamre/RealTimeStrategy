@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 
-
 /**
  * Created with IntelliJ IDEA.
  * User: Jake
@@ -15,10 +14,19 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 public abstract class Entity {
     private int id;
 
-    private float x;
-    private float y;
-
     Sprite[] sprites;
+
+    public BoundingShape bounds;
+
+    public int getOwner() {
+        return owner;
+    }
+
+    public void setOwner(int owner) {
+        this.owner = owner;
+    }
+
+    private int owner;
 
     public Entity() {
         create();
@@ -26,6 +34,10 @@ public abstract class Entity {
 
     public void create() {
 
+    }
+
+    protected void setUpBoundaries() {
+        bounds = new BoundingShape(0, 0, 0.1f);
     }
 
     public void update(float delta) {
@@ -39,7 +51,6 @@ public abstract class Entity {
     public void delete() {
 
     }
-
 
 
     public int getId() {
@@ -59,19 +70,19 @@ public abstract class Entity {
     }
 
     public float getY() {
-        return y;
+        return bounds.y;
     }
 
     public void setY(float y) {
-        this.y = y;
+        this.bounds.y = y;
     }
 
     public float getX() {
-        return x;
+        return bounds.x;
     }
 
     public void setX(float x) {
-        this.x = x;
+        this.bounds.x = x;
     }
 
 }

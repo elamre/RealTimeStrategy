@@ -3,6 +3,7 @@ package com.rts.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.math.Vector3;
 
 /**
  * Created with IntelliJ IDEA.
@@ -55,38 +56,54 @@ public class Camera {
 
     public void update(float delta) {
 
+        w = Gdx.graphics.getWidth();
+        h = Gdx.graphics.getHeight();
+
         handleInput(delta);
-        camera.position.set(new float[] {-x, y, 0});
+
+        camera.position.set(new float[]{-x, y, 0});
         camera.zoom = zoom;
         camera.update();
 
     }
 
     private void handleInput(float delta) {
-        if(Gdx.input.isButtonPressed(Input.Buttons.MIDDLE)) {
+        if (Gdx.input.isButtonPressed(Input.Buttons.MIDDLE)) {
             x += (Gdx.input.getDeltaX() / w) * cameraMoveSensitivityMouse * zoom;
             y += (Gdx.input.getDeltaY() / h) * cameraMoveSensitivityMouse * zoom;
         }
 
 
-        if(Gdx.input.isKeyPressed(Input.Keys.W)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
             y += cameraMoveSensitivityKeys * zoom;
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.S)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
             y -= cameraMoveSensitivityKeys * zoom;
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.A)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             x += cameraMoveSensitivityKeys * zoom;
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.D)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             x -= cameraMoveSensitivityKeys * zoom;
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.MINUS)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.MINUS) || Gdx.input.isKeyPressed(Input.Keys.Q)) {
             zoom *= (1 + zoomSensitivity);
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.EQUALS)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.EQUALS) || Gdx.input.isKeyPressed(Input.Keys.E)) {
             zoom *= (1 - zoomSensitivity);
         }
 
+    }
+
+    public float[] getRealWorldPosition() {
+        Vector3 vec = new Vector3(x, y, 0);
+        camera.unproject(vec);
+        float[] pos = new float[]{vec.x, vec.y};
+        return pos;
+        //TODO: Fix mouse coordinates
+    }
+
+    public boolean isInHUD() {
+        return false;
     }
 }
