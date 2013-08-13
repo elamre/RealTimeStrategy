@@ -7,9 +7,12 @@ package com.rts.networking.host;
  * Time: 4:38 PM
  * To change this template use File | Settings | File Templates.
  */
-public interface HostAble {
+public interface Hostable {
     public void startListening(int port);
+
     public void stopListening();
+
     public void addDataListener();
+
     public void addClientListener();
 }

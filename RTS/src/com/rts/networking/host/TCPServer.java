@@ -15,7 +15,7 @@ import java.net.Socket;
  * Time: 2:00 AM
  * To change this template use File | Settings | File Templates.
  */
-public class TCPServer implements HostAble, Runnable {
+public class TCPServer implements Hostable, Runnable {
     Logger logger = Logger.getInstance();
     ServerSocket serverSocket;
     private Server server;
@@ -78,7 +78,7 @@ public class TCPServer implements HostAble, Runnable {
         running = false;
     }
 
-    public boolean isRunning(){
+    public boolean isRunning() {
         return running;
     }
 }
