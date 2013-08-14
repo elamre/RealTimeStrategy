@@ -28,7 +28,7 @@ public class EntityTest extends Entity {
     }
 
     public void update(float delta) {
-        sprites[0].setSize(0.1f, 0.1f * sprites[0].getHeight() / sprites[0].getWidth());
+        sprites[0].setSize(0.01f, 0.01f);
         sprites[0].setOrigin(0, 0);
 
     }

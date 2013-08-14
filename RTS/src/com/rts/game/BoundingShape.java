@@ -27,10 +27,10 @@ public class BoundingShape {
 
     BoundingShape(float[] start, float[] end) {
         square = true;
-        x = Math.abs(start[0] + end[0]) / 2;
-        y = Math.abs(start[1] + end[1]) / 2;
-        width = Math.abs(start[0] - end[0]);
-        height = Math.abs(start[1] - end[1]);
+        x = (start[0] + end[0]) / 2;
+        y = (start[1] + end[1]) / 2;
+        width = Math.abs(Math.abs(start[0]) - Math.abs(x)) * 2;
+        height = Math.abs(Math.abs(start[1]) - Math.abs(y)) * 2;
     }
 
     BoundingShape(float x, float y, float width, float height) {

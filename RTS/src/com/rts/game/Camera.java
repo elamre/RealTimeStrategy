@@ -1,8 +1,8 @@
 package com.rts.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
 
 /**
@@ -17,8 +17,8 @@ public class Camera {
     private OrthographicCamera camera;
     private float w;
     private float h;
-    private float x = 0;
-    private float y = 0;
+    private float x = 0f;
+    private float y = 0f;
     private float cameraMoveSensitivityMouse = 1.0f;
     private float cameraMoveSensitivityKeys = .004f;
     private float zoom = 1;
@@ -98,9 +98,13 @@ public class Camera {
     public float[] getRealWorldPosition() {
         Vector3 vec = new Vector3(x, y, 0);
         camera.unproject(vec);
-        float[] pos = new float[]{vec.x, vec.y};
+        float cx = vec.x;
+        cx += ((float) Gdx.input.getX() / w);
+        float cy = vec.y;
+        cy -= ((float) Gdx.input.getY() / w);
+        float[] pos = new float[]{cx, cy};
         return pos;
-        //TODO: Fix mouse coordinates
+        //TODO: Fix mouse coordinates when zooming
     }
 
     public boolean isInHUD() {

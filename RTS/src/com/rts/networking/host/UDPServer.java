@@ -12,7 +12,7 @@ import java.net.*;
  * Time: 2:00 AM
  * To change this template use File | Settings | File Templates.
  */
-public class UDPServer implements HostAble, Runnable {
+public class UDPServer implements Hostable, Runnable {
     /* The logger object */
     Logger logger = Logger.getInstance();
     /* ServerSocket object */

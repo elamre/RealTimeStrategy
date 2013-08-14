@@ -57,6 +57,9 @@ public class Game implements ApplicationListener {
         batch.begin();
         sprite.draw(batch);
         ents.draw(batch);
+
+        player.draw();
+
         batch.end();
         update(Gdx.graphics.getDeltaTime());
     }
