@@ -1,0 +1,5 @@
+[packet type]:1 [packet size (in bytes)]:1 [fields]:1-16 [index]:1
+
+Move:
+
+[1] [5] [entityId] [entityId] [entityId] [entityId] [x] [x] [y] [y] [speed] [direction] [index]

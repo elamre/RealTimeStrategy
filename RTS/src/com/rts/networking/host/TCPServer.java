@@ -15,10 +15,14 @@ import java.net.Socket;
  * Time: 2:00 AM
  * To change this template use File | Settings | File Templates.
  */
-public class TCPServer implements Hostable, Runnable {
+public class TCPServer implements HostAble, Runnable {
+    /* The logger object */
     Logger logger = Logger.getInstance();
+    /* ServerSocket object */
     ServerSocket serverSocket;
+    /* A reference to the server for access to functions like sendAll(); */
     private Server server;
+    /* If the server is running or not */
     private boolean running = false;
 
     public TCPServer(Server server) {

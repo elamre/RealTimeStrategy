@@ -10,10 +10,13 @@ import java.net.Socket;
  * To change this template use File | Settings | File Templates.
  */
 
+import com.rts.networking.NetworkEntity;
 import com.rts.networking.packets.Packet;
 import com.rts.networking.packets.PacketManager;
 import com.rts.networking.packets.system.ChatPacket;
+import com.rts.networking.packets.system.EntityCreationPacket;
 import com.rts.networking.packets.system.PingPacket;
+import com.rts.networking.packets.system.RequestEntityPacket;
 import com.rts.util.Logger;
 import com.rts.util.SocketUtil;
 
@@ -24,44 +27,36 @@ import java.util.ArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class ServerClient implements Runnable {
-    /**
-     * The id of the client
-     */
+    /* The id of the client. */
     public int id = 0;
-    /**
-     * If the thread should be running or not
-     */
+    /* If the thread should be running or not. */
     private boolean run = false;
-    /**
-     * The packets to send.
-     */
+    /* The packets to send. */
     private LinkedBlockingQueue<Packet> packetsToSend;
-    /**
-     * The input stream.
-     */
+    /* The input stream. */
     private DataInputStream inputStream;
-    /**
-     * The output stream.
-     */
+    /* The output stream. */
     private DataOutputStream outputStream;
-    /**
-     * The logger instance
-     */
+    /* The logger instance. */
     private Logger logger = Logger.getInstance();
-    /**
-     * The last time received a package
-     */
+    /* The last time received a package. */
     private long lastMessage = 0;
-    /**
-     * The time out
-     */
+    /* The time out. */
     private int timeOut = 20000;
 
+    /**
+     * Constructor which should
+     * @param id The client id
+     * @param socket
+     * @throws IOException
+     */
     public ServerClient(int id, Socket socket) throws IOException {
         this.id = id;
         packetsToSend = new LinkedBlockingQueue<Packet>();
         inputStream = SocketUtil.wrapInputStream(socket);
         outputStream = SocketUtil.wrapOutputStream(socket);
+        outputStream.writeInt(id);
+        outputStream.flush();
         run = true;
         logger.system("New client joined with id: " + id + " ip: " + socket.getInetAddress());
         new Thread(this).start();
@@ -74,7 +69,6 @@ public class ServerClient implements Runnable {
     public void writePackets(ArrayList<Packet> packets) {
         packetsToSend.addAll(packets);
     }
-
 
     public void run() {
         boolean timeOutCheck = false;
@@ -135,11 +129,17 @@ public class ServerClient implements Runnable {
     }
 
     private void processPacket(Packet packet) {
-         if (packet instanceof PingPacket) {
+        if (packet instanceof PingPacket) {
             writePacket(packet);
+        } else if (packet instanceof RequestEntityPacket) {
+            NetworkEntity networkEntity = new NetworkEntity(ServerGameManager.getId(), (RequestEntityPacket) packet);
+            EntityCreationPacket entityCreationPacket = new EntityCreationPacket(-1, networkEntity);
+            // TODO check if you can actually build it
+            // TODO check for resources
+            // Todo send a new packet to all
         } else {
-             if (packet instanceof ChatPacket) {
-                logger.debug( "chatpack: " + ((ChatPacket) packet).getText());
+            if (packet instanceof ChatPacket) {
+                logger.debug("chatpack: " + ((ChatPacket) packet).getText());
             }
             //send these packets to everybody in the game
         }

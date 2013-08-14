@@ -12,17 +12,33 @@ import java.io.IOException;
  * To change this template use File | Settings | File Templates.
  */
 public abstract class Packet {
+    /* The id which sent the packet */
     protected int connectionId;
+    /* The type of packet */
     private int packetId;
 
+    /**
+     * Default constructor which is used for instantiating a new packet.
+     */
     public Packet() {
     }
 
+    /**
+     * Constructor which should always get implemented in a packet. Add extra fields if needed
+     *
+     * @param packetId The type of packet
+     * @param connectionId The id which sent the packet
+     */
     public Packet(int packetId, int connectionId) {
         this.packetId = packetId;
         this.connectionId = connectionId;
     }
 
+    /**
+     *
+     * @param in
+     * @throws IOException
+     */
     public void read(DataInputStream in) throws IOException {
         connectionId = in.readInt();
         readPacketSpecific(in);
@@ -47,5 +63,9 @@ public abstract class Packet {
 
     public int getConnectionId() {
         return connectionId;
+    }
+
+    public void setConnectionId(int connectionId) {
+        this.connectionId = connectionId;
     }
 }

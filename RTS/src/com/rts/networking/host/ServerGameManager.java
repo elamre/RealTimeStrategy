@@ -1,5 +1,7 @@
 package com.rts.networking.host;
 
+import com.rts.networking.NetworkEntity;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Elmar
@@ -18,5 +20,9 @@ public class ServerGameManager {
      */
     public static int getId() {
         return ++id;
+    }
+    
+    public static void addNetworkEntity(NetworkEntity networkEntity){
+
     }
 }
