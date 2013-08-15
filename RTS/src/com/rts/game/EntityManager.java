@@ -1,6 +1,9 @@
 package com.rts.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.rts.networking.packets.system.EntityCreationPacket;
 
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -14,6 +17,10 @@ import java.util.Map;
  * To change this template use File | Settings | File Templates.
  */
 public class EntityManager {
+    /**
+     * The list containing all Entities from the network be added.
+     */
+    private static ArrayList<EntityCreationPacket> addNetworkList = new ArrayList<EntityCreationPacket>(16);
     /**
      * The entity map to be used for all standard Entities in-game.
      */
@@ -31,11 +38,21 @@ public class EntityManager {
      */
     private ArrayList<Entity> addList = new ArrayList<Entity>(16);
 
+    public static void createEntity(EntityCreationPacket packet) {
+        addNetworkList.add(packet);
+
+    }
 
     /**
      * Run the update function for all Entities, and do basic entity management.
      */
     public void update(float delta) {
+        if (Gdx.input.isKeyPressed(Input.Keys.O)) {
+            EntityTest entityTest = new EntityTest();
+            entityTest.setX(Gdx.input.getX());
+            entityTest.setY(Gdx.input.getY());
+            addEntity(entityTest);
+        }
 
         addEntities();
         removeEntities();
@@ -79,7 +96,8 @@ public class EntityManager {
      * @param e The Entity to be added.
      */
     public void addEntity(Entity e) {
-        addList.add(e);
+        ConnectionBridge.addEntity(e);
+        // addList.add(e);
     }
 
     public void draw(SpriteBatch batch, Camera cam) {
@@ -111,6 +129,16 @@ public class EntityManager {
      * Adds all wanted Entities. Uses the addList List.
      */
     private void addEntities() {
+        for (int i = 0; i < addNetworkList.size(); i++) {
+            EntityCreationPacket packet = addNetworkList.get(i);
+            Entity entity = new EntityTest();
+            entity.setId(packet.getEntityId());
+            entity.setX(packet.getX());
+            entity.setY(packet.getY());
+            entities.put(new Integer(entity.getId()), entity);
+            System.out.println("new entity added at pos: " + entity.getX() + "," + entity.getY() + " id: " + entity.getId());
+        }
+        addNetworkList.clear();
 
         for (int i = 0; i < addList.size(); i++) {
             entities.put(new Integer(addList.get(i).getId()), addList.get(i));

@@ -12,7 +12,7 @@ import java.net.*;
  * Time: 2:00 AM
  * To change this template use File | Settings | File Templates.
  */
-public class UDPServer implements Hostable, Runnable {
+public class UDPServer implements HostAble, Runnable {
     /* The logger object */
     Logger logger = Logger.getInstance();
     /* ServerSocket object */
@@ -55,13 +55,15 @@ public class UDPServer implements Hostable, Runnable {
     public void run() {
         byte[] receiveData = new byte[16];
         byte[] sendData = new byte[16];
+        DatagramPacket receivePacket;
         while (true) {
-            DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+            receivePacket = new DatagramPacket(receiveData, receiveData.length);
             try {
                 serverSocket.receive(receivePacket);
             } catch (IOException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
+            actOnData(receivePacket.getData());
 
             String sentence = new String(receivePacket.getData());
             System.out.println("RECEIVED: " + sentence);
@@ -79,6 +81,10 @@ public class UDPServer implements Hostable, Runnable {
             }
         }
         //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    private void actOnData(byte[] data){
+
     }
 
     public boolean isRunning() {

@@ -134,6 +134,7 @@ public class ServerClient implements Runnable {
         } else if (packet instanceof RequestEntityPacket) {
             NetworkEntity networkEntity = new NetworkEntity(ServerGameManager.getId(), (RequestEntityPacket) packet);
             EntityCreationPacket entityCreationPacket = new EntityCreationPacket(-1, networkEntity);
+            Server.getServer().sendAllTCP(entityCreationPacket);
             // TODO check if you can actually build it
             // TODO check for resources
             // Todo send a new packet to all

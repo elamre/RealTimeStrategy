@@ -1,8 +1,10 @@
 package com.rts.networking.client;
 
+import com.rts.game.EntityManager;
 import com.rts.networking.packets.Packet;
 import com.rts.networking.packets.PacketManager;
 import com.rts.networking.packets.system.ChatPacket;
+import com.rts.networking.packets.system.EntityCreationPacket;
 import com.rts.networking.packets.system.PingPacket;
 import com.rts.util.Logger;
 import com.rts.util.SocketUtil;
@@ -147,7 +149,7 @@ public class Connection implements Runnable {
                 if (packet != null) {
                     packet.read(inputStream);
                     processPacket(packet);
-                   // Logger.getInstance().debug("New packet read id: " + packetId);
+                    // Logger.getInstance().debug("New packet read id: " + packetId);
                 }
             } catch (NullPointerException NPE) {
                 NPE.printStackTrace();
@@ -165,7 +167,10 @@ public class Connection implements Runnable {
     private void processPacket(Packet packet) {
         if (packet instanceof PingPacket) {
             setPing((PingPacket) packet);
+            logger.system("Ping: " + ping);
             //TODO visualize the ping in some way
+        } else if (packet instanceof EntityCreationPacket) {
+            EntityManager.createEntity((EntityCreationPacket) packet);
         } else if (packet instanceof ChatPacket) {
         } else {
             logger.error("Unknown packet " + packet.getClass().getSimpleName() + " ! Your game version might be outdated. Game will now exit.");

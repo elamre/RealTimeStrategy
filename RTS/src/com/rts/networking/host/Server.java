@@ -18,6 +18,7 @@ import java.util.ArrayList;
  * To change this template use File | Settings | File Templates.
  */
 public class Server {
+    private static Server server;
     Logger logger = Logger.getInstance();
     TCPServer tcpServer;
     Thread tcpThread;
@@ -31,9 +32,14 @@ public class Server {
     private boolean running = false;
     private int connectionId = 1;
 
+    public static Server getServer() {
+        if (server == null)
+            server = new Server();
+        return server;
+    }
+
     public static void main(String[] args) {
-        Server server = new Server();
-        server.startServer();
+        Server.getServer().startServer();
         //server.stopServer();
     }
 

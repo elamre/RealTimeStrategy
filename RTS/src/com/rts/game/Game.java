@@ -9,6 +9,10 @@ import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.rts.networking.client.Client;
+import com.rts.util.Configuration;
+
+import java.io.IOException;
 
 public class Game implements ApplicationListener {
     private SpriteBatch batch;
@@ -21,6 +25,11 @@ public class Game implements ApplicationListener {
     @Override
     public void create() {
 
+        try {
+            Client.getClient().connect("127.0.0.1", Configuration.TCP_PORT);
+        } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
         player.create();
 
         ents.addEntity(new EntityTest());

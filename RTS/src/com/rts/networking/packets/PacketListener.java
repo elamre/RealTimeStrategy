@@ -9,9 +9,9 @@ package com.rts.networking.packets;
  */
 public interface PacketListener {
     /**
-     * Function which will get called upon arriving of a packet.
+     * Function which will get called upon arriving of a packet containing game information.
      *
      * @param packet the packet received
      */
-    public void packetReceived(Packet packet);
+    public void gamePacketReceived(Packet packet);
 }

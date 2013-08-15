@@ -18,6 +18,11 @@ public abstract class BaseUDPPacket {
         this.type = type;
     }
 
+    public BaseUDPPacket(byte type, byte[] data) {
+        this.type = type;
+        readData(data);
+    }
+
     public void readData(byte[] data) {
         int length = data.length - UDPFunctions.INDEX_SIZE - UDPFunctions.PACKET_TYPE_SIZE;
         byte[] usableData = new byte[length];

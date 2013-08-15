@@ -15,7 +15,7 @@ import java.net.Socket;
  * Time: 2:00 AM
  * To change this template use File | Settings | File Templates.
  */
-public class TCPServer implements Hostable, Runnable {
+public class TCPServer implements HostAble, Runnable {
     /* The logger object */
     Logger logger = Logger.getInstance();
     /* ServerSocket object */

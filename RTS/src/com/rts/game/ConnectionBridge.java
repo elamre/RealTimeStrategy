@@ -1,5 +1,7 @@
 package com.rts.game;
 
+import com.rts.networking.client.Client;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Elmar
@@ -8,9 +10,7 @@ package com.rts.game;
  * To change this template use File | Settings | File Templates.
  */
 public class ConnectionBridge {
-    private static int id = 0;
-
-    public static int getId() {
-        return ++id;
+    public static void addEntity(Entity entity) {
+        Client.getClient().sendEntityRequest(entity);
     }
 }

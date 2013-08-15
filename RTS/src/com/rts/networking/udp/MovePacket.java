@@ -9,6 +9,7 @@ package com.rts.networking.udp;
  */
 public class MovePacket extends BaseUDPPacket {
     int entityId;
+    // TODO add player id for protection
     int direction;
     int speed;
     int x, y;
@@ -17,6 +18,9 @@ public class MovePacket extends BaseUDPPacket {
         super((byte) 0x01);
     }
 
+    public MovePacket(byte[] data) {
+        super((byte) 0x01, data);
+    }
 
     public MovePacket(int entityId, int x, int y, int direction, int speed) {
         super((byte) 0x01);
@@ -49,7 +53,7 @@ public class MovePacket extends BaseUDPPacket {
         x = UDPFunctions.toUnsignedInt(data, 2, 4);
         y = UDPFunctions.toUnsignedInt(data, 2, 2);
         speed = UDPFunctions.toUnsignedInt(data, 1, 1);
-        direction =UDPFunctions.toUnsignedInt(data, 1, 0);
+        direction = UDPFunctions.toUnsignedInt(data, 1, 0);
     }
 
     public int getEntityId() {

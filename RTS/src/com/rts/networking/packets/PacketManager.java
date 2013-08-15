@@ -1,7 +1,9 @@
 package com.rts.networking.packets;
 
 import com.rts.networking.packets.system.ChatPacket;
+import com.rts.networking.packets.system.EntityCreationPacket;
 import com.rts.networking.packets.system.PingPacket;
+import com.rts.networking.packets.system.RequestEntityPacket;
 import com.rts.util.Logger;
 
 import java.util.HashMap;
@@ -21,6 +23,8 @@ public class PacketManager {
     static {
         registerPacket(new PingPacket());
         registerPacket(new ChatPacket());
+        registerPacket(new EntityCreationPacket());
+        registerPacket(new RequestEntityPacket());
     }
 
     /**
