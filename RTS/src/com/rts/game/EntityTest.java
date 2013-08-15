@@ -24,16 +24,15 @@ public class EntityTest extends Entity {
 
         sprites[0] = new Sprite(region);
 
-        setUpBoundaries();
-    }
-
-    public void update(float delta) {
         sprites[0].setSize(0.01f, 0.01f);
         sprites[0].setOrigin(0, 0);
 
+        setUpBoundaries();
     }
 
     public void draw(SpriteBatch batch) {
+        sprites[0].setPosition(getX(), getY());
+
         for (Sprite s : sprites) {
             s.draw(batch);
         }

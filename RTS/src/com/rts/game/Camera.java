@@ -99,9 +99,9 @@ public class Camera {
         Vector3 vec = new Vector3(x, y, 0);
         camera.unproject(vec);
         float cx = vec.x;
-        cx += ((float) Gdx.input.getX() / w);
+        cx += ((float) Gdx.input.getX() / w) * zoom;
         float cy = vec.y;
-        cy -= ((float) Gdx.input.getY() / w);
+        cy -= ((float) Gdx.input.getY() / w) * zoom;
         float[] pos = new float[]{cx, cy};
         return pos;
         //TODO: Fix mouse coordinates when zooming

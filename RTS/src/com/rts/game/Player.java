@@ -37,10 +37,20 @@ public class Player {
         cam.update(delta);
         if ((Gdx.input.isButtonPressed(Input.Buttons.LEFT) && !cam.isInHUD()) || runningSelection) {
             selection(ents);
+        } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
+            moveSelectedUnits();
+        }
+
+    }
+
+    private void moveSelectedUnits() {
+        for (Entity e : currentSelection) {
+            e.setX(cam.getRealWorldPosition()[0]);
+            e.setY(cam.getRealWorldPosition()[1]);
         }
     }
 
-    //TODO: Debug all selection and bounding box problems
+
     private void selection(EntityManager entities) {
 
 
@@ -62,7 +72,6 @@ public class Player {
             System.out.println(currentSelection.size());
         }
 
-
     }
 
     public void cameraUpdates() {
@@ -70,30 +79,39 @@ public class Player {
     }
 
     public void draw() {
-        ShapeRenderer box = new ShapeRenderer();
+        drawSelectionBox();
+    }
 
-        box.setProjectionMatrix(cam.getCamera().combined);
+    private void drawSelectionBox() {
 
-        box.begin(ShapeRenderer.ShapeType.FilledRectangle);
-        box.setColor(1, 0, 1, 0.5f);
-        box.filledRect(selectionStart[0], selectionStart[1], 0.01f, .01f);
-        box.filledRect(selectionEnd[0], selectionEnd[1], 0.01f, .01f);
-        box.filledRect(selectionStart[0], selectionEnd[1], 0.01f, .01f);
-        box.filledRect(selectionEnd[0], selectionStart[1], 0.01f, .01f);
-        box.filledRect(selectBounds.x, selectBounds.y, 0.01f, .01f);
-        box.setColor(1, 0, 1, 0.1f);
+        if (runningSelection) {
 
-        float lx = selectionEnd[0];
-        float ly = selectionEnd[1];
-        if(selectionStart[0] < selectionEnd[0]) {
-            lx = selectionStart[0]  ;
+
+            ShapeRenderer box = new ShapeRenderer();
+
+            box.setProjectionMatrix(cam.getCamera().combined);
+
+            box.begin(ShapeRenderer.ShapeType.FilledRectangle);
+            box.setColor(1, 0, 1, 0.5f);
+            box.filledRect(selectionStart[0], selectionStart[1], 0.01f, .01f);
+            box.filledRect(selectionEnd[0], selectionEnd[1], 0.01f, .01f);
+            box.filledRect(selectionStart[0], selectionEnd[1], 0.01f, .01f);
+            box.filledRect(selectionEnd[0], selectionStart[1], 0.01f, .01f);
+            box.filledRect(selectBounds.x, selectBounds.y, 0.01f, .01f);
+            box.setColor(1, 0, 1, 0.1f);
+
+            float lx = selectionEnd[0];
+            float ly = selectionEnd[1];
+            if (selectionStart[0] < selectionEnd[0]) {
+                lx = selectionStart[0];
+            }
+            if (selectionStart[1] < selectionEnd[1]) {
+                ly = selectionStart[1];
+            }
+
+            box.filledRect(lx, ly, selectBounds.width, selectBounds.height);
+            box.end();
         }
-        if(selectionStart[1] < selectionEnd[1]) {
-            ly = selectionStart[1];
-        }
-
-        box.filledRect(lx, ly, selectBounds.width, selectBounds.height);
-        box.end();
     }
 
 

@@ -56,6 +56,7 @@ public class BoundingShape {
         return accepted;
     }
 
+    //TODO: Fix box-circle collision
     public boolean contains(BoundingShape b) {
         if (!this.square && !b.square) {
             //Circle-circle collision
