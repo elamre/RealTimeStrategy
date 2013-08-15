@@ -81,6 +81,18 @@ public class Player {
         box.filledRect(selectionStart[0], selectionEnd[1], 0.01f, .01f);
         box.filledRect(selectionEnd[0], selectionStart[1], 0.01f, .01f);
         box.filledRect(selectBounds.x, selectBounds.y, 0.01f, .01f);
+        box.setColor(1, 0, 1, 0.1f);
+
+        float lx = selectionEnd[0];
+        float ly = selectionEnd[1];
+        if(selectionStart[0] < selectionEnd[0]) {
+            lx = selectionStart[0]  ;
+        }
+        if(selectionStart[1] < selectionEnd[1]) {
+            ly = selectionStart[1];
+        }
+
+        box.filledRect(lx, ly, selectBounds.width, selectBounds.height);
         box.end();
     }
 

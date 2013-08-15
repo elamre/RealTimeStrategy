@@ -56,7 +56,7 @@ public class Game implements ApplicationListener {
         batch.setProjectionMatrix(player.cam.getCamera().combined);
         batch.begin();
         sprite.draw(batch);
-        ents.draw(batch);
+        ents.draw(batch, player.cam);
 
         player.draw();
 

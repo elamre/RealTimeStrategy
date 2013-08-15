@@ -1,5 +1,7 @@
 package com.rts.game;
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -18,19 +20,19 @@ public class BoundingShape {
     float width;    //Also radius if a circle
     float height;
 
-    BoundingShape(float x, float y, float radius) {
+    BoundingShape(float x, float y, float diameter) {
         square = false;
         this.x = x;
         this.y = y;
-        this.width = radius;
+        this.width = diameter / 2;
     }
 
     BoundingShape(float[] start, float[] end) {
         square = true;
         x = (start[0] + end[0]) / 2;
         y = (start[1] + end[1]) / 2;
-        width = Math.abs(Math.abs(start[0]) - Math.abs(x)) * 2;
-        height = Math.abs(Math.abs(start[1]) - Math.abs(y)) * 2;
+        height = distance(start[0], start[1], start[0], end[1]);
+        width = distance(start[0], start[1], end[0], start[1]);
     }
 
     BoundingShape(float x, float y, float width, float height) {
@@ -126,6 +128,34 @@ public class BoundingShape {
 
         return pos;
     }
+
+    public void debugShape(Camera cam) {
+
+
+        ShapeRenderer box = new ShapeRenderer();
+
+        box.setProjectionMatrix(cam.getCamera().combined);
+        box.setColor(1, 0, 1, 0.5f);
+
+        float lx;
+        float ly;
+
+        if(square) {
+            lx = x - width / 2;
+            ly = y - height / 2;
+            box.begin(ShapeRenderer.ShapeType.FilledRectangle);
+            box.filledRect(lx, ly, width, height);
+        }
+        else {
+            lx = x;
+            ly = y;
+            box.begin(ShapeRenderer.ShapeType.Circle);
+            box.circle(lx, ly, width, 100);
+        }
+
+        box.end();
+    }
+
 
 
 }
