@@ -24,7 +24,7 @@ public class EntityTest extends Entity {
 
         sprites[0] = new Sprite(region);
 
-        sprites[0].setSize(0.01f, 0.01f);
+        sprites[0].setSize(1f, 1f);
         sprites[0].setOrigin(0, 0);
 
         setUpBoundaries();

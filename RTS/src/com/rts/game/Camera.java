@@ -15,13 +15,13 @@ import com.badlogic.gdx.math.Vector3;
 public class Camera {
 
     private OrthographicCamera camera;
-    private float w;
-    private float h;
+    private int w;
+    private int h;
     private float x = 0f;
     private float y = 0f;
-    private float cameraMoveSensitivityMouse = 1.0f;
-    private float cameraMoveSensitivityKeys = .004f;
-    private float zoom = 1;
+    private float cameraMoveSensitivityMouse = .6f;
+    private float cameraMoveSensitivityKeys = .04f;
+    private float zoom = 10;
     private float zoomSensitivity = 0.01f;
 
     public OrthographicCamera getCamera() {
@@ -32,26 +32,26 @@ public class Camera {
         this.camera = camera;
     }
 
-    public float getW() {
+    public int getW() {
         return w;
     }
 
-    public void setW(float w) {
+    public void setW(int w) {
         this.w = w;
     }
 
-    public float getH() {
+    public int getH() {
         return h;
     }
 
-    public void setH(float h) {
+    public void setH(int h) {
         this.h = h;
     }
 
     public void create() {
         w = Gdx.graphics.getWidth();
         h = Gdx.graphics.getHeight();
-        camera = new OrthographicCamera(1, h / w);
+        camera = new OrthographicCamera(1, h / (float) w);
     }
 
     public void update(float delta) {
@@ -68,9 +68,10 @@ public class Camera {
     }
 
     private void handleInput(float delta) {
+
         if (Gdx.input.isButtonPressed(Input.Buttons.MIDDLE)) {
-            x += (Gdx.input.getDeltaX() / w) * cameraMoveSensitivityMouse * zoom;
-            y += (Gdx.input.getDeltaY() / h) * cameraMoveSensitivityMouse * zoom;
+            x += (Gdx.input.getDeltaX() / (float) w) * cameraMoveSensitivityMouse * zoom;
+            y += (Gdx.input.getDeltaY() / (float) h) * cameraMoveSensitivityMouse * zoom;
         }
 
 
@@ -99,12 +100,12 @@ public class Camera {
         Vector3 vec = new Vector3(x, y, 0);
         camera.unproject(vec);
         float cx = vec.x;
-        cx += ((float) Gdx.input.getX() / w) * zoom;
+        cx += ((float) Gdx.input.getX() / w ) * zoom;
         float cy = vec.y;
         cy -= ((float) Gdx.input.getY() / w) * zoom;
         float[] pos = new float[]{cx, cy};
         return pos;
-        //TODO: Fix mouse coordinates when zooming
+        //TODO: Fix mouse coordinates
     }
 
     public boolean isInHUD() {

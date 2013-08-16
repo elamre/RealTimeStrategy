@@ -92,12 +92,7 @@ public class Player {
             box.setProjectionMatrix(cam.getCamera().combined);
 
             box.begin(ShapeRenderer.ShapeType.FilledRectangle);
-            box.setColor(1, 0, 1, 0.5f);
-            box.filledRect(selectionStart[0], selectionStart[1], 0.01f, .01f);
-            box.filledRect(selectionEnd[0], selectionEnd[1], 0.01f, .01f);
-            box.filledRect(selectionStart[0], selectionEnd[1], 0.01f, .01f);
-            box.filledRect(selectionEnd[0], selectionStart[1], 0.01f, .01f);
-            box.filledRect(selectBounds.x, selectBounds.y, 0.01f, .01f);
+
             box.setColor(1, 0, 1, 0.1f);
 
             float lx = selectionEnd[0];

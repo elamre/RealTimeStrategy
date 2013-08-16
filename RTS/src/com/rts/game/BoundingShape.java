@@ -154,7 +154,7 @@ public class BoundingShape {
             lx = x;
             ly = y;
             box.begin(ShapeRenderer.ShapeType.Circle);
-            box.circle(lx, ly, width, 100);
+            box.circle(lx, ly, width, 16);
         }
 
         box.end();

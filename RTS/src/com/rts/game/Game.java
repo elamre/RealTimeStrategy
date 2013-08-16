@@ -16,11 +16,11 @@ import java.io.IOException;
 
 public class Game implements ApplicationListener {
     private SpriteBatch batch;
-    private Texture texture;
-    private Sprite sprite;
 
     Player player = new Player();
     EntityManager ents = new EntityManager();
+
+    World world = new World();
 
     @Override
     public void create() {
@@ -36,22 +36,12 @@ public class Game implements ApplicationListener {
 
         batch = new SpriteBatch();
 
-        texture = new Texture(Gdx.files.internal("Images/Environment/Grass.png"));
-        texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
-        texture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
-
-        TextureRegion region = new TextureRegion(texture, 0, 0, 512, 275);
-
-        sprite = new Sprite(region);
-        sprite.setSize(0.9f, 0.9f * sprite.getHeight() / sprite.getWidth());
-        sprite.setOrigin(sprite.getWidth() / 2, sprite.getHeight() / 2);
-        sprite.setPosition(-sprite.getWidth() / 2, -sprite.getHeight() / 2);
+        world.initTestMap();
     }
 
     @Override
     public void dispose() {
         batch.dispose();
-        texture.dispose();
     }
 
     @Override
@@ -64,7 +54,9 @@ public class Game implements ApplicationListener {
 
         batch.setProjectionMatrix(player.cam.getCamera().combined);
         batch.begin();
-        sprite.draw(batch);
+
+        world.draw(batch);
+
         ents.draw(batch, player.cam);
 
         player.draw();
@@ -81,6 +73,7 @@ public class Game implements ApplicationListener {
     public void update(float deltaT) {
         ents.update(deltaT);
         player.update(deltaT, ents);
+        world.update();
     }
 
     @Override
