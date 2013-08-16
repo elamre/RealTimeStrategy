@@ -80,7 +80,10 @@ public class BoundingShape {
         } else {
             if (this.square) {
                 float[] point = closestPointFromRectToPoint(this, new float[]{b.x, b.y});
-                if (distance(point[0], point[1], this.x, this.y) <= b.width) {
+                if (distance(point[0], point[1], b.x, b.y) <= b.width) {
+                    return true;
+                }
+                else if(this.containsPoint(b.x, b.y)) {
                     return true;
                 }
             } else {
@@ -111,18 +114,18 @@ public class BoundingShape {
     private static float[] closestPointFromRectToPoint(BoundingShape rect, float[] point) {
         float[] pos = new float[2];
 
-        if (point[0] > rect.x + rect.width) {
-            pos[0] = rect.x + rect.width;
-        } else if (point[0] < rect.x - rect.width) {
-            pos[0] = rect.x - rect.width;
+        if (point[0] > rect.x + rect.width / 2) {
+            pos[0] = rect.x + rect.width / 2;
+        } else if (point[0] < rect.x - rect.width / 2) {
+            pos[0] = rect.x - rect.width / 2;
         } else {
             pos[0] = point[0];
         }
 
-        if (point[1] > rect.y + rect.height) {
-            pos[1] = rect.y + rect.height;
-        } else if (point[1] < rect.y - rect.height) {
-            pos[1] = rect.y - rect.height;
+        if (point[1] > rect.y + rect.height / 2) {
+            pos[1] = rect.y + rect.height / 2;
+        } else if (point[1] < rect.y - rect.height / 2) {
+            pos[1] = rect.y - rect.height / 2;
         } else {
             pos[1] = point[1];
         }

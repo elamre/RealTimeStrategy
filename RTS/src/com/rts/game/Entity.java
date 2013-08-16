@@ -38,7 +38,7 @@ public abstract class Entity {
 
     protected void setUpBoundaries() {
         bounds = new BoundingShape(0, 0, 0.05f, 0.05f);
-        //bounds = new BoundingShape(0, 0, 0.05f);
+        bounds = new BoundingShape(0, 0, 0.05f);
     }
 
     public void update(float delta) {
