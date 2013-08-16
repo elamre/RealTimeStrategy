@@ -32,7 +32,7 @@ public class Game implements ApplicationListener {
         }
         player.create();
 
-        ents.addEntity(new EntityTest());
+        //ents.addEntity(new EntityTest());
 
         batch = new SpriteBatch();
 

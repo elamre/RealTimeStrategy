@@ -131,10 +131,11 @@ public class EntityManager {
     private void addEntities() {
         for (int i = 0; i < addNetworkList.size(); i++) {
             EntityCreationPacket packet = addNetworkList.get(i);
-            Entity entity = new EntityTest();
+            EntityTest entity = new EntityTest();
             entity.setId(packet.getEntityId());
             entity.setX(packet.getX());
             entity.setY(packet.getY());
+            entity.create();
             entities.put(new Integer(entity.getId()), entity);
             System.out.println("new entity added at pos: " + entity.getX() + "," + entity.getY() + " id: " + entity.getId());
         }
