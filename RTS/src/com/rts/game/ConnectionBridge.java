@@ -19,8 +19,8 @@ public class ConnectionBridge {
         client = new Client();
     }
 
-    public static void addEntity(Entity entity) {
-        Client.getClient().sendEntityRequest(entity);
+    public void addEntity(Entity entity) {
+        client.sendEntityRequest(entity);
     }
 
     public void connect(String ip, int port, ClientEventListener clientEventListener, PacketListener packetListener) {

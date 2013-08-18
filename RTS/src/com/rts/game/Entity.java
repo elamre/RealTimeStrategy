@@ -2,6 +2,7 @@ package com.rts.game;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.rts.networking.packets.system.EntityCreationPacket;
 
 
 /**
@@ -12,11 +13,14 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
  * To change this template use File | Settings | File Templates.
  */
 public abstract class Entity {
-    private int id;
-
-    Sprite[] sprites;
-
     public BoundingShape bounds;
+    Sprite[] sprites;
+    private int id;
+    private int owner;
+
+    public Entity() {
+        create();
+    }
 
     public int getOwner() {
         return owner;
@@ -24,12 +28,6 @@ public abstract class Entity {
 
     public void setOwner(int owner) {
         this.owner = owner;
-    }
-
-    private int owner;
-
-    public Entity() {
-        create();
     }
 
     public void create() {
@@ -54,13 +52,8 @@ public abstract class Entity {
 
     }
 
-
     public int getId() {
         return id;
-    }
-
-    public int getIdInteger() {
-        return new Integer(id);
     }
 
     public void setId(int id) {
@@ -69,6 +62,10 @@ public abstract class Entity {
 
     public void setId(Integer id) {
         this.id = id.intValue();
+    }
+
+    public int getIdInteger() {
+        return new Integer(id);
     }
 
     public float getY() {
@@ -85,6 +82,17 @@ public abstract class Entity {
 
     public void setX(float x) {
         this.bounds.x = x;
+    }
+
+    public void setNetworkDetails(EntityCreationPacket packet) {
+        this.bounds.x = packet.getX();
+        this.bounds.y = packet.getY();
+        this.id = packet.getEntityId();
+        System.out.println(toString());
+    }
+
+    public String toString() {
+        return "[" + getX() + "," + getY() + "]" + " id : " + this.id;
     }
 
 }

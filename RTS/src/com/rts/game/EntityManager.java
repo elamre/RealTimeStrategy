@@ -64,16 +64,16 @@ public class EntityManager {
                     @Override
                     public void gamePacketReceived(Packet packet) {
                         if (packet instanceof EntityCreationPacket) {
-
+                            createEntity((EntityCreationPacket) packet);
                         }
                     }
                 }
         );        // TODO move this to a fancy menu
     }
 
-    public static void createEntity(EntityCreationPacket packet) {
+    public void createEntity(EntityCreationPacket packet) {
+        System.out.println(packet.getX());
         addNetworkList.add(packet);
-
     }
 
     /**
@@ -129,7 +129,7 @@ public class EntityManager {
      * @param e The Entity to be added.
      */
     public void addEntity(Entity e) {
-        ConnectionBridge.addEntity(e);
+        connectionBridge.addEntity(e);
         // addList.add(e);
     }
 
@@ -165,12 +165,9 @@ public class EntityManager {
         for (int i = 0; i < addNetworkList.size(); i++) {
             EntityCreationPacket packet = addNetworkList.get(i);
             EntityTest entity = new EntityTest();
-            entity.setId(packet.getEntityId());
-            entity.setX(packet.getX());
-            entity.setY(packet.getY());
             entity.create();
+            entity.setNetworkDetails(packet);
             entities.put(new Integer(entity.getId()), entity);
-            System.out.println("new entity added at pos: " + entity.getX() + "," + entity.getY() + " id: " + entity.getId());
         }
         addNetworkList.clear();
 
