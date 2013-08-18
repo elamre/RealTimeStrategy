@@ -15,23 +15,17 @@ import com.rts.util.Configuration;
 import java.io.IOException;
 
 public class Game implements ApplicationListener {
-    private SpriteBatch batch;
-
     Player player = new Player();
-    EntityManager ents = new EntityManager();
-
+    EntityManager ents;
+    ConnectionBridge connectionBridge;
+    private SpriteBatch batch;
     World world = new World();
 
     @Override
     public void create() {
-
-        try {
-            Client.getClient().connect("127.0.0.1", Configuration.TCP_PORT);
-        } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
         player.create();
-
+        connectionBridge = new ConnectionBridge();
+        ents = new EntityManager(connectionBridge);
         //ents.addEntity(new EntityTest());
 
         batch = new SpriteBatch();

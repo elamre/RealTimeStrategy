@@ -3,7 +3,11 @@ package com.rts.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.rts.networking.packets.Packet;
+import com.rts.networking.packets.PacketListener;
 import com.rts.networking.packets.system.EntityCreationPacket;
+import com.rts.util.Configuration;
+import com.rts.util.Logger;
 
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -37,6 +41,35 @@ public class EntityManager {
      * The list containing all Entities to be added.
      */
     private ArrayList<Entity> addList = new ArrayList<Entity>(16);
+    /**
+     * The network client to send data to
+     */
+    private ConnectionBridge connectionBridge;
+
+    public EntityManager(ConnectionBridge connectionBridge) {
+        this.connectionBridge = connectionBridge;
+        connectionBridge.connect("127.0.0.1", Configuration.TCP_PORT, new ClientEventListener() {
+                    @Override
+                    public void hostNotFound(String ip, int port) {
+                        Logger.getInstance().system("Could not find host: " + ip + ":" + port);
+                    }
+
+                    @Override
+                    public void connected() {
+                        Logger.getInstance().system("Connected");
+                        //To change body of implemented methods use File | Settings | File Templates.
+                    }
+
+                }, new PacketListener() {
+                    @Override
+                    public void gamePacketReceived(Packet packet) {
+                        if (packet instanceof EntityCreationPacket) {
+
+                        }
+                    }
+                }
+        );        // TODO move this to a fancy menu
+    }
 
     public static void createEntity(EntityCreationPacket packet) {
         addNetworkList.add(packet);

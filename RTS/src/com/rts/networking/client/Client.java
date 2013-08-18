@@ -1,8 +1,11 @@
 package com.rts.networking.client;
 
 import com.rts.game.Entity;
+import com.rts.networking.packets.Packet;
+import com.rts.networking.packets.PacketListener;
 import com.rts.networking.packets.system.RequestEntityPacket;
 import com.rts.util.Configuration;
+import com.rts.util.Logger;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -27,12 +30,19 @@ public class Client {
 
     //client.connect("127.0.0.1", Configuration.TCP_PORT);
 
-    public void connect(String ip, int port) throws UnknownHostException, IOException {
+    public void connect(String ip, int port, PacketListener packetListener) throws UnknownHostException, IOException {
         Socket socket = new Socket(ip, port);
         connection = new Connection(socket);
+        connection.setPacketListener(packetListener);
+    }
+
+    public void writePacket(Packet packet) {
+        connection.writePacket(packet);
     }
 
     public void sendEntityRequest(Entity entity) {
+        //if (connection != null)
         connection.writePacket(new RequestEntityPacket(0, 1, (int) entity.getX(), (int) entity.getY()));
+
     }
 }

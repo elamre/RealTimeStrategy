@@ -2,6 +2,7 @@ package com.rts.networking.client;
 
 import com.rts.game.EntityManager;
 import com.rts.networking.packets.Packet;
+import com.rts.networking.packets.PacketListener;
 import com.rts.networking.packets.PacketManager;
 import com.rts.networking.packets.system.ChatPacket;
 import com.rts.networking.packets.system.EntityCreationPacket;
@@ -45,6 +46,8 @@ public class Connection implements Runnable {
     private long ping = 0;
     /* The connection id obtained by the server. Also known as playerID */
     private int connectionId = -1;
+    /* Packet listener, interface which will react on received packages */
+    private PacketListener packetListener;
 
     /**
      * Constructor sets up everything and creates the objects.
@@ -103,6 +106,16 @@ public class Connection implements Runnable {
                 e.printStackTrace();
             }
         }
+    }
+
+    /**
+     * Use this function prior to everything. This handles the incoming packets
+     * TODO move to constructor?
+     *
+     * @param packetListener the packetlistener interface
+     */
+    public void setPacketListener(PacketListener packetListener) {
+        this.packetListener = packetListener;
     }
 
     /**
@@ -169,11 +182,14 @@ public class Connection implements Runnable {
             setPing((PingPacket) packet);
             logger.system("Ping: " + ping);
             //TODO visualize the ping in some way
-        } else if (packet instanceof EntityCreationPacket) {
-            EntityManager.createEntity((EntityCreationPacket) packet);
-        } else if (packet instanceof ChatPacket) {
+            //TODO Add more system packets
         } else {
-            logger.error("Unknown packet " + packet.getClass().getSimpleName() + " ! Your game version might be outdated. Game will now exit.");
+            if (packetListener == null) {
+                logger.warn("No packetlistener set up!");
+                return;
+            }
+            packetListener.gamePacketReceived(packet);
+            // logger.error("Unknown packet " + packet.getClass().getSimpleName() + " ! Your game version might be outdated. Game will now exit.");
             //TODO System.exit(0);
         }
     }
