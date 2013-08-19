@@ -138,7 +138,7 @@ public class BoundingShape {
 
         ShapeRenderer box = new ShapeRenderer();
 
-        box.setProjectionMatrix(cam.getCamera().combined);
+        box.setProjectionMatrix(Camera.getCamera().getOrthographicCamera().combined);
         box.setColor(1, 0, 1, 0.5f);
 
         float lx;

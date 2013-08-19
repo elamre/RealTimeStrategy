@@ -21,21 +21,17 @@ public class Player {
     public ArrayList<Entity> currentSelection = new ArrayList<Entity>(64);
     public Entity currentSelect;
     public String name;
-    Camera cam;
     boolean runningSelection = false;
     float[] selectionStart = new float[]{0, 0};
     float[] selectionEnd = new float[]{0, 0};
     BoundingShape selectBounds;
 
     public void create() {
-        cam = new Camera();
-        cam.create();
         selectBounds = new BoundingShape(1, 1, 1, 1);
     }
 
     public void update(float delta, EntityManager ents) {
-        cam.update(delta);
-        if ((Gdx.input.isButtonPressed(Input.Buttons.LEFT) && !cam.isInHUD()) || runningSelection) {
+        if ((Gdx.input.isButtonPressed(Input.Buttons.LEFT)) || runningSelection) {
             selection(ents);
         } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
             moveSelectedUnits();
@@ -45,22 +41,21 @@ public class Player {
 
     private void moveSelectedUnits() {
         for (Entity e : currentSelection) {
-            e.setX(cam.getRealWorldPosition()[0]);
-            e.setY(cam.getRealWorldPosition()[1]);
+            e.setX(Camera.getCamera().getRealWorldX());
+            e.setY(Camera.getCamera().getRealWorldY());
         }
     }
 
-
     private void selection(EntityManager entities) {
-
+        float pos[] = {Camera.getCamera().getRealWorldX(), Camera.getCamera().getRealWorldY()};
 
         if (!runningSelection) {
-            selectionStart = cam.getRealWorldPosition();
+            selectionStart = pos;
         }
 
         runningSelection = true;
 
-        selectionEnd = cam.getRealWorldPosition();
+        selectionEnd = pos;
 
         selectBounds = new BoundingShape(selectionStart, selectionEnd);
 
@@ -75,7 +70,7 @@ public class Player {
     }
 
     public void cameraUpdates() {
-        cam.update(Gdx.graphics.getDeltaTime());
+        Camera.getCamera().update(Gdx.graphics.getDeltaTime());
     }
 
     public void draw() {
@@ -88,8 +83,7 @@ public class Player {
 
 
             ShapeRenderer box = new ShapeRenderer();
-
-            box.setProjectionMatrix(cam.getCamera().combined);
+            box.setProjectionMatrix(Camera.getCamera().getOrthographicCamera().combined);
 
             box.begin(ShapeRenderer.ShapeType.FilledRectangle);
 

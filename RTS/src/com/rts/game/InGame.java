@@ -35,6 +35,6 @@ public class InGame {
     }
 
     public void draw(SpriteBatch spriteBatch) {
-        entityManager.draw(spriteBatch, player.cam);
+        entityManager.draw(spriteBatch);
     }
 }

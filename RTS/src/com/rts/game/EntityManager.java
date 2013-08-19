@@ -60,6 +60,7 @@ public class EntityManager {
     public void update(float delta) {
         if (Gdx.input.isKeyPressed(Input.Keys.O)) {
             EntityTest entityTest = new EntityTest();
+            entityTest.create();
             entityTest.setX(Gdx.input.getX());
             entityTest.setY(Gdx.input.getY());
             addEntity(entityTest);
@@ -111,10 +112,10 @@ public class EntityManager {
         // addList.add(e);
     }
 
-    public void draw(SpriteBatch batch, Camera cam) {
+    public void draw(SpriteBatch batch) {
         for (Map.Entry<Integer, Entity> entry : entities.entrySet()) {
             entry.getValue().draw(batch);
-            entry.getValue().bounds.debugShape(cam);
+            entry.getValue().bounds.debugShape(Camera.getCamera());
         }
     }
 
@@ -142,7 +143,6 @@ public class EntityManager {
     private void addEntities() {
         for (int i = 0; i < addList.size(); i++) {
             entities.put(new Integer(addList.get(i).getId()), addList.get(i));
-            entities.get(new Integer(addList.get(i).getId())).create();
         }
         addList.clear();
     }

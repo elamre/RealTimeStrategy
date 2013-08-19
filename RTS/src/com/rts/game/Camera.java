@@ -49,11 +49,11 @@ public class Camera {
     }
 
     public int getRealWorldX() {
-        return 0;
+        return x;
     }
 
     public int getRealWorldY() {
-        return 0;
+        return y;
     }
 
     public OrthographicCamera getOrthographicCamera() {

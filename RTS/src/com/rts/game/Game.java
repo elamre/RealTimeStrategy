@@ -60,10 +60,10 @@ public class Game implements ApplicationListener {
 
         player.cameraUpdates();
 
-        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 
-        batch.setProjectionMatrix(player.cam.getCamera().combined);
+        batch.setProjectionMatrix(Camera.getCamera().getOrthographicCamera().combined);
         batch.begin();
 
         world.draw(batch);
@@ -83,6 +83,7 @@ public class Game implements ApplicationListener {
      * @param deltaT the time that has passed since the previous update
      */
     public void update(float deltaT) {
+        Camera.getCamera().update(deltaT);
         inGame.update(deltaT);
         world.update();
     }
