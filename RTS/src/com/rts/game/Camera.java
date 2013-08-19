@@ -19,9 +19,9 @@ public class Camera {
     private int h;
     private float x = 0f;
     private float y = 0f;
-    private float cameraMoveSensitivityMouse = .6f;
-    private float cameraMoveSensitivityKeys = .04f;
-    private float zoom = 10;
+    private float cameraMoveSensitivityMouse = 0;
+    private float cameraMoveSensitivityKeys = 0;
+    private float zoom = 0.1f;
     private float zoomSensitivity = 0.01f;
 
     public OrthographicCamera getCamera() {
@@ -51,7 +51,7 @@ public class Camera {
     public void create() {
         w = Gdx.graphics.getWidth();
         h = Gdx.graphics.getHeight();
-        camera = new OrthographicCamera(1, h / (float) w);
+        camera = new OrthographicCamera(480, 320);
     }
 
     public void update(float delta) {
@@ -59,9 +59,13 @@ public class Camera {
         w = Gdx.graphics.getWidth();
         h = Gdx.graphics.getHeight();
 
+
+        cameraMoveSensitivityMouse = w / h * 200;
+        cameraMoveSensitivityKeys = w / h * 2;
+
         handleInput(delta);
 
-        camera.position.set(new float[]{-x, y, 0});
+        camera.position.set(new float[]{x, y, 0});
         camera.zoom = zoom;
         camera.update();
 
@@ -70,7 +74,7 @@ public class Camera {
     private void handleInput(float delta) {
 
         if (Gdx.input.isButtonPressed(Input.Buttons.MIDDLE)) {
-            x += (Gdx.input.getDeltaX() / (float) w) * cameraMoveSensitivityMouse * zoom;
+            x -= (Gdx.input.getDeltaX() / (float) w) * cameraMoveSensitivityMouse * zoom;
             y += (Gdx.input.getDeltaY() / (float) h) * cameraMoveSensitivityMouse * zoom;
         }
 
@@ -82,10 +86,10 @@ public class Camera {
             y -= cameraMoveSensitivityKeys * zoom;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            x += cameraMoveSensitivityKeys * zoom;
+            x -= cameraMoveSensitivityKeys * zoom;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            x -= cameraMoveSensitivityKeys * zoom;
+            x += cameraMoveSensitivityKeys * zoom;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.MINUS) || Gdx.input.isKeyPressed(Input.Keys.Q)) {
             zoom *= (1 + zoomSensitivity);
@@ -97,12 +101,8 @@ public class Camera {
     }
 
     public float[] getRealWorldPosition() {
-        Vector3 vec = new Vector3(x, y, 0);
-        camera.unproject(vec);
-        float cx = vec.x;
-        cx += ((float) Gdx.input.getX() / w ) * zoom;
-        float cy = vec.y;
-        cy -= ((float) Gdx.input.getY() / w) * zoom;
+        float cx = (x);
+        float cy = (y);
         float[] pos = new float[]{cx, cy};
         return pos;
         //TODO: Fix mouse coordinates
