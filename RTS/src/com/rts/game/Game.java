@@ -10,23 +10,40 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.rts.networking.client.Client;
+import com.rts.networking.packets.Packet;
+import com.rts.networking.packets.PacketListener;
+import com.rts.networking.packets.system.EntityCreationPacket;
 import com.rts.util.Configuration;
+import com.rts.util.Logger;
 
 import java.io.IOException;
 
 public class Game implements ApplicationListener {
     Player player = new Player();
-    EntityManager ents;
+    //EntityManager ents;
     ConnectionBridge connectionBridge;
-    private SpriteBatch batch;
     World world = new World();
+    InGame inGame;
+    private SpriteBatch batch;
 
     @Override
     public void create() {
         player.create();
         connectionBridge = new ConnectionBridge();
-        ents = new EntityManager(connectionBridge);
-        //ents.addEntity(new EntityTest());
+        connectionBridge.connect("127.0.0.1", Configuration.TCP_PORT, new ClientEventListener() {
+            @Override
+            public void hostNotFound(String ip, int port) {
+                Logger.getInstance().system("Could not find host: " + ip + ":" + port);
+            }
+
+            @Override
+            public void connected() {
+                Logger.getInstance().system("Connected");
+            }
+
+        }
+        );        // TODO move this to a fancy menu
+        inGame = new InGame(connectionBridge);
 
         batch = new SpriteBatch();
 
@@ -51,7 +68,8 @@ public class Game implements ApplicationListener {
 
         world.draw(batch);
 
-        ents.draw(batch, player.cam);
+
+        inGame.draw(batch);
 
         player.draw();
 
@@ -65,8 +83,7 @@ public class Game implements ApplicationListener {
      * @param deltaT the time that has passed since the previous update
      */
     public void update(float deltaT) {
-        ents.update(deltaT);
-        player.update(deltaT, ents);
+        inGame.update(deltaT);
         world.update();
     }
 

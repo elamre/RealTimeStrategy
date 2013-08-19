@@ -19,30 +19,27 @@ import java.net.UnknownHostException;
  * To change this template use File | Settings | File Templates.
  */
 public class Client {
-    private static Client client;
-    Connection connection;
-
-    public static Client getClient() {
-        if (client == null)
-            client = new Client();
-        return client;
-    }
-
+    private Connection connection;
     //client.connect("127.0.0.1", Configuration.TCP_PORT);
 
-    public void connect(String ip, int port, PacketListener packetListener) throws UnknownHostException, IOException {
+    public void connect(String ip, int port) throws UnknownHostException, IOException {
         Socket socket = new Socket(ip, port);
         connection = new Connection(socket);
-        connection.setPacketListener(packetListener);
     }
 
     public void writePacket(Packet packet) {
         connection.writePacket(packet);
     }
 
-    public void sendEntityRequest(Entity entity) {
-        //if (connection != null)
-        connection.writePacket(new RequestEntityPacket(0, 1, (int) entity.getX(), (int) entity.getY()));
+    public Packet getPacket() {
+        return (connection == null) ? null : connection.getReceivedPacket();
+    }
 
+    public int getPacketQueueSize() {
+        return connection.getReceivingPacketSize();
+    }
+
+    public void sendEntityRequest(Entity entity) {
+        connection.writePacket(new RequestEntityPacket(0, 1, (int) entity.getX(), (int) entity.getY()));
     }
 }

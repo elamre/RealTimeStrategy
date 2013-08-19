@@ -14,6 +14,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.*;
+import java.util.ArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
@@ -28,6 +29,8 @@ public class Connection implements Runnable {
     private boolean run = false;
     /* The packets to send. */
     private LinkedBlockingQueue<Packet> packetsToSend;
+    /* The incoming packet buffer */
+    private ArrayList<Packet> receivedPackets = new ArrayList<Packet>();
     /* The input stream. */
     private DataInputStream inputStream;
     /* The output stream. */
@@ -47,7 +50,7 @@ public class Connection implements Runnable {
     /* The connection id obtained by the server. Also known as playerID */
     private int connectionId = -1;
     /* Packet listener, interface which will react on received packages */
-    private PacketListener packetListener;
+    //private PacketListener packetListener;
 
     /**
      * Constructor sets up everything and creates the objects.
@@ -108,15 +111,15 @@ public class Connection implements Runnable {
         }
     }
 
-    /**
+/*    *//**
      * Use this function prior to everything. This handles the incoming packets
      * TODO move to constructor?
      *
      * @param packetListener the packetlistener interface
-     */
+     *//*
     public void setPacketListener(PacketListener packetListener) {
         this.packetListener = packetListener;
-    }
+    }*/
 
     /**
      * Adds a new packet to the qeueu to send. use this function ALWAYS to send
@@ -184,11 +187,7 @@ public class Connection implements Runnable {
             //TODO visualize the ping in some way
             //TODO Add more system packets
         } else {
-            if (packetListener == null) {
-                logger.warn("No packetlistener set up!");
-                return;
-            }
-            packetListener.gamePacketReceived(packet);
+            receivedPackets.add(packet);
             // logger.error("Unknown packet " + packet.getClass().getSimpleName() + " ! Your game version might be outdated. Game will now exit.");
             //TODO System.exit(0);
         }
@@ -202,6 +201,19 @@ public class Connection implements Runnable {
         long currentTime = System.nanoTime() / (1000 * 1000);
         ping = ((currentTime - packet.getTime()));
         //logger.debug(this.getClass(), " ping: " + ping);
+    }
+
+    public Packet getReceivedPacket() {
+        if (receivedPackets.size() > 0) {
+            Packet packet = receivedPackets.get(0);
+            receivedPackets.remove(0);
+            return packet;
+        }
+        return null;
+    }
+
+    public int getReceivingPacketSize() {
+        return receivedPackets.size();
     }
 
     /**

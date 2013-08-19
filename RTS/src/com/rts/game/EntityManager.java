@@ -24,7 +24,7 @@ public class EntityManager {
     /**
      * The list containing all Entities from the network be added.
      */
-    private static ArrayList<EntityCreationPacket> addNetworkList = new ArrayList<EntityCreationPacket>(16);
+    //private static ArrayList<EntityCreationPacket> addNetworkList = new ArrayList<EntityCreationPacket>(16);
     /**
      * The entity map to be used for all standard Entities in-game.
      */
@@ -48,32 +48,10 @@ public class EntityManager {
 
     public EntityManager(ConnectionBridge connectionBridge) {
         this.connectionBridge = connectionBridge;
-        connectionBridge.connect("127.0.0.1", Configuration.TCP_PORT, new ClientEventListener() {
-                    @Override
-                    public void hostNotFound(String ip, int port) {
-                        Logger.getInstance().system("Could not find host: " + ip + ":" + port);
-                    }
-
-                    @Override
-                    public void connected() {
-                        Logger.getInstance().system("Connected");
-                        //To change body of implemented methods use File | Settings | File Templates.
-                    }
-
-                }, new PacketListener() {
-                    @Override
-                    public void gamePacketReceived(Packet packet) {
-                        if (packet instanceof EntityCreationPacket) {
-                            createEntity((EntityCreationPacket) packet);
-                        }
-                    }
-                }
-        );        // TODO move this to a fancy menu
     }
 
-    public void createEntity(EntityCreationPacket packet) {
-        System.out.println(packet.getX());
-        addNetworkList.add(packet);
+    public void createEntity(Entity entity) {
+        addList.add(entity);
     }
 
     /**
@@ -162,17 +140,9 @@ public class EntityManager {
      * Adds all wanted Entities. Uses the addList List.
      */
     private void addEntities() {
-        for (int i = 0; i < addNetworkList.size(); i++) {
-            EntityCreationPacket packet = addNetworkList.get(i);
-            EntityTest entity = new EntityTest();
-            entity.create();
-            entity.setNetworkDetails(packet);
-            entities.put(new Integer(entity.getId()), entity);
-        }
-        addNetworkList.clear();
-
         for (int i = 0; i < addList.size(); i++) {
             entities.put(new Integer(addList.get(i).getId()), addList.get(i));
+            entities.get(new Integer(addList.get(i).getId())).create();
         }
         addList.clear();
     }
