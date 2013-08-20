@@ -132,12 +132,12 @@ public class BoundingShape {
         return pos;
     }
 
-    public void debugShape(Camera cam) {
+    public void debugShape() {
 
 
         ShapeRenderer box = new ShapeRenderer();
 
-        box.setProjectionMatrix(cam.getOrthographicCamera().combined);
+        box.setProjectionMatrix(Camera.getOrthographicCamera().combined);
         box.setColor(1, 0, 1, 0.5f);
 
         float lx;

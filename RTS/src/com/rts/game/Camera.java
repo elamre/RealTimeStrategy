@@ -13,63 +13,46 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  * To change this template use File | Settings | File Templates.
  */
 public class Camera {
-    public SpriteBatch batch;
-    private OrthographicCamera orthographicCamera;
-    private OrthographicCamera hudOrthographicCamera;
-    private int w;
-    private int h;
-    private float x = 0f;
-    private float y = 0f;
-    private float cameraMoveSensitivityMouse = 1;
-    private float cameraMoveSensitivityKeys = 1;
-    private float zoom = 1f;
-    private float zoomSensitivity = 0.01f;
-    private Cursor cursor;
+    public static SpriteBatch batch;
+    private static OrthographicCamera orthographicCamera;
+    private static OrthographicCamera hudOrthographicCamera;
+    private static int w;
+    private static int h;
+    private static float x = 0f;
+    private static float y = 0f;
+    private static float cameraMoveSensitivityMouse = 1;
+    private static float cameraMoveSensitivityKeys = 1;
+    private static float zoom = 1f;
+    private static float zoomSensitivity = 0.01f;
 
-
-    public Camera() {
-        create();
+    public static void draw() {
     }
 
-    public void draw() {
-        makeHUDBatch();
-        cursor.draw(batch, this);
-    }
-
-    public OrthographicCamera getOrthographicCamera() {
+    public static OrthographicCamera getOrthographicCamera() {
         return orthographicCamera;
     }
 
-    public int getW() {
+    public static int getW() {
         return w;
     }
 
-    private void setW(int w) {
-        this.w = w;
-    }
-
-    public int getH() {
+    public static int getH() {
         return h;
     }
 
-    private void setH(int h) {
-        this.h = h;
-    }
-
-    public void makeHUDBatch() {
+    public static void makeHUDBatch() {
         batch.end();
         batch.setProjectionMatrix(hudOrthographicCamera.combined);
         batch.begin();
     }
 
-
-    public void makeWorldBatch() {
+    public static void makeWorldBatch() {
         batch.end();
         batch.setProjectionMatrix(getOrthographicCamera().combined);
         batch.begin();
     }
 
-    private void create() {
+    public static void create() {
 
         w = Gdx.graphics.getWidth();
         h = Gdx.graphics.getHeight();
@@ -80,13 +63,10 @@ public class Camera {
         hudOrthographicCamera = new OrthographicCamera(1, h / (float) w);
         hudOrthographicCamera.setToOrtho(true);
 
-        cursor = new Cursor();
-        cursor.create();
-
         batch = new SpriteBatch();
     }
 
-    public void update(float delta) {
+    public static void update(float delta) {
 
         if (w != Gdx.graphics.getWidth() || h != Gdx.graphics.getHeight()) {
             create();
@@ -110,15 +90,14 @@ public class Camera {
 
         // System.out.println(x + ", " + y);
 
-        cursor.update(delta);
 
     }
 
-    public void finishBatches() {
+    public static void finishBatches() {
         batch.end();
     }
 
-    private void handleInput(float delta) {
+    private static void handleInput(float delta) {
         if (Gdx.input.isButtonPressed(Input.Buttons.MIDDLE)) {
             x -= (Gdx.input.getDeltaX() / (float) w) * cameraMoveSensitivityMouse * zoom;
             y -= (Gdx.input.getDeltaY() / (float) h) * cameraMoveSensitivityMouse * zoom;
@@ -151,19 +130,24 @@ public class Camera {
 
     }
 
-    public float[] getRealWorldPosition() {
-        float cx = (x);
-        cx = cx + cursor.x * zoom - (w / 2) * zoom;
-
-        float cy = (y);
-        cy = cy + cursor.y * zoom - (h / 2) * zoom;
-
-        float[] pos = new float[]{cx, cy};
+    public static float[] getRealWorldPosition() {
+        float[] pos = new float[]{getRealWorldX(), getRealWorldY()};
         return pos;
-        //TODO: Fix mouse coordinates
     }
 
-    public boolean isInHUD() {
+    public static float getRealWorldX() {
+        float cx = (x);
+        cx = cx + Cursor.x * zoom - (w / 2) * zoom;
+        return cx;
+    }
+
+    public static float getRealWorldY() {
+        float cy = (y);
+        cy = cy + Cursor.y * zoom - (h / 2) * zoom;
+        return cy;
+    }
+
+    public static boolean isInHUD() {
         return false;
     }
 }

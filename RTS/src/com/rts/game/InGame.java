@@ -35,7 +35,7 @@ public class InGame {
     }
 
     public void draw() {
-        entityManager.draw(player.cam);
+        entityManager.draw();
         player.draw();
     }
 }

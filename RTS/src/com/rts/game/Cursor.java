@@ -12,12 +12,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
  */
 public class Cursor {
 
-    public float x = Gdx.graphics.getWidth() / 2;
-    public float y = Gdx.graphics.getHeight() / 2;
-    public boolean[][] filled = new boolean[World.getChunkSize()][World.getChunkSize()];
-    Sprite sprite;
+    public static float x = Gdx.graphics.getWidth() / 2;
+    public static float y = Gdx.graphics.getHeight() / 2;
+    static Sprite sprite;
 
-    public void create() {
+    public static void create() {
 
         sprite = new Sprite();
         String texture = "Images/Hud/mouse.png";
@@ -33,12 +32,12 @@ public class Cursor {
         sprite.setOrigin(0, 0);
     }
 
-    public void draw(SpriteBatch s, Camera cam) {
+    public static void draw() {
         sprite.setPosition(x, y);
-        sprite.draw(s);
+        sprite.draw(Camera.batch);
     }
 
-    public void update(float delta) {
+    public static void update(float delta) {
 
         if (Gdx.input.isButtonPressed(Input.Buttons.LEFT))
             Gdx.input.setCursorCatched(true);

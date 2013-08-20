@@ -26,11 +26,9 @@ public class Player {
     float[] selectionStart = new float[]{0, 0};
     float[] selectionEnd = new float[]{0, 0};
     BoundingShape selectBounds;
-    Camera cam;
 
     public void create() {
         selectBounds = new BoundingShape(1, 1, 1, 1);
-        cam = new Camera();
     }
 
     public void update(float delta, EntityManager ents) {
@@ -44,13 +42,13 @@ public class Player {
 
     private void moveSelectedUnits() {
         for (Entity e : currentSelection) {
-            e.setX(cam.getRealWorldPosition()[0]);
-            e.setY(cam.getRealWorldPosition()[1]);
+            e.setX(Camera.getRealWorldPosition()[0]);
+            e.setY(Camera.getRealWorldPosition()[1]);
         }
     }
 
     private void selection(EntityManager entities) {
-        float pos[] = cam.getRealWorldPosition();
+        float pos[] = Camera.getRealWorldPosition();
 
         if (!runningSelection) {
             selectionStart = pos;
@@ -72,13 +70,8 @@ public class Player {
 
     }
 
-    public void cameraUpdates() {
-        cam.update(Gdx.graphics.getDeltaTime());
-    }
-
     public void draw() {
         drawSelectionBox();
-        cam.draw();
     }
 
     private void drawSelectionBox() {
@@ -87,7 +80,7 @@ public class Player {
 
 
             ShapeRenderer box = new ShapeRenderer();
-            box.setProjectionMatrix(cam.getOrthographicCamera().combined);
+            box.setProjectionMatrix(Camera.getOrthographicCamera().combined);
 
             box.begin(ShapeRenderer.ShapeType.FilledRectangle);
 

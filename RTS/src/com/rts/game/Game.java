@@ -25,6 +25,10 @@ public class Game implements ApplicationListener {
 
     @Override
     public void create() {
+
+        Camera.create();
+        Cursor.create();
+
         connectionBridge = new ConnectionBridge();
         connectionBridge.connect("127.0.0.1", Configuration.TCP_PORT, new ClientEventListener() {
             @Override
@@ -46,16 +50,21 @@ public class Game implements ApplicationListener {
     @Override
     public void render() {
 
-        inGame.player.cameraUpdates();
+        Camera.update(Gdx.graphics.getDeltaTime());
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 
-        world.draw(inGame.player.cam.batch);
+        world.draw(Camera.batch);
 
         inGame.draw();
 
-        inGame.player.cam.finishBatches();
+        Camera.draw();
+
+        Camera.makeHUDBatch();
+        Cursor.draw();
+
+        Camera.finishBatches();
 
         update(Gdx.graphics.getDeltaTime());
     }
@@ -70,6 +79,7 @@ public class Game implements ApplicationListener {
      * @param deltaT the time that has passed since the previous update
      */
     public void update(float deltaT) {
+        Cursor.update(deltaT);
         inGame.update(deltaT);
         world.update();
     }
