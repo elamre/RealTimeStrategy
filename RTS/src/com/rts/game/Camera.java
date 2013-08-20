@@ -108,7 +108,7 @@ public class Camera {
         orthographicCamera.position.set(new float[]{x, y, 0});
         orthographicCamera.zoom = zoom;
 
-        System.out.println(x + ", " + y);
+        // System.out.println(x + ", " + y);
 
         cursor.update(delta);
 

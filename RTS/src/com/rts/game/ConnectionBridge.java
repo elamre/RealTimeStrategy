@@ -43,7 +43,7 @@ public class ConnectionBridge {
     public void update() {
         Packet packet = client.getPacket();
         if (packet instanceof EntityCreationPacket) {
-            Entity entity = new EntityTest();
+            Entity entity = new EntityTest(((EntityCreationPacket) packet).getX(), ((EntityCreationPacket) packet).getY());
             entity.setNetworkDetails((EntityCreationPacket) packet);
             entityManager.createEntity(entity);
         }

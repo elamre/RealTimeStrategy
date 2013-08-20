@@ -18,7 +18,11 @@ public abstract class Entity {
     private int id;
     private int owner;
 
-    public Entity() {
+    public Entity(Sprite sprite[], int x, int y) {
+        sprites = sprite;
+        setUpBoundaries();
+        setX(x);
+        setY(y);
         create();
     }
 
@@ -56,12 +60,12 @@ public abstract class Entity {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public void setId(Integer id) {
         this.id = id.intValue();
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getIdInteger() {

@@ -15,19 +15,13 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
  */
 public class EntityTest extends Entity {
 
+    public EntityTest(int x, int y) {
+        super(new Sprite[]{Assets.getAssets().getSprite("Animations/Units/houtman3")}, x, y);
+    }
+
     public void create() {
-        sprites = new Sprite[1];
-        Texture texture = new Texture(Gdx.files.internal("data/libgdx.png"));
-        texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-
-        TextureRegion region = new TextureRegion(texture, 0, 0, 256, 256);
-
-        sprites[0] = new Sprite(region);
-
         sprites[0].setSize(1f, 1f);
         sprites[0].setOrigin(0, 0);
-
-        setUpBoundaries();
     }
 
     public void draw(SpriteBatch batch) {

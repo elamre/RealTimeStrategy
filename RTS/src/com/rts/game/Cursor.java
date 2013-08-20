@@ -64,7 +64,7 @@ public class Cursor {
             y = Gdx.graphics.getHeight();
         }
 
-        System.out.println(x + ", " + y);
+        //System.out.println(x + ", " + y);
 
     }
 
