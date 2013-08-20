@@ -53,7 +53,7 @@ public class EntityManager {
      */
     public void update(float delta) {
         if (Gdx.input.isKeyPressed(Input.Keys.O)) {
-            EntityTest entityTest = new EntityTest(Gdx.input.getX(), Gdx.input.getY());
+            EntityTest entityTest = new EntityTest((int) Camera.getRealWorldX(), (int) Camera.getRealWorldY());
             //entityTest.create();
             addEntity(entityTest);
         }
