@@ -34,7 +34,8 @@ public class InGame {
         connectionBridge.update();
     }
 
-    public void draw(SpriteBatch spriteBatch) {
-        entityManager.draw(spriteBatch);
+    public void draw() {
+        entityManager.draw(player.cam);
+        player.draw();
     }
 }

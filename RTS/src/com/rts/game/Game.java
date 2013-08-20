@@ -19,16 +19,12 @@ import com.rts.util.Logger;
 import java.io.IOException;
 
 public class Game implements ApplicationListener {
-    Player player = new Player();
-    //EntityManager ents;
     ConnectionBridge connectionBridge;
     World world = new World();
     InGame inGame;
-    private SpriteBatch batch;
 
     @Override
     public void create() {
-        player.create();
         connectionBridge = new ConnectionBridge();
         connectionBridge.connect("127.0.0.1", Configuration.TCP_PORT, new ClientEventListener() {
             @Override
@@ -44,37 +40,28 @@ public class Game implements ApplicationListener {
         }
         );        // TODO move this to a fancy menu
         inGame = new InGame(connectionBridge);
-
-        batch = new SpriteBatch();
-
         world.initTestMap();
-    }
-
-    @Override
-    public void dispose() {
-        batch.dispose();
     }
 
     @Override
     public void render() {
 
-        player.cameraUpdates();
+        inGame.player.cameraUpdates();
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 
-        batch.setProjectionMatrix(Camera.getCamera().getOrthographicCamera().combined);
-        batch.begin();
+        world.draw(inGame.player.cam.batch);
 
-        world.draw(batch);
+        inGame.draw();
 
+        inGame.player.cam.finishBatches();
 
-        inGame.draw(batch);
-
-        player.draw();
-
-        batch.end();
         update(Gdx.graphics.getDeltaTime());
+    }
+
+    public void dispose() {
+
     }
 
     /**
@@ -83,7 +70,6 @@ public class Game implements ApplicationListener {
      * @param deltaT the time that has passed since the previous update
      */
     public void update(float deltaT) {
-        Camera.getCamera().update(deltaT);
         inGame.update(deltaT);
         world.update();
     }

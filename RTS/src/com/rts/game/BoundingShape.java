@@ -82,8 +82,7 @@ public class BoundingShape {
                 float[] point = closestPointFromRectToPoint(this, new float[]{b.x, b.y});
                 if (distance(point[0], point[1], b.x, b.y) <= b.width) {
                     return true;
-                }
-                else if(this.containsPoint(b.x, b.y)) {
+                } else if (this.containsPoint(b.x, b.y)) {
                     return true;
                 }
             } else {
@@ -138,19 +137,18 @@ public class BoundingShape {
 
         ShapeRenderer box = new ShapeRenderer();
 
-        box.setProjectionMatrix(Camera.getCamera().getOrthographicCamera().combined);
+        box.setProjectionMatrix(cam.getOrthographicCamera().combined);
         box.setColor(1, 0, 1, 0.5f);
 
         float lx;
         float ly;
 
-        if(square) {
+        if (square) {
             lx = x - width / 2;
             ly = y - height / 2;
             box.begin(ShapeRenderer.ShapeType.FilledRectangle);
             box.filledRect(lx, ly, width, height);
-        }
-        else {
+        } else {
             lx = x;
             ly = y;
             box.begin(ShapeRenderer.ShapeType.Circle);
@@ -159,7 +157,6 @@ public class BoundingShape {
 
         box.end();
     }
-
 
 
 }

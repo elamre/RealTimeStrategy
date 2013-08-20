@@ -6,6 +6,7 @@ import com.badlogic.gdx.Input;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 /**
@@ -25,9 +26,11 @@ public class Player {
     float[] selectionStart = new float[]{0, 0};
     float[] selectionEnd = new float[]{0, 0};
     BoundingShape selectBounds;
+    Camera cam;
 
     public void create() {
         selectBounds = new BoundingShape(1, 1, 1, 1);
+        cam = new Camera();
     }
 
     public void update(float delta, EntityManager ents) {
@@ -41,13 +44,13 @@ public class Player {
 
     private void moveSelectedUnits() {
         for (Entity e : currentSelection) {
-            e.setX(Camera.getCamera().getRealWorldX());
-            e.setY(Camera.getCamera().getRealWorldY());
+            e.setX(cam.getRealWorldPosition()[0]);
+            e.setY(cam.getRealWorldPosition()[1]);
         }
     }
 
     private void selection(EntityManager entities) {
-        float pos[] = {Camera.getCamera().getRealWorldX(), Camera.getCamera().getRealWorldY()};
+        float pos[] = cam.getRealWorldPosition();
 
         if (!runningSelection) {
             selectionStart = pos;
@@ -70,11 +73,12 @@ public class Player {
     }
 
     public void cameraUpdates() {
-        Camera.getCamera().update(Gdx.graphics.getDeltaTime());
+        cam.update(Gdx.graphics.getDeltaTime());
     }
 
     public void draw() {
         drawSelectionBox();
+        cam.draw();
     }
 
     private void drawSelectionBox() {
@@ -83,7 +87,7 @@ public class Player {
 
 
             ShapeRenderer box = new ShapeRenderer();
-            box.setProjectionMatrix(Camera.getCamera().getOrthographicCamera().combined);
+            box.setProjectionMatrix(cam.getOrthographicCamera().combined);
 
             box.begin(ShapeRenderer.ShapeType.FilledRectangle);
 

@@ -112,10 +112,10 @@ public class EntityManager {
         // addList.add(e);
     }
 
-    public void draw(SpriteBatch batch) {
+    public void draw(Camera cam) {
         for (Map.Entry<Integer, Entity> entry : entities.entrySet()) {
-            entry.getValue().draw(batch);
-            entry.getValue().bounds.debugShape(Camera.getCamera());
+            entry.getValue().draw(cam.batch);
+            entry.getValue().bounds.debugShape(cam);
         }
     }
 
