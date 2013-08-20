@@ -35,9 +35,9 @@ class UDPServer {
 
     public static void addAddress(DatagramPacket address) {
         boolean found = false;
-        for (int i = 0; i < addresses.size(); i++) {
-            System.out.println("Comparing: " + addresses.get(i).getAddress() + " with: " + address.getAddress());
-            if (address.getAddress().equals(addresses.get(i).getAddress()) && address.getPort() == addresses.get(i).getPort()) {
+        for (DatagramPacket address1 : addresses) {
+            System.out.println("Comparing: " + address1.getAddress() + " with: " + address.getAddress());
+            if (address.getAddress().equals(address1.getAddress()) && address.getPort() == address1.getPort()) {
                 found = true;
             }
         }
@@ -50,8 +50,8 @@ class UDPServer {
 
     public static void sendData(byte[] sendData) throws IOException {
         DatagramPacket receivePacket;
-        for (int i = 0; i < addresses.size(); i++) {
-            receivePacket = addresses.get(i);
+        for (DatagramPacket address : addresses) {
+            receivePacket = address;
             InetAddress IPAddress = receivePacket.getAddress();
             int port = receivePacket.getPort();
             DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, port);

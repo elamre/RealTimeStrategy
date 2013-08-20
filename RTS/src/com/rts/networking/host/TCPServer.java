@@ -1,7 +1,6 @@
 package com.rts.networking.host;
 
 import com.rts.networking.packets.PacketManager;
-import com.rts.util.Configuration;
 import com.rts.util.Logger;
 
 import java.io.IOException;

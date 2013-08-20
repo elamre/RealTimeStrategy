@@ -1,8 +1,6 @@
 package com.rts.networking.client;
 
-import com.rts.networking.packets.Packet;
 import com.rts.networking.udp.BaseUDPPacket;
-import sun.security.x509.IPAddressName;
 
 import java.net.DatagramSocket;
 import java.net.InetAddress;

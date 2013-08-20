@@ -2,6 +2,7 @@ package com.rts.networking.packets.system;
 
 import com.rts.networking.packets.Packet;
 import com.rts.networking.packets.PacketManager;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;

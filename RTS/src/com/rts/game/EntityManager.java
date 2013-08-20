@@ -2,15 +2,9 @@ package com.rts.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.rts.networking.packets.Packet;
-import com.rts.networking.packets.PacketListener;
-import com.rts.networking.packets.system.EntityCreationPacket;
-import com.rts.util.Configuration;
-import com.rts.util.Logger;
 
-import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -97,7 +91,7 @@ public class EntityManager {
      * @param id ID of the Entity to be removed
      */
     public void remove(int id) {
-        removeListIds.add(new Integer(id));
+        removeListIds.add(id);
     }
 
     /**
@@ -124,8 +118,8 @@ public class EntityManager {
 
         //We use two lists- one with IDs, and one with the Entities. This is only to make it easier to delete an object.
 
-        for (int i = 0; i < removeList.size(); i++) {
-            entities.remove(new Integer(removeList.get(i).getId()));
+        for (Entity aRemoveList : removeList) {
+            entities.remove(new Integer(aRemoveList.getId()));
         }
         removeList.clear();
 
@@ -139,8 +133,8 @@ public class EntityManager {
      * Adds all wanted Entities. Uses the addList List.
      */
     private void addEntities() {
-        for (int i = 0; i < addList.size(); i++) {
-            entities.put(new Integer(addList.get(i).getId()), addList.get(i));
+        for (Entity anAddList : addList) {
+            entities.put(new Integer(anAddList.getId()), anAddList);
         }
         addList.clear();
     }

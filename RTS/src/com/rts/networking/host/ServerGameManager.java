@@ -21,8 +21,8 @@ public class ServerGameManager {
     public static int getId() {
         return ++id;
     }
-    
-    public static void addNetworkEntity(NetworkEntity networkEntity){
+
+    public static void addNetworkEntity(NetworkEntity networkEntity) {
 
     }
 }

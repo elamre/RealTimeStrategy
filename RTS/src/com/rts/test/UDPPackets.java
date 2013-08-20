@@ -1,7 +1,5 @@
 package com.rts.test;
 
-import com.badlogic.gdx.utils.Array;
-
 /**
  * Created with IntelliJ IDEA.
  * User: Elmar

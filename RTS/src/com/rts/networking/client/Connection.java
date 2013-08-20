@@ -1,11 +1,7 @@
 package com.rts.networking.client;
 
-import com.rts.game.EntityManager;
 import com.rts.networking.packets.Packet;
-import com.rts.networking.packets.PacketListener;
 import com.rts.networking.packets.PacketManager;
-import com.rts.networking.packets.system.ChatPacket;
-import com.rts.networking.packets.system.EntityCreationPacket;
 import com.rts.networking.packets.system.PingPacket;
 import com.rts.util.Logger;
 import com.rts.util.SocketUtil;
@@ -13,7 +9,7 @@ import com.rts.util.SocketUtil;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.*;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
 

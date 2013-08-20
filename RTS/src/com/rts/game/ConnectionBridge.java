@@ -2,7 +2,6 @@ package com.rts.game;
 
 import com.rts.networking.client.Client;
 import com.rts.networking.packets.Packet;
-import com.rts.networking.packets.PacketListener;
 import com.rts.networking.packets.system.EntityCreationPacket;
 
 import java.io.IOException;

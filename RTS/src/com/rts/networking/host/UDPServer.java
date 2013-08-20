@@ -3,7 +3,10 @@ package com.rts.networking.host;
 import com.rts.util.Logger;
 
 import java.io.IOException;
-import java.net.*;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
 
 /**
  * Created with IntelliJ IDEA.
@@ -83,7 +86,7 @@ public class UDPServer implements HostAble, Runnable {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    private void actOnData(byte[] data){
+    private void actOnData(byte[] data) {
 
     }
 

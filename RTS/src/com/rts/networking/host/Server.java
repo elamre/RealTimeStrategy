@@ -1,12 +1,10 @@
 package com.rts.networking.host;
 
 import com.rts.networking.packets.Packet;
-import com.rts.networking.packets.PacketManager;
 import com.rts.util.Configuration;
 import com.rts.util.Logger;
 
 import java.io.IOException;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -99,9 +97,9 @@ public class Server {
      * @param packet the packet to send
      */
     public void sendAllTCP(Packet packet) {
-        for (int i = 0; i < serverClients.size(); i++) {
-            if (packet.getConnectionId() != serverClients.get(i).getId())
-                serverClients.get(i).writePacket(packet);
+        for (ServerClient serverClient : serverClients) {
+            if (packet.getConnectionId() != serverClient.getId())
+                serverClient.writePacket(packet);
         }
     }
 
@@ -116,6 +114,6 @@ public class Server {
      * Enum containing all the possible statuses of the server. TODO add more.
      */
     enum ServerStatus {
-        STOPPED, IDLE, CRASHED;
+        STOPPED, IDLE, CRASHED
     }
 }

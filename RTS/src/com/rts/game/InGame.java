@@ -1,12 +1,5 @@
 package com.rts.game;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.rts.networking.packets.Packet;
-import com.rts.networking.packets.PacketListener;
-import com.rts.networking.packets.system.EntityCreationPacket;
-import com.rts.util.Configuration;
-import com.rts.util.Logger;
-
 /**
  * Created with IntelliJ IDEA.
  * User: Elmar

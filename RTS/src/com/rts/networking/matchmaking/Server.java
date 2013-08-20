@@ -1,7 +1,6 @@
 package com.rts.networking.matchmaking;
 
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**

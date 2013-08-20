@@ -1,15 +1,5 @@
 package com.rts.networking.host;
 
-import java.net.Socket;
-
-/**
- * Created with IntelliJ IDEA.
- * User: Elmar
- * Date: 8/12/13
- * Time: 2:00 AM
- * To change this template use File | Settings | File Templates.
- */
-
 import com.rts.networking.NetworkEntity;
 import com.rts.networking.packets.Packet;
 import com.rts.networking.packets.PacketManager;
@@ -23,8 +13,17 @@ import com.rts.util.SocketUtil;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
+
+/**
+ * Created with IntelliJ IDEA.
+ * User: Elmar
+ * Date: 8/12/13
+ * Time: 2:00 AM
+ * To change this template use File | Settings | File Templates.
+ */
 
 public class ServerClient implements Runnable {
     /* The id of the client. */
@@ -46,7 +45,8 @@ public class ServerClient implements Runnable {
 
     /**
      * Constructor which should
-     * @param id The client id
+     *
+     * @param id     The client id
      * @param socket
      * @throws IOException
      */

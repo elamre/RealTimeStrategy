@@ -12,7 +12,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  * Time: 2:07 PM
  * To change this template use File | Settings | File Templates.
  */
-public class Camera {
+class Camera {
     public static SpriteBatch batch;
     private static OrthographicCamera orthographicCamera;
     private static OrthographicCamera hudOrthographicCamera;
@@ -30,14 +30,6 @@ public class Camera {
 
     public static OrthographicCamera getOrthographicCamera() {
         return orthographicCamera;
-    }
-
-    public static int getW() {
-        return w;
-    }
-
-    public static int getH() {
-        return h;
     }
 
     public static void makeHUDBatch() {
@@ -102,7 +94,7 @@ public class Camera {
             x -= (Gdx.input.getDeltaX() / (float) w) * cameraMoveSensitivityMouse * zoom;
             y -= (Gdx.input.getDeltaY() / (float) h) * cameraMoveSensitivityMouse * zoom;
         } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
-            System.out.println("On secreen: " + Gdx.input.getX() + " : " + Gdx.input.getY());
+            System.out.println("On screen: " + Gdx.input.getX() + " : " + Gdx.input.getY());
             System.out.println("Rea world:: " + (Gdx.input.getX() + x) / 10 + " : " + (Gdx.input.getY() + y) / 10);
 
 
@@ -131,8 +123,7 @@ public class Camera {
     }
 
     public static float[] getRealWorldPosition() {
-        float[] pos = new float[]{getRealWorldX(), getRealWorldY()};
-        return pos;
+        return new float[]{getRealWorldX(), getRealWorldY()};
     }
 
     public static float getRealWorldX() {

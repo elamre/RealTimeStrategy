@@ -52,21 +52,29 @@ public class Logger {
 
     /**
      * The ALL log level.<br>
-     * Theres no method for this. Its just used to set the Log Level in the
+     * There is no method for this. Its just used to set the Log Level in the
      * configuration so that everything is logged.
      */
     public static final int ALL = 0xFF;
 
-    /** The singleton instance of Logger. */
+    /**
+     * The singleton instance of Logger.
+     */
     private static Logger instance;
 
-    /** The print writer. */
+    /**
+     * The print writer.
+     */
     private PrintWriter printWriter;
 
-    /** The log file. */
+    /**
+     * The log file.
+     */
     private File logFile;
 
-    /** The date format. */
+    /**
+     * The date format.
+     */
     private DateFormat logDateFormat;
 
     public static String newline = System.getProperty("line.separator");
@@ -80,7 +88,7 @@ public class Logger {
         printWriter = new PrintWriter(System.out);
         logFile = new File(Configuration.LOG_DIRECTORY + "log.txt");
 
-        if (Configuration.LOG_TO_FILE == true) {
+        if (Configuration.LOG_TO_FILE) {
 
             if (!logFile.isDirectory()) {
 
@@ -93,16 +101,14 @@ public class Logger {
                 }
             }
         }
-        writeMessage("Logger initalized", SYSTEM);
+        writeMessage("Logger initialized", SYSTEM);
     }
 
     /**
      * Write a message to the log.
      *
-     * @param message
-     *            the message
-     * @param logLevel
-     *            the log level
+     * @param message  the message
+     * @param logLevel the log level
      */
     private synchronized void writeMessage(String message, int logLevel) {
         if (printWriter != null && logLevel <= Configuration.LOG_LEVEL) {
@@ -115,10 +121,8 @@ public class Logger {
     /**
      * Write an exception to the log.
      *
-     * @param exception
-     *            the exception
-     * @param logLevel
-     *            the log level
+     * @param exception the exception
+     * @param logLevel  the log level
      */
     private synchronized void writeException(Exception exception, int logLevel) {
         if (printWriter != null && logLevel <= Configuration.LOG_LEVEL) {
@@ -132,8 +136,7 @@ public class Logger {
      * Gets the log prefix containing the formatted date, the log level and the
      * error message.
      *
-     * @param logLevel
-     *            the log level
+     * @param logLevel the log level
      * @return the log prefix
      */
     private String getLogPrefix(int logLevel) {
@@ -158,8 +161,7 @@ public class Logger {
     /**
      * Create a string representation of the passed {@link Exception}.
      *
-     * @param exception
-     *            the exception
+     * @param exception the exception
      * @return the exception and stack trace as string
      */
     public String getStackTraceString(Exception exception) {
@@ -185,7 +187,7 @@ public class Logger {
     }
 
     /**
-     * Close the printwriter.
+     * Close the printWriter.
      */
     public void close() {
         printWriter.close();
@@ -194,8 +196,7 @@ public class Logger {
     /**
      * Log a message on the ERROR level.
      *
-     * @param message
-     *            the message
+     * @param message the message
      */
     public void error(Object message) {
         writeMessage(message.toString(), ERROR);
@@ -204,8 +205,7 @@ public class Logger {
     /**
      * Log an exception on the ERROR level.
      *
-     * @param exception
-     *            the exception
+     * @param exception the exception
      */
     public void error(Exception exception) {
         writeException(exception, ERROR);
@@ -214,8 +214,7 @@ public class Logger {
     /**
      * Log a message on the WARN level.
      *
-     * @param message
-     *            the message
+     * @param message the message
      */
     public void warn(Object message) {
         writeMessage(message.toString(), WARN);
@@ -224,8 +223,7 @@ public class Logger {
     /**
      * Log an exception on the WARN level.
      *
-     * @param exception
-     *            the exception
+     * @param exception the exception
      */
     public void warn(Exception exception) {
         writeException(exception, WARN);
@@ -234,8 +232,7 @@ public class Logger {
     /**
      * Log a message on the DEBUG level.
      *
-     * @param message
-     *            the message
+     * @param message the message
      */
     public void debug(Object message) {
         writeMessage(message.toString(), DEBUG);
@@ -244,8 +241,7 @@ public class Logger {
     /**
      * Log an exception on the DEBUG level.
      *
-     * @param exception
-     *            the exception
+     * @param exception the exception
      */
     public void debug(Exception exception) {
         writeException(exception, DEBUG);
@@ -254,8 +250,7 @@ public class Logger {
     /**
      * Log a message on the SYSTEM level.
      *
-     * @param message
-     *            the message
+     * @param message the message
      */
     public void system(Object message) {
         writeMessage(message.toString(), SYSTEM);
@@ -264,8 +259,7 @@ public class Logger {
     /**
      * Log an exception on the SYSTEM level.
      *
-     * @param exception
-     *            the exception
+     * @param exception the exception
      */
     public void system(Exception exception) {
         writeException(exception, SYSTEM);

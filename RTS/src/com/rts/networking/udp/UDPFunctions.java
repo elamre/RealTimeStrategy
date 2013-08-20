@@ -21,9 +21,7 @@ public class UDPFunctions {
 
     public static int toUnsignedInt(byte[] array, int size, int offset) {
         byte[] buffer = new byte[4];
-        for (int i = 0; i < size; i++) {
-            buffer[i] = array[i + offset];
-        }
-        return (buffer[3] << 24) & 0xff000000 | (buffer[2] << 16) & 0xff0000 | (buffer[1] << 8) & 0xff00 | (buffer[0] << 0) & 0xff;
+        System.arraycopy(array, offset, buffer, 0, size);
+        return (buffer[3] << 24) & 0xff000000 | (buffer[2] << 16) & 0xff0000 | (buffer[1] << 8) & 0xff00 | (buffer[0]) & 0xff;
     }
 }

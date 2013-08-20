@@ -25,16 +25,16 @@ public class World {
     }
 
     public void draw(SpriteBatch batch) {
-        for(int x = 0; x < chunkAmount; x++) {
-            for(int y = 0; y < chunkAmount; y++) {
+        for (int x = 0; x < chunkAmount; x++) {
+            for (int y = 0; y < chunkAmount; y++) {
                 chunks[x][y].draw(batch);
             }
         }
     }
 
     public void initTestMap() {
-        for(int x = 0; x < chunkAmount; x++) {
-            for(int y = 0; y < chunkAmount; y++) {
+        for (int x = 0; x < chunkAmount; x++) {
+            for (int y = 0; y < chunkAmount; y++) {
                 chunks[x][y] = new Chunk();
                 chunks[x][y].create(x * chunkSize, y * chunkSize);
             }

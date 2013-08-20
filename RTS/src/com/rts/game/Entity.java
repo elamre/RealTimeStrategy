@@ -1,7 +1,7 @@
 package com.rts.game;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.rts.networking.packets.system.EntityCreationPacket;
 
 
@@ -61,14 +61,14 @@ public abstract class Entity {
     }
 
     public void setId(Integer id) {
-        this.id = id.intValue();
+        this.id = id;
     }
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public int getIdInteger() {
+    public Integer getIdInteger() {
         return new Integer(id);
     }
 

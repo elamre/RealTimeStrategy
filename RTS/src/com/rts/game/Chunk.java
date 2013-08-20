@@ -23,7 +23,6 @@ public class Chunk {
     public boolean[][] filled = new boolean[World.getChunkSize()][World.getChunkSize()];
 
 
-
     public void create(int x, int y) {
 
         this.x = x;
@@ -43,7 +42,6 @@ public class Chunk {
         sprite.setOrigin(0, 0);
         sprite.setPosition(x, y);
     }
-
 
 
     public void draw(SpriteBatch batch) {

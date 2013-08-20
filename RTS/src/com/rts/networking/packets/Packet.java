@@ -26,7 +26,7 @@ public abstract class Packet {
     /**
      * Constructor which should always get implemented in a packet. Add extra fields if needed
      *
-     * @param packetId The type of packet
+     * @param packetId     The type of packet
      * @param connectionId The id which sent the packet
      */
     public Packet(int packetId, int connectionId) {
@@ -35,7 +35,6 @@ public abstract class Packet {
     }
 
     /**
-     *
      * @param in
      * @throws IOException
      */
