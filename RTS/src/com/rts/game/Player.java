@@ -3,6 +3,7 @@ package com.rts.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.rts.game.entities.MoveableEntity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,8 +41,11 @@ public class Player {
 
     private void moveSelectedUnits() {
         for (Entity e : currentSelection) {
-            e.setX(Camera.getRealWorldPosition()[0]);
-            e.setY(Camera.getRealWorldPosition()[1]);
+
+            if (e instanceof MoveableEntity) {
+                ((MoveableEntity) e).setDestination(Camera.getRealWorldPosition());
+            }
+
         }
     }
 

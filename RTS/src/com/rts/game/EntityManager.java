@@ -2,6 +2,7 @@ package com.rts.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.rts.game.entities.EntityTest;
 
 import java.util.ArrayList;
 import java.util.HashMap;

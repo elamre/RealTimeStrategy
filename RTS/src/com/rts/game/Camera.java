@@ -50,10 +50,10 @@ class Camera {
         h = Gdx.graphics.getHeight();
 
         orthographicCamera = new OrthographicCamera(1, h / (float) w);
-        orthographicCamera.setToOrtho(true);
+        orthographicCamera.setToOrtho(false);
 
         hudOrthographicCamera = new OrthographicCamera(1, h / (float) w);
-        hudOrthographicCamera.setToOrtho(true);
+        hudOrthographicCamera.setToOrtho(false);
 
         batch = new SpriteBatch();
     }
@@ -102,10 +102,10 @@ class Camera {
 
 
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            y -= cameraMoveSensitivityKeys * zoom;
+            y += cameraMoveSensitivityKeys * zoom;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            y += cameraMoveSensitivityKeys * zoom;
+            y -= cameraMoveSensitivityKeys * zoom;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             x -= cameraMoveSensitivityKeys * zoom;

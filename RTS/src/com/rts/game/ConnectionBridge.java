@@ -1,5 +1,6 @@
 package com.rts.game;
 
+import com.rts.game.entities.EntityTest;
 import com.rts.networking.client.Client;
 import com.rts.networking.packets.Packet;
 import com.rts.networking.packets.system.EntityCreationPacket;

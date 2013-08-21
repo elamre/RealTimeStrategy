@@ -48,7 +48,7 @@ public class Cursor {
             Gdx.input.setCursorPosition(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
 
             x += Gdx.input.getDeltaX();
-            y += Gdx.input.getDeltaY();
+            y -= Gdx.input.getDeltaY();
         }
 
         if (x < 0) {
