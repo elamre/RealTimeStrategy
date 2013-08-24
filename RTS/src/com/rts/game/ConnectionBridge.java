@@ -1,6 +1,7 @@
 package com.rts.game;
 
-import com.rts.game.entities.EntityTest;
+import com.rts.game.entities.Entity;
+import com.rts.game.entities.TestEntity;
 import com.rts.networking.client.Client;
 import com.rts.networking.packets.Packet;
 import com.rts.networking.packets.system.EntityCreationPacket;
@@ -43,9 +44,16 @@ public class ConnectionBridge {
     public void update() {
         Packet packet = client.getPacket();
         if (packet instanceof EntityCreationPacket) {
-            Entity entity = new EntityTest(((EntityCreationPacket) packet).getX(), ((EntityCreationPacket) packet).getY());
-            entity.setNetworkDetails((EntityCreationPacket) packet);
+            Entity entity = new TestEntity((EntityCreationPacket) packet);
             entityManager.createEntity(entity);
         }
     }
 }
+
+
+
+
+
+
+
+

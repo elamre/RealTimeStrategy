@@ -1,8 +1,9 @@
 package com.rts.networking.client;
 
-import com.rts.game.Entity;
+import com.rts.game.entities.Entity;
 import com.rts.networking.packets.Packet;
 import com.rts.networking.packets.system.RequestEntityPacket;
+import com.rts.util.Logger;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -36,6 +37,11 @@ public class Client {
     }
 
     public void sendEntityRequest(Entity entity) {
-        connection.writePacket(new RequestEntityPacket(0, 1, (int) entity.getX(), (int) entity.getY()));
+        if (connection != null)
+            connection.writePacket(new RequestEntityPacket(0, 1, (int) entity.getX(), (int) entity.getY()));
+        else {
+            Logger.getInstance().error("Not connected to any server. Game will stop.");
+            System.exit(0);
+        }
     }
 }

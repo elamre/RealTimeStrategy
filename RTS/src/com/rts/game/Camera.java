@@ -12,7 +12,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  * Time: 2:07 PM
  * To change this template use File | Settings | File Templates.
  */
-class Camera {
+public class Camera {
     public static SpriteBatch batch;
     private static OrthographicCamera orthographicCamera;
     private static OrthographicCamera hudOrthographicCamera;
@@ -49,11 +49,13 @@ class Camera {
         w = Gdx.graphics.getWidth();
         h = Gdx.graphics.getHeight();
 
-        orthographicCamera = new OrthographicCamera(1, h / (float) w);
-        orthographicCamera.setToOrtho(false);
+        //orthographicCamera = new OrthographicCamera(1, h / (float) w);
+        orthographicCamera = new OrthographicCamera(w, h);
+        orthographicCamera.setToOrtho(true);
 
-        hudOrthographicCamera = new OrthographicCamera(1, h / (float) w);
-        hudOrthographicCamera.setToOrtho(false);
+        //hudOrthographicCamera = new OrthographicCamera(1, h / (float) w);
+        hudOrthographicCamera = new OrthographicCamera(w, h);
+        hudOrthographicCamera.setToOrtho(true);
 
         batch = new SpriteBatch();
     }
@@ -61,7 +63,7 @@ class Camera {
     public static void update(float delta) {
 
         if (w != Gdx.graphics.getWidth() || h != Gdx.graphics.getHeight()) {
-            create();
+            //create();
         }
 
 
@@ -78,7 +80,7 @@ class Camera {
         handleInput(delta);
 
         orthographicCamera.position.set(new float[]{x, y, 0});
-        orthographicCamera.zoom = zoom;
+        //orthographicCamera.zoom = zoom;
 
         // System.out.println(x + ", " + y);
 
@@ -93,18 +95,12 @@ class Camera {
         if (Gdx.input.isButtonPressed(Input.Buttons.MIDDLE)) {
             x -= (Gdx.input.getDeltaX() / (float) w) * cameraMoveSensitivityMouse * zoom;
             y -= (Gdx.input.getDeltaY() / (float) h) * cameraMoveSensitivityMouse * zoom;
-        } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
-            System.out.println("On screen: " + Gdx.input.getX() + " : " + Gdx.input.getY());
-            System.out.println("Rea world:: " + (Gdx.input.getX() + x) / 10 + " : " + (Gdx.input.getY() + y) / 10);
-
-
         }
 
-
-        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
             y += cameraMoveSensitivityKeys * zoom;
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
             y -= cameraMoveSensitivityKeys * zoom;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
@@ -127,15 +123,11 @@ class Camera {
     }
 
     public static float getRealWorldX() {
-        float cx = (x);
-        cx = cx + Cursor.x * zoom - (w / 2) * zoom;
-        return cx;
+        return Gdx.input.getX() - Gdx.graphics.getWidth() / 2 + x;
     }
 
     public static float getRealWorldY() {
-        float cy = (y);
-        cy = cy + Cursor.y * zoom - (h / 2) * zoom;
-        return cy;
+        return Gdx.input.getY() - Gdx.graphics.getHeight() / 2 + y;
     }
 
     public static boolean isInHUD() {

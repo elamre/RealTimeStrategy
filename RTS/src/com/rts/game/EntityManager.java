@@ -2,7 +2,8 @@ package com.rts.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.rts.game.entities.EntityTest;
+import com.rts.game.entities.Entity;
+import com.rts.game.entities.TestEntity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,13 +18,14 @@ import java.util.Map;
  */
 public class EntityManager {
     /**
-     * The list containing all Entities from the network be added.
-     */
-    //private static ArrayList<EntityCreationPacket> addNetworkList = new ArrayList<EntityCreationPacket>(16);
-    /**
      * The entity map to be used for all standard Entities in-game.
      */
     public HashMap<Integer, Entity> entities = new HashMap<Integer, Entity>(256);
+    /**
+     * The list containing all Entities from the network be added.
+     */
+    //private static ArrayList<EntityCreationPacket> addNetworkList = new ArrayList<EntityCreationPacket>(16);
+    private boolean oPressed = false;
     /**
      * The list containing all Entity values to be removed.
      */
@@ -46,6 +48,7 @@ public class EntityManager {
     }
 
     public void createEntity(Entity entity) {
+        entity.setDebug(false);
         addList.add(entity);
     }
 
@@ -53,10 +56,13 @@ public class EntityManager {
      * Run the update function for all Entities, and do basic entity management.
      */
     public void update(float delta) {
-        if (Gdx.input.isKeyPressed(Input.Keys.O)) {
-            EntityTest entityTest = new EntityTest((int) Camera.getRealWorldX(), (int) Camera.getRealWorldY());
-            //entityTest.create();
-            addEntity(entityTest);
+        if (Gdx.input.isKeyPressed(Input.Keys.O) && !oPressed) {
+            TestEntity testEntity = new TestEntity((int) Camera.getRealWorldX(), (int) Camera.getRealWorldY());
+            addEntity(testEntity);
+            oPressed = true;
+        }
+        if (!Gdx.input.isKeyPressed(Input.Keys.O)) {
+            oPressed = false;
         }
 
         addEntities();
@@ -108,7 +114,7 @@ public class EntityManager {
     public void draw() {
         for (Map.Entry<Integer, Entity> entry : entities.entrySet()) {
             entry.getValue().draw(Camera.batch);
-            entry.getValue().bounds.debugShape();
+            //entry.getValue().bounds.debugShape();
         }
     }
 

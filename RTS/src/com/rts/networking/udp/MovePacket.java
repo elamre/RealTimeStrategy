@@ -1,5 +1,8 @@
 package com.rts.networking.udp;
 
+import com.rts.networking.packets.Packet;
+import com.rts.networking.packets.game.MoveEntityPacket;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Elmar
@@ -74,5 +77,9 @@ public class MovePacket extends BaseUDPPacket {
 
     public int getY() {
         return y;
+    }
+
+    public Packet getTcpPacket() {
+        return new MoveEntityPacket(entityId, x, y, direction, speed, -1);
     }
 }

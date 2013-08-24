@@ -1,5 +1,6 @@
 package com.rts.networking.packets;
 
+import com.rts.networking.packets.game.MoveEntityPacket;
 import com.rts.networking.packets.system.ChatPacket;
 import com.rts.networking.packets.system.EntityCreationPacket;
 import com.rts.networking.packets.system.PingPacket;
@@ -25,6 +26,7 @@ public class PacketManager {
         registerPacket(new ChatPacket());
         registerPacket(new EntityCreationPacket());
         registerPacket(new RequestEntityPacket());
+        registerPacket(new MoveEntityPacket());
     }
 
     /**

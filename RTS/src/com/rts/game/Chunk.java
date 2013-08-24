@@ -38,7 +38,7 @@ public class Chunk {
 
         sprite = new Sprite(region);
 
-        sprite.setSize(World.getChunkSize(), World.getChunkSize());
+        //sprite.setSize(World.getChunkSize(), World.getChunkSize());
         sprite.setOrigin(0, 0);
         sprite.setPosition(x, y);
     }

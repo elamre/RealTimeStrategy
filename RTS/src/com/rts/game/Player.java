@@ -3,10 +3,16 @@ package com.rts.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.rts.game.entities.MoveableEntity;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+import com.rts.game.entities.Entity;
+import com.rts.game.entities.SelectableUnit;
+import com.rts.util.Logger;
 
+import javax.swing.event.ListSelectionEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,60 +22,62 @@ import java.util.HashMap;
  * To change this template use File | Settings | File Templates.
  */
 public class Player {
-
-    public HashMap<Integer, Entity> ownedEntities = new HashMap<Integer, Entity>(256);
     public ArrayList<Entity> currentSelection = new ArrayList<Entity>(64);
     public Entity currentSelect;
     public String name;
     boolean runningSelection = false;
-    float[] selectionStart = new float[]{0, 0};
-    float[] selectionEnd = new float[]{0, 0};
-    BoundingShape selectBounds;
+    private Vector2 selectionStart;
+    private Vector2 selectionEnd;
 
     public void create() {
-        selectBounds = new BoundingShape(1, 1, 1, 1);
+        selectionStart = new Vector2(0, 0);
+        selectionEnd = new Vector2(0, 0);
     }
 
-    public void update(float delta, EntityManager ents) {
-        if ((Gdx.input.isButtonPressed(Input.Buttons.LEFT)) || runningSelection) {
-            selection(ents);
-        } else if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
-            moveSelectedUnits();
-        }
-
-    }
-
-    private void moveSelectedUnits() {
-        for (Entity e : currentSelection) {
-
-            if (e instanceof MoveableEntity) {
-                ((MoveableEntity) e).setDestination(Camera.getRealWorldPosition());
+    public void update(float deltaT, EntityManager entityManager) {
+        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT) && !runningSelection) {
+            for (int i = 0, l = currentSelection.size(); i < l; i++) {
+                ((SelectableUnit) currentSelection.get(i)).setSelected(false);
             }
+            currentSelection.clear();
+            selectionStart.set(Camera.getRealWorldX(), Camera.getRealWorldY());
+            runningSelection = true;
+        }
+        if (runningSelection) {
+            selectionEnd.set(Camera.getRealWorldX(), Camera.getRealWorldY());
+        }
+        if (!Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+            if (runningSelection) {
+                runningSelection = false;
+                checkSelection(entityManager);
+            }
+        }
+        if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
+            moveSelection();
+        }
 
+    }
+
+    private void checkSelection(EntityManager entityManager) {
+        Rectangle selectionRectangle = new Rectangle(selectionStart.x, selectionStart.y, Math.abs(selectionStart.x - selectionEnd.x), Math.abs(selectionStart.y - selectionEnd.y));
+        //Rectangle selectionRectangle = new Rectangle(selectionStart.x, selectionStart.y, selectionEnd.x - selectionStart.x, selectionEnd.y - selectionStart.y);
+        for (Entity unit : entityManager.entities.values()) {
+            if (unit instanceof SelectableUnit) {
+                if (selectionRectangle.overlaps(unit.getHitBox())) {
+                    currentSelection.add(unit);
+                    Logger.getInstance().debug("unit: " + unit.toString() + " in area: " + selectionRectangle.toString());
+                    ((SelectableUnit) unit).setSelected(true);
+                }
+            }
         }
     }
 
-    private void selection(EntityManager entities) {
-        float pos[] = Camera.getRealWorldPosition();
-
-        if (!runningSelection) {
-            selectionStart = pos;
+    private void moveSelection() {
+        for (int i = 0, l = currentSelection.size(); i < l; i++) {
+            if (currentSelection.get(i) instanceof SelectableUnit) {
+                ((SelectableUnit) currentSelection.get(i)).setDestination(Camera.getRealWorldX(), Camera.getRealWorldY());
+            }
         }
-
-        runningSelection = true;
-
-        selectionEnd = pos;
-
-        selectBounds = new BoundingShape(selectionStart, selectionEnd);
-
-
-        if (!Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-            currentSelection.clear();
-            runningSelection = false;
-            currentSelection.addAll(selectBounds.findInContainer(entities));
-            System.out.println(currentSelection.size());
-        }
-
     }
 
     public void draw() {
@@ -77,27 +85,20 @@ public class Player {
     }
 
     private void drawSelectionBox() {
-
         if (runningSelection) {
-
-
             ShapeRenderer box = new ShapeRenderer();
             box.setProjectionMatrix(Camera.getOrthographicCamera().combined);
-
             box.begin(ShapeRenderer.ShapeType.FilledRectangle);
-
             box.setColor(1, 0, 1, 0.1f);
-
-            float lx = selectionEnd[0];
-            float ly = selectionEnd[1];
-            if (selectionStart[0] < selectionEnd[0]) {
-                lx = selectionStart[0];
+            float lx = selectionEnd.x;
+            float ly = selectionEnd.y;
+            if (selectionStart.x < selectionEnd.x) {
+                lx = selectionStart.x;
             }
-            if (selectionStart[1] < selectionEnd[1]) {
-                ly = selectionStart[1];
+            if (selectionStart.y < selectionEnd.y) {
+                ly = selectionStart.y;
             }
-
-            box.filledRect(lx, ly, selectBounds.width, selectBounds.height);
+            box.filledRect(lx, ly, Math.abs(selectionStart.x - selectionEnd.x), Math.abs(selectionStart.y - selectionEnd.y));
             box.end();
         }
     }
