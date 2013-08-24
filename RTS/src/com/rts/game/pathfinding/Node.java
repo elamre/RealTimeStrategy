@@ -12,6 +12,13 @@ public class Node {
     private int y;
     private boolean blocked;
 
+    float f;
+    float g;
+    float h;
+
+    boolean opened = false;
+    boolean closed = false;
+
     private Node parent;
 
 
@@ -36,6 +43,15 @@ public class Node {
 
     public void setX(int x) {
         this.x = x;
+    }
+
+    public void setPosition(int[] pos) {
+        this.x = pos[0];
+        this.y = pos[1];
+    }
+
+    public int[] getPosition() {
+        return new int[]{x, y};
     }
 
     public float getStartToEnd() {

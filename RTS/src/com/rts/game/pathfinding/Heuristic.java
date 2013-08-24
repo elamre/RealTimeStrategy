@@ -17,6 +17,10 @@ public class Heuristic {
         setting = newSetting;
     }
 
+    public static float get(int a, int b) {
+        return a + b;
+    }
+
     public static float get(Node a, Node b) {
         switch (setting) {
             case MANHATTAN:
@@ -26,8 +30,21 @@ public class Heuristic {
         }
     }
 
+    public static float get(int x, int y, int x2, int y2) {
+        switch (setting) {
+            case MANHATTAN:
+                return manhattan(x, y, x2, y2);
+            default:
+                return manhattan(x, y, x2, y2);
+        }
+    }
+
     private static float manhattan(Node a, Node b) {
-        return abs(a.getX() - b.getX()) + abs(a.getY() - b.getY());
+        return manhattan(a.getX(), a.getY(), b.getX(), b.getY());
+    }
+
+    private static float manhattan(int x, int y, int x2, int y2) {
+        return abs(x - x) + abs(y - y);
     }
 
     private static float abs(float a) {

@@ -11,11 +11,11 @@ public class Grid {
 
     Node[][] nodes;
 
-    public boolean walkable(int x, int y) {
+    public boolean isWalkableAt(int x, int y) {
         return nodes[x][y].isWalkable();
     }
 
-    public boolean blocked(int x, int y) {
+    public boolean isBlockedAt(int x, int y) {
         return nodes[x][y].isBlocked();
     }
 
@@ -80,22 +80,22 @@ public class Grid {
                 s3 = false, d3 = false;
 
         // ↑
-        if (walkable(x, y - 1)) {
+        if (isWalkableAt(x, y - 1)) {
             neighbors[0] = (nodes[y - 1][x]);
             s0 = true;
         }
         // →
-        if (walkable(x + 1, y)) {
+        if (isWalkableAt(x + 1, y)) {
             neighbors[1] = (nodes[y][x + 1]);
             s1 = true;
         }
         // ↓
-        if (walkable(x, y + 1)) {
+        if (isWalkableAt(x, y + 1)) {
             neighbors[2] = (nodes[y + 1][x]);
             s2 = true;
         }
         // ←
-        if (walkable(x - 1, y)) {
+        if (isWalkableAt(x - 1, y)) {
             neighbors[3] = (nodes[y][x - 1]);
             s3 = true;
         }
@@ -117,26 +117,37 @@ public class Grid {
         }
 
         // ↖
-        if (d0 && walkable(x - 1, y - 1)) {
+        if (d0 && isWalkableAt(x - 1, y - 1)) {
             neighbors[4] = (nodes[y - 1][x - 1]);
         }
         // ↗
-        if (d1 && walkable(x + 1, y - 1)) {
+        if (d1 && isWalkableAt(x + 1, y - 1)) {
             neighbors[5] = (nodes[y - 1][x + 1]);
         }
         // ↘
-        if (d2 && walkable(x + 1, y + 1)) {
+        if (d2 && isWalkableAt(x + 1, y + 1)) {
             neighbors[6] = (nodes[y + 1][x + 1]);
         }
         // ↙
-        if (d3 && walkable(x - 1, y + 1)) {
+        if (d3 && isWalkableAt(x - 1, y + 1)) {
             neighbors[7] = (nodes[y + 1][x - 1]);
         }
 
         return neighbors;
     }
 
-    ;
+    public int[][] getNeighborsInts(Node node, boolean allowDiagonal, boolean dontCrossCorners) {
+        int[][] neighbors = new int[8][2];
+        Node[] nodeNeighbors = getNeighbors(node, allowDiagonal, dontCrossCorners);
+        for (int i = 0; i < nodeNeighbors.length; i++) {
+            neighbors[i] = nodeNeighbors[i].getPosition();
+        }
+        return neighbors;
+    }
+
+    public float distance(float x, float y, float x2, float y2) {
+        return (float) Math.sqrt((x2 - x) * (x2 - x) + (y2 - y) * (y2 - y));
+    }
 
 
 }
