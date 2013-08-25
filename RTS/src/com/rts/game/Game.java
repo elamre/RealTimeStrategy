@@ -3,16 +3,37 @@ package com.rts.game;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL10;
+import com.rts.game.pathfinding.JumpPoint;
+import com.rts.game.pathfinding.Node;
 import com.rts.util.Configuration;
 import com.rts.util.Logger;
+
+import java.util.ArrayList;
 
 public class Game implements ApplicationListener {
     ConnectionBridge connectionBridge;
     World world = new World();
     InGame inGame;
+    JumpPoint jps;
+    boolean[][] testArray = {
+
+            {false, false, false, false, false},
+            {false, false, true, true, true},
+            {true, false, false, false, true},
+            {false, false, false, true, false},
+            {true, true, false, false, false}
+
+    };
 
     @Override
     public void create() {
+        jps = new JumpPoint();
+        jps.grid.buildNodes(5, 5, testArray);
+        ArrayList<Node> test = jps.search(0, 0, 2, 1);
+        for (Node n : test) {
+            System.out.println("Path: " + n.getX() + ", " + n.getY());
+        }
+
 
         Camera.create();
         //Cursor.create();
@@ -49,7 +70,7 @@ public class Game implements ApplicationListener {
 
         Camera.draw();
 
-       // Cursor.draw();
+        // Cursor.draw();
 
         Camera.finishBatches();
 
