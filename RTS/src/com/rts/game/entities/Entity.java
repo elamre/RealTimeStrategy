@@ -4,7 +4,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
-import com.rts.game.Camera;
+import com.rts.game.gameplay.Camera;
+import com.rts.networking.packets.game.MoveEntityPacket;
 import com.rts.networking.packets.system.EntityCreationPacket;
 import com.rts.util.Logger;
 
@@ -59,7 +60,7 @@ public abstract class Entity {
                 Logger.getInstance().debug(toString());
             }
         }
-        sprite.setPosition(x, y );
+        sprite.setPosition(x, y);
         implementUpdate_1(deltaT);
         hitBox.set(x, y, width, height);
     }
@@ -85,7 +86,7 @@ public abstract class Entity {
     }
 
     public float getDistance(float x, float y) {
-        return (float) Math.sqrt((x - x) * (x - this.x) + (y - this.y) * (y - this.y));
+        return (float) Math.sqrt((x - this.x) * (x - this.x) + (y - this.y) * (y - this.y));
     }
 
     public void setDebug(boolean debug) {
@@ -128,6 +129,10 @@ public abstract class Entity {
 
     public String toString() {
         return "id: " + this.id + " [" + (int) getX() + "," + (int) getY() + "]";
+    }
+
+    public MoveEntityPacket getMovePacket() {
+        return null;
     }
 }
 

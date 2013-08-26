@@ -1,4 +1,4 @@
-package com.rts.game;
+package com.rts.game.gameplay;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;

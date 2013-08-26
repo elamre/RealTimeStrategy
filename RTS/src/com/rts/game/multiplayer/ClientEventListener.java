@@ -1,4 +1,4 @@
-package com.rts.game;
+package com.rts.game.multiplayer;
 
 /**
  * Created with IntelliJ IDEA.

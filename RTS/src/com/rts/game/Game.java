@@ -3,10 +3,16 @@ package com.rts.game;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL10;
+import com.rts.game.gameplay.Camera;
+import com.rts.game.gameplay.World;
+import com.rts.game.multiplayer.ClientEventListener;
+import com.rts.game.multiplayer.ConnectionBridge;
+import com.rts.game.screens.InGame;
 import com.rts.util.Configuration;
 import com.rts.util.Logger;
 
 public class Game implements ApplicationListener {
+    private static ScreenState screenState;
     ConnectionBridge connectionBridge;
     World world = new World();
     InGame inGame;
@@ -49,7 +55,7 @@ public class Game implements ApplicationListener {
 
         Camera.draw();
 
-       // Cursor.draw();
+        // Cursor.draw();
 
         Camera.finishBatches();
 

@@ -1,4 +1,8 @@
-package com.rts.game;
+package com.rts.game.screens;
+
+import com.rts.game.multiplayer.ConnectionBridge;
+import com.rts.game.entities.EntityManager;
+import com.rts.game.gameplay.Player;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,7 +16,7 @@ public class InGame {
     ConnectionBridge connectionBridge;
     EntityManager entityManager;
 
-    InGame(ConnectionBridge connectionBridge) {
+    public InGame(ConnectionBridge connectionBridge) {
         this.connectionBridge = connectionBridge;
         entityManager = new EntityManager(connectionBridge);
         connectionBridge.setEntityManager(entityManager);

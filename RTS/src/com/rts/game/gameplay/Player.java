@@ -1,18 +1,17 @@
-package com.rts.game;
+package com.rts.game.gameplay;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.rts.game.entities.EntityManager;
 import com.rts.game.entities.Entity;
 import com.rts.game.entities.SelectableUnit;
 import com.rts.util.Logger;
 
-import javax.swing.event.ListSelectionEvent;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -25,7 +24,9 @@ public class Player {
     public ArrayList<Entity> currentSelection = new ArrayList<Entity>(64);
     public Entity currentSelect;
     public String name;
+    Polygon polygon;
     boolean runningSelection = false;
+    private boolean rightPressed = false;
     private Vector2 selectionStart;
     private Vector2 selectionEnd;
 
@@ -53,13 +54,20 @@ public class Player {
             }
         }
         if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
-            moveSelection();
+            if (!rightPressed) {
+                moveSelection();
+                rightPressed = true;
+            }
+        } else {
+            rightPressed = false;
         }
 
     }
 
     private void checkSelection(EntityManager entityManager) {
-        Rectangle selectionRectangle = new Rectangle(selectionStart.x, selectionStart.y, Math.abs(selectionStart.x - selectionEnd.x), Math.abs(selectionStart.y - selectionEnd.y));
+        Rectangle selectionRectangle = new Rectangle((selectionStart.x < selectionEnd.x) ? selectionStart.x : selectionEnd.x,
+                (selectionStart.y < selectionEnd.y) ? selectionStart.y : selectionEnd.y,
+                Math.abs(selectionStart.x - selectionEnd.x), Math.abs(selectionStart.y - selectionEnd.y));
         //Rectangle selectionRectangle = new Rectangle(selectionStart.x, selectionStart.y, selectionEnd.x - selectionStart.x, selectionEnd.y - selectionStart.y);
         for (Entity unit : entityManager.entities.values()) {
             if (unit instanceof SelectableUnit) {

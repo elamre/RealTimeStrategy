@@ -1,10 +1,14 @@
-package com.rts.game;
+package com.rts.game.multiplayer;
 
 import com.rts.game.entities.Entity;
+import com.rts.game.entities.EntityManager;
+import com.rts.game.entities.SelectableUnit;
 import com.rts.game.entities.TestEntity;
 import com.rts.networking.client.Client;
 import com.rts.networking.packets.Packet;
+import com.rts.networking.packets.game.MoveEntityPacket;
 import com.rts.networking.packets.system.EntityCreationPacket;
+import com.rts.util.Logger;
 
 import java.io.IOException;
 
@@ -31,6 +35,11 @@ public class ConnectionBridge {
         client.sendEntityRequest(entity);
     }
 
+    public void sendMovement(MoveEntityPacket moveEntityPacket) {
+        Logger.getInstance().debug("Sending movement!");
+        client.writePacket((moveEntityPacket));
+    }
+
     public void connect(String ip, int port, ClientEventListener clientEventListener) {
         try {
             client.connect(ip, port);
@@ -46,6 +55,9 @@ public class ConnectionBridge {
         if (packet instanceof EntityCreationPacket) {
             Entity entity = new TestEntity((EntityCreationPacket) packet);
             entityManager.createEntity(entity);
+        } else if (packet instanceof MoveEntityPacket) {
+            Logger.getInstance().debug("Receiving movement!");
+            ((SelectableUnit) entityManager.getEntity(((MoveEntityPacket) packet).getEntityId())).moveEntity((MoveEntityPacket) packet);
         }
     }
 }

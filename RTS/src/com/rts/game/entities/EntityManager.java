@@ -1,9 +1,12 @@
-package com.rts.game;
+package com.rts.game.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.rts.game.entities.Entity;
-import com.rts.game.entities.TestEntity;
+import com.badlogic.gdx.graphics.Color;
+import com.rts.game.multiplayer.ConnectionBridge;
+import com.rts.game.gameplay.Camera;
+import com.rts.networking.packets.Packet;
+import com.rts.networking.packets.game.MoveEntityPacket;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,6 +24,8 @@ public class EntityManager {
      * The entity map to be used for all standard Entities in-game.
      */
     public HashMap<Integer, Entity> entities = new HashMap<Integer, Entity>(256);
+    /**/
+    private ArrayList<Packet> packetsToSend = new ArrayList<Packet>();
     /**
      * The list containing all Entities from the network be added.
      */
@@ -48,7 +53,7 @@ public class EntityManager {
     }
 
     public void createEntity(Entity entity) {
-        entity.setDebug(false);
+        entity.setDebug(true);
         addList.add(entity);
     }
 
@@ -68,10 +73,22 @@ public class EntityManager {
         addEntities();
         removeEntities();
 
+        MoveEntityPacket moveEntityPacket;
         for (Map.Entry<Integer, Entity> entry : entities.entrySet()) {
-            entry.getValue().update(delta);
+            Entity entity = entry.getValue();
+            entity.update(delta);
+            if ((moveEntityPacket = entity.getMovePacket()) != null) {
+                packetsToSend.add(moveEntityPacket);
+            }
         }
+        for (int i = 0, l = packetsToSend.size(); i < l; i++) {
+            connectionBridge.sendMovement((MoveEntityPacket) packetsToSend.get(i));
+        }
+        packetsToSend.clear();
+    }
 
+    public Entity getEntity(int id) {
+        return entities.get(id);
     }
 
     /**
@@ -112,6 +129,8 @@ public class EntityManager {
     }
 
     public void draw() {
+        Color color = Color.BLUE;
+
         for (Map.Entry<Integer, Entity> entry : entities.entrySet()) {
             entry.getValue().draw(Camera.batch);
             //entry.getValue().bounds.debugShape();

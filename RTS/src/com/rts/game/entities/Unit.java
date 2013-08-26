@@ -41,6 +41,12 @@ public abstract class Unit extends Entity {
         getSprite().setRotation(angle);
     }
 
+    public void faceAt(int angle) {
+        this.angle = angle;
+        getSprite().setPosition(getX() + width / 2, getY() + height / 2);
+        getSprite().setRotation(angle);
+    }
+
     public abstract void implementUpdate_2(float deltaT);
 
     @Override

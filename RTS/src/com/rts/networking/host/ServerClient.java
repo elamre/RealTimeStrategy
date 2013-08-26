@@ -3,6 +3,7 @@ package com.rts.networking.host;
 import com.rts.networking.NetworkEntity;
 import com.rts.networking.packets.Packet;
 import com.rts.networking.packets.PacketManager;
+import com.rts.networking.packets.game.MoveEntityPacket;
 import com.rts.networking.packets.system.ChatPacket;
 import com.rts.networking.packets.system.EntityCreationPacket;
 import com.rts.networking.packets.system.PingPacket;
@@ -63,6 +64,7 @@ public class ServerClient implements Runnable {
     }
 
     public void writePacket(Packet packet) {
+        System.out.println("sending packet");
         packetsToSend.add(packet);
     }
 
@@ -139,10 +141,14 @@ public class ServerClient implements Runnable {
             // TODO check for resources
             // Todo send a new packet to all
         } else {
-            if (packet instanceof ChatPacket) {
+            if (packet instanceof MoveEntityPacket) {
+                // if (packet.getConnectionId() == ((MoveEntityPacket) packet).getEntityId()) {
+                // }
+                // TODO validate
+            } else if (packet instanceof ChatPacket) {
                 logger.debug("chatpack: " + ((ChatPacket) packet).getText());
             }
-            //send these packets to everybody in the game
+            Server.getServer().sendAllTCP(packet);
         }
     }
 

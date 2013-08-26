@@ -17,17 +17,16 @@ import java.io.IOException;
 public class MoveEntityPacket extends Packet {
     int entityId;
     int x, y;
-    int direction;
-    int speed;
+    int targetX, targetY;
 
     public MoveEntityPacket() {
     }
 
-    public MoveEntityPacket(int entityId, int x, int y, int direction, int speed, int connectionId) {
+    public MoveEntityPacket(int entityId, int x, int y, int targetX, int targetY, int connectionId) {
         super(PacketManager.getPacketId(new MoveEntityPacket()), connectionId);
-        this.direction = direction;
         this.entityId = entityId;
-        this.speed = speed;
+        this.targetX = targetX;
+        this.targetY = targetY;
         this.x = x;
         this.y = y;
     }
@@ -37,8 +36,8 @@ public class MoveEntityPacket extends Packet {
         entityId = in.readInt();
         x = in.readInt();
         y = in.readInt();
-        direction = in.readInt();
-        speed = in.readInt();
+        targetX = in.readInt();
+        targetY = in.readInt();
     }
 
     @Override
@@ -46,8 +45,8 @@ public class MoveEntityPacket extends Packet {
         out.writeInt(entityId);
         out.writeInt(x);
         out.writeInt(y);
-        out.writeInt(direction);
-        out.writeInt(speed);
+        out.writeInt(targetX);
+        out.writeInt(targetY);
     }
 
     public int getEntityId() {
@@ -62,11 +61,11 @@ public class MoveEntityPacket extends Packet {
         return y;
     }
 
-    public int getDirection() {
-        return direction;
+    public int getTargetX() {
+        return targetX;
     }
 
-    public int getSpeed() {
-        return speed;
+    public int getTargetY() {
+        return targetY;
     }
 }
