@@ -21,6 +21,7 @@ public class Client {
 
     public void connect(String ip, int port) throws IOException {
         Socket socket = new Socket(ip, port);
+        socket.setTcpNoDelay(true);
         connection = new Connection(socket);
     }
 

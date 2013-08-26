@@ -53,6 +53,7 @@ public class ServerClient implements Runnable {
      */
     public ServerClient(int id, Socket socket) throws IOException {
         this.id = id;
+        socket.setTcpNoDelay(true);
         packetsToSend = new LinkedBlockingQueue<Packet>();
         inputStream = SocketUtil.wrapInputStream(socket);
         outputStream = SocketUtil.wrapOutputStream(socket);
