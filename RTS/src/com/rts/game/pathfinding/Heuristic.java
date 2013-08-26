@@ -21,6 +21,10 @@ public class Heuristic {
         return a + b;
     }
 
+    public static float euclidian(int dx, int dy) {
+        return (float) Math.sqrt(dx * dx + dy * dy);
+    }
+
     public static float get(Node a, Node b) {
         switch (setting) {
             case MANHATTAN:

@@ -1,5 +1,7 @@
 package com.rts.game.pathfinding;
 
+import java.util.ArrayList;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Jake
@@ -9,14 +11,22 @@ package com.rts.game.pathfinding;
  */
 public class Grid {
 
-    Node[][] nodes;
+    public Node[][] nodes;
 
     public boolean isWalkableAt(int x, int y) {
-        return nodes[x][y].isWalkable();
+        if (valid(x, y))
+            return nodes[x][y].isWalkable();
+        else return false;
     }
 
     public boolean isBlockedAt(int x, int y) {
-        return nodes[x][y].isBlocked();
+        System.out.println(x + ", " + y);
+        if (valid(x, y)) {
+            System.out.println("Works?");
+            return nodes[x][y].isBlocked();
+        }
+        System.out.println("Works 2?");
+        return true;
     }
 
     public void setWalkable(int x, int y) {
@@ -70,10 +80,10 @@ public class Grid {
      * @param {boolean} allowDiagonal
      * @param {boolean} dontCrossCorners
      */
-    public Node[] getNeighbors(Node node, boolean allowDiagonal, boolean dontCrossCorners) {
+    public ArrayList<Node> getNeighbors(Node node, boolean allowDiagonal, boolean dontCrossCorners) {
         int x = node.getX();
         int y = node.getY();
-        Node[] neighbors = new Node[8];
+        ArrayList<Node> neighbors = new ArrayList<Node>(8);
         boolean s0 = false, d0 = false,
                 s1 = false, d1 = false,
                 s2 = false, d2 = false,
@@ -81,22 +91,22 @@ public class Grid {
 
         // ↑
         if (isWalkableAt(x, y - 1)) {
-            neighbors[0] = (nodes[y - 1][x]);
+            neighbors.add(nodes[y - 1][x]);
             s0 = true;
         }
         // →
         if (isWalkableAt(x + 1, y)) {
-            neighbors[1] = (nodes[y][x + 1]);
+            neighbors.add(nodes[y][x + 1]);
             s1 = true;
         }
         // ↓
         if (isWalkableAt(x, y + 1)) {
-            neighbors[2] = (nodes[y + 1][x]);
+            neighbors.add(nodes[y + 1][x]);
             s2 = true;
         }
         // ←
         if (isWalkableAt(x - 1, y)) {
-            neighbors[3] = (nodes[y][x - 1]);
+            neighbors.add(nodes[y][x - 1]);
             s3 = true;
         }
 
@@ -118,30 +128,21 @@ public class Grid {
 
         // ↖
         if (d0 && isWalkableAt(x - 1, y - 1)) {
-            neighbors[4] = (nodes[y - 1][x - 1]);
+            neighbors.add(nodes[y - 1][x - 1]);
         }
         // ↗
         if (d1 && isWalkableAt(x + 1, y - 1)) {
-            neighbors[5] = (nodes[y - 1][x + 1]);
+            neighbors.add(nodes[y - 1][x + 1]);
         }
         // ↘
         if (d2 && isWalkableAt(x + 1, y + 1)) {
-            neighbors[6] = (nodes[y + 1][x + 1]);
+            neighbors.add(nodes[y + 1][x + 1]);
         }
         // ↙
         if (d3 && isWalkableAt(x - 1, y + 1)) {
-            neighbors[7] = (nodes[y + 1][x - 1]);
+            neighbors.add(nodes[y + 1][x - 1]);
         }
 
-        return neighbors;
-    }
-
-    public int[][] getNeighborsInts(Node node, boolean allowDiagonal, boolean dontCrossCorners) {
-        int[][] neighbors = new int[8][2];
-        Node[] nodeNeighbors = getNeighbors(node, allowDiagonal, dontCrossCorners);
-        for (int i = 0; i < nodeNeighbors.length; i++) {
-            neighbors[i] = nodeNeighbors[i].getPosition();
-        }
         return neighbors;
     }
 
