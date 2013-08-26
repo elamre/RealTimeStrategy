@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL10;
 import com.rts.game.gameplay.Camera;
+import com.rts.game.gameplay.Cursor;
 import com.rts.game.gameplay.World;
 import com.rts.game.multiplayer.ClientEventListener;
 import com.rts.game.multiplayer.ConnectionBridge;
@@ -41,7 +42,7 @@ public class Game implements ApplicationListener {
 
 
         Camera.create();
-        //Cursor.create();
+        Cursor.create();
 
         connectionBridge = new ConnectionBridge();
         connectionBridge.connect("127.0.0.1", Configuration.TCP_PORT, new ClientEventListener() {
@@ -75,7 +76,7 @@ public class Game implements ApplicationListener {
 
         Camera.draw();
 
-        // Cursor.draw();
+        Cursor.draw();
 
         Camera.finishBatches();
 
@@ -92,7 +93,7 @@ public class Game implements ApplicationListener {
      * @param deltaT the time that has passed since the previous update
      */
     public void update(float deltaT) {
-        //Cursor.update(deltaT);
+        Cursor.update(deltaT);
         inGame.update(deltaT);
         world.update();
     }

@@ -17,6 +17,8 @@ public class Cursor {
 
     public static void create() {
 
+        //TODO: Make mouse cursor correct size and direction
+
         sprite = new Sprite();
         String texture = "Images/Hud/mouse.png";
         Texture tex = new Texture(Gdx.files.internal(texture));
@@ -48,7 +50,7 @@ public class Cursor {
             Gdx.input.setCursorPosition(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
 
             x += Gdx.input.getDeltaX();
-            y -= Gdx.input.getDeltaY();
+            y += Gdx.input.getDeltaY();
         }
 
         if (x < 0) {
