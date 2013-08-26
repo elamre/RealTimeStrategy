@@ -18,6 +18,7 @@ public class JumpPoint {
 
     public JumpPoint() {
         grid = new Grid();
+        Heuristic.setCurrentHeuristic(Heuristic.MANHATTAN);
     }
 
     public ArrayList<Node> search(int startX, int startY, int endX, int endY) {
@@ -97,7 +98,7 @@ public class JumpPoint {
 
                     if (!jump.closed) {
 
-                        float d = Heuristic.euclidian(Math.abs(x - node.getX()), Math.abs(y - node.getY()));
+                        float d = Heuristic.get(Math.abs(x - node.getX()), Math.abs(y - node.getY()));
                         float ng = node.g + d;
                         //(grid.distance(x, y, node.getX(), node.getY()) + node.g);   //get the distance from start
 

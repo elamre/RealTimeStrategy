@@ -49,12 +49,12 @@ public class Camera {
         w = Gdx.graphics.getWidth();
         h = Gdx.graphics.getHeight();
 
-        //orthographicCamera = new OrthographicCamera(1, h / (float) w);
-        orthographicCamera = new OrthographicCamera(w, h);
+        orthographicCamera = new OrthographicCamera(1, h / (float) w);
+        //orthographicCamera = new OrthographicCamera(w, h);
         orthographicCamera.setToOrtho(true);
 
-        //hudOrthographicCamera = new OrthographicCamera(1, h / (float) w);
-        hudOrthographicCamera = new OrthographicCamera(w, h);
+        hudOrthographicCamera = new OrthographicCamera(1, h / (float) w);
+        //hudOrthographicCamera = new OrthographicCamera(w, h);
         hudOrthographicCamera.setToOrtho(true);
 
         batch = new SpriteBatch();
@@ -63,7 +63,8 @@ public class Camera {
     public static void update(float delta) {
 
         if (w != Gdx.graphics.getWidth() || h != Gdx.graphics.getHeight()) {
-            //create();
+            create();
+            //Redo the camera if the window size is changed
         }
 
 
@@ -76,13 +77,12 @@ public class Camera {
 
         cameraMoveSensitivityMouse = w / h * 200;
         cameraMoveSensitivityKeys = w / h * 2;
+        //TODO: Make the sensitivity system work
 
         handleInput(delta);
 
         orthographicCamera.position.set(new float[]{x, y, 0});
-        //orthographicCamera.zoom = zoom;
-
-        // System.out.println(x + ", " + y);
+        orthographicCamera.zoom = zoom;
 
 
     }
@@ -123,11 +123,17 @@ public class Camera {
     }
 
     public static float getRealWorldX() {
-        return Gdx.input.getX() - Gdx.graphics.getWidth() / 2 + x;
+        //return Gdx.input.getX() - Gdx.graphics.getWidth() / 2 + x;
+        float cx = (x);
+        cx = cx + Cursor.x * zoom - (w / 2) * zoom;
+        return cx;
     }
 
     public static float getRealWorldY() {
-        return Gdx.input.getY() - Gdx.graphics.getHeight() / 2 + y;
+        //return Gdx.input.getY() - Gdx.graphics.getHeight() / 2 + y;
+        float cy = (y);
+        cy = cy + Cursor.y * zoom - (h / 2) * zoom;
+        return cy;
     }
 
     public static boolean isInHUD() {
