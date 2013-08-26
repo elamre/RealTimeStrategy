@@ -35,7 +35,7 @@ public class Game implements ApplicationListener {
     public void create() {
         jps = new JumpPoint();
         jps.grid.buildNodes(5, 5, testArray);
-        ArrayList<Node> test = jps.search(0, 0, 2, 1);
+        ArrayList<Node> test = jps.search(0, 0, 3, 2);
         for (Node n : test) {
             System.out.println("Path: " + n.getX() + ", " + n.getY());
         }
