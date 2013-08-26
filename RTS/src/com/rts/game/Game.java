@@ -44,7 +44,7 @@ public class Game implements ApplicationListener {
         //Cursor.create();
 
         connectionBridge = new ConnectionBridge();
-        connectionBridge.connect("127.0.0.1", Configuration.TCP_PORT, new ClientEventListener() {
+        connectionBridge.connect("68.44.224.67", Configuration.TCP_PORT, new ClientEventListener() {
             @Override
             public void hostNotFound(String ip, int port) {
                 Logger.getInstance().system("Could not find host: " + ip + ":" + port);

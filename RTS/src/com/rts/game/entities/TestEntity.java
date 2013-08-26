@@ -14,15 +14,15 @@ import com.rts.networking.packets.system.EntityCreationPacket;
  */
 public class TestEntity extends SelectableUnit {
     public TestEntity(int x, int y) {
-        super(x, y);
+        super(x, y, EntityList.UNIT_TEST_1);
     }
 
     public TestEntity(int id, int x, int y) {
-        super(id, x, y, Assets.getAssets().getSprite("Animations/Units/houtman3"));
+        super(id, x, y, EntityList.UNIT_TEST_1, Assets.getAssets().getSprite("Animations/Units/houtman3"));
     }
 
     public TestEntity(EntityCreationPacket packet) {
-        super(packet, Assets.getAssets().getSprite("Animations/Units/houtman3"));
+        super(packet, EntityList.UNIT_TEST_1, Assets.getAssets().getSprite("Animations/Units/houtman3"));
     }
 
     @Override

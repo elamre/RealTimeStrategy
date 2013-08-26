@@ -14,17 +14,17 @@ import com.rts.networking.packets.system.EntityCreationPacket;
 public abstract class Unit extends Entity {
     private float angle = 0;
 
-    protected Unit(int x, int y) {
-        super(x, y);
+    protected Unit(int x, int y, int entityType) {
+        super(x, y, entityType);
     }
 
-    public Unit(int id, int x, int y, Sprite sprite) {
-        super(id, x, y);
+    public Unit(int id, int x, int y, int entityType, Sprite sprite) {
+        super(id, x, y, entityType);
         setSprite(sprite);
     }
 
-    public Unit(EntityCreationPacket packet, Sprite sprite) {
-        super(packet);
+    public Unit(EntityCreationPacket packet, int entityType, Sprite sprite) {
+        super(packet, entityType);
         setSprite(sprite);
     }
 

@@ -25,16 +25,16 @@ public abstract class SelectableUnit extends Unit {
     private float speed = 100;
     private MoveEntityPacket moveEntityPacket;
 
-    protected SelectableUnit(int x, int y) {
-        super(x, y);
+    protected SelectableUnit(int x, int y, int entityType) {
+        super(x, y, entityType);
     }
 
-    public SelectableUnit(int id, int x, int y, Sprite sprite) {
-        super(id, x, y, sprite);
+    public SelectableUnit(int id, int x, int y, int entityType, Sprite sprite) {
+        super(id, x, y, entityType, sprite);
     }
 
-    protected SelectableUnit(EntityCreationPacket packet, Sprite sprite) {
-        super(packet, sprite);
+    protected SelectableUnit(EntityCreationPacket packet, int entityType, Sprite sprite) {
+        super(packet, entityType, sprite);
     }
 
     @Override

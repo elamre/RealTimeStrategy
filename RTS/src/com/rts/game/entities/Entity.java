@@ -19,6 +19,7 @@ import com.rts.util.Logger;
  */
 public abstract class Entity {
     private final int id;
+    private final int entityType;
     private final float debugThreshold = 1;
     protected int width = 0, height = 0;
     /* The angle of the entity IN DEGREES. */
@@ -29,20 +30,23 @@ public abstract class Entity {
     private float debugTimer = 0;
 
     //USE THIS ONLY FOR SENDING NETWORK DETAILS!
-    public Entity(int x, int y) {
+    public Entity(int x, int y, int entityType) {
+        this.entityType = entityType;
         this.id = 0;
         this.x = x;
         this.y = y;
     }
 
-    public Entity(int id, int x, int y) {
+    public Entity(int id, int x, int y, int entityType) {
+        this.entityType = entityType;
         this.id = id;
         this.x = x;
         this.y = y;
         onCreate();
     }
 
-    public Entity(EntityCreationPacket packet) {
+    public Entity(EntityCreationPacket packet, int entityType) {
+        this.entityType = entityType;
         this.id = packet.getEntityId();
         this.x = packet.getX();
         this.y = packet.getY();
