@@ -1,4 +1,4 @@
-package com.rts.game.screens;
+package com.rts.game.menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 /** TODO this is going to be the main menu */ // will continue later, I have to go now
-public class Menu implements Screen {
+public class MainMenu implements Screen {
 
 	private Skin skin;
 	private Stage stage = new Stage();
