@@ -1,7 +1,10 @@
 package com.rts.networking.client;
 
+import com.rts.networking.host.Server;
 import com.rts.networking.packets.Packet;
 import com.rts.networking.packets.PacketManager;
+import com.rts.networking.packets.system.ChatPacket;
+import com.rts.networking.packets.system.DisconnectPacket;
 import com.rts.networking.packets.system.PingPacket;
 import com.rts.util.Logger;
 import com.rts.util.SocketUtil;
@@ -21,7 +24,7 @@ import java.util.concurrent.LinkedBlockingQueue;
  * To change this template use File | Settings | File Templates.
  */
 public class Connection implements Runnable {
-    /* /** If the thread should be running or not */
+    /* If the thread should be running or not */
     private boolean run = false;
     /* The packets to send. */
     private LinkedBlockingQueue<Packet> packetsToSend;
@@ -97,6 +100,7 @@ public class Connection implements Runnable {
                 e.printStackTrace();
             } catch (IOException e) {
                 logger.error("Error while trying to write to server.");
+                //TODO dont stop the game
                 System.exit(1);
             }
             try {
@@ -182,6 +186,9 @@ public class Connection implements Runnable {
             logger.system("Ping: " + ping);
             //TODO visualize the ping in some way
             //TODO Add more system packets
+        } else if (packet instanceof DisconnectPacket) {
+            logger.system("Player with id: " + packet.getConnectionId() + " disconnected. Reason: " + ((DisconnectPacket) packet).getReason());
+            receivedPackets.add(packet);
         } else {
             receivedPackets.add(packet);
             // logger.error("Unknown packet " + packet.getClass().getSimpleName() + " ! Your game version might be outdated. Game will now exit.");
@@ -189,16 +196,32 @@ public class Connection implements Runnable {
         }
     }
 
+    /**
+     * This function will retrieve the latest ping. That is the time it takes to travel to the host, and back again.
+     *
+     * @return latest ping in ms
+     */
     public long getPing() {
         return ping;
     }
 
+    /**
+     * This function will set the ping and do some simple calculations on it.
+     *
+     * @param packet the ping packet received
+     */
     private void setPing(PingPacket packet) {
         long currentTime = System.nanoTime() / (1000 * 1000);
         ping = ((currentTime - packet.getTime()));
         //logger.debug(this.getClass(), " ping: " + ping);
     }
 
+    /**
+     * this function will get the latest packet and remove it from the stack. If there are no packets
+     * it will return null.
+     *
+     * @return null or the latest packet
+     */
     public Packet getReceivedPacket() {
         if (receivedPackets.size() > 0) {
             Packet packet = receivedPackets.get(0);
@@ -208,6 +231,11 @@ public class Connection implements Runnable {
         return null;
     }
 
+    /**
+     * This function will return the amount of packets that are available to process.
+     *
+     * @return amount of packets
+     */
     public int getReceivingPacketSize() {
         return receivedPackets.size();
     }

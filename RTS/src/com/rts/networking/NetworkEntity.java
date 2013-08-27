@@ -1,6 +1,6 @@
 package com.rts.networking;
 
-import com.rts.networking.packets.system.RequestEntityPacket;
+import com.rts.networking.packets.game.RequestEntityPacket;
 
 /**
  * Created with IntelliJ IDEA.

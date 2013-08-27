@@ -7,7 +7,7 @@ import com.rts.game.entities.TestEntity;
 import com.rts.networking.client.Client;
 import com.rts.networking.packets.Packet;
 import com.rts.networking.packets.game.MoveEntityPacket;
-import com.rts.networking.packets.system.EntityCreationPacket;
+import com.rts.networking.packets.game.EntityCreationPacket;
 import com.rts.util.Logger;
 
 import java.io.IOException;

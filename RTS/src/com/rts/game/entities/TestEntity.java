@@ -1,9 +1,8 @@
 package com.rts.game.entities;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.rts.game.Assets;
-import com.rts.networking.packets.system.EntityCreationPacket;
+import com.rts.networking.packets.game.EntityCreationPacket;
 
 /**
  * Created with IntelliJ IDEA.

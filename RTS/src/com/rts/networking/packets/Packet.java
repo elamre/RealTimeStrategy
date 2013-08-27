@@ -35,16 +35,31 @@ public abstract class Packet {
     }
 
     /**
-     * @param in
-     * @throws IOException
+     * This function should get used to read a packet from the net.
+     *
+     * @param in the data stream to receive everything trough
+     * @throws IOException if something happens while trying to receive data
      */
     public void read(DataInputStream in) throws IOException {
         connectionId = in.readInt();
         readPacketSpecific(in);
     }
 
+    /**
+     * This function should get implemented in a packet it should read all the data
+     * that is getting send.
+     *
+     * @param in the data stream to receive everything trough
+     * @throws IOException if something happens while trying to receive data
+     */
     public abstract void readPacketSpecific(DataInputStream in) throws IOException;
 
+    /**
+     * This function should get used to send the packet elsewhere.
+     *
+     * @param out the data output stream to send the packet trough
+     * @throws IOException if anything happens while trying to send the packet
+     */
     public void write(DataOutputStream out) throws IOException {
         out.writeInt(getPacketId());
         out.writeInt(connectionId);
@@ -52,18 +67,42 @@ public abstract class Packet {
         out.flush();
     }
 
+    /**
+     * This function should get implemented in a packet. In this function should be all the
+     * specific data writing towards the host
+     *
+     * @param out the data output stream to send the data trough
+     * @throws IOException if anything happens while trying to send the data
+     */
     public abstract void writePacketSpecific(DataOutputStream out) throws IOException;
 
+    /**
+     * This function will return the packet id. This is important so that the system
+     * knows what type of packet it is.
+     *
+     * @return the packetId of the packet
+     */
     public int getPacketId() {
         if (packetId == 0)
             packetId = PacketManager.getPacketId(this);
         return packetId;
     }
 
+    /**
+     * This function returns the connection id off the packet. This means the player that has
+     * send the packet.
+     *
+     * @return the connection id
+     */
     public int getConnectionId() {
         return connectionId;
     }
 
+    /**
+     * This function is used to set the connection id of a packet.
+     *
+     * @param connectionId the new connection id
+     */
     public void setConnectionId(int connectionId) {
         this.connectionId = connectionId;
     }

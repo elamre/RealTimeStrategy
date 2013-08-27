@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.rts.game.gameplay.Camera;
 import com.rts.networking.packets.game.MoveEntityPacket;
-import com.rts.networking.packets.system.EntityCreationPacket;
+import com.rts.networking.packets.game.EntityCreationPacket;
 import com.rts.util.Logger;
 
 

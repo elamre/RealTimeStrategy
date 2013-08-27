@@ -5,9 +5,9 @@ import com.rts.networking.packets.Packet;
 import com.rts.networking.packets.PacketManager;
 import com.rts.networking.packets.game.MoveEntityPacket;
 import com.rts.networking.packets.system.ChatPacket;
-import com.rts.networking.packets.system.EntityCreationPacket;
+import com.rts.networking.packets.game.EntityCreationPacket;
 import com.rts.networking.packets.system.PingPacket;
-import com.rts.networking.packets.system.RequestEntityPacket;
+import com.rts.networking.packets.game.RequestEntityPacket;
 import com.rts.util.Logger;
 import com.rts.util.SocketUtil;
 

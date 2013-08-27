@@ -97,9 +97,9 @@ public class Server {
      * @param packet the packet to send
      */
     public void sendAllTCP(Packet packet) {
-        for (ServerClient serverClient : serverClients) {
-            if (packet.getConnectionId() != serverClient.getId())
-                serverClient.writePacket(packet);
+        for (int i = 0, l = serverClients.size(); i < l; i++) {
+            if (packet.getConnectionId() != serverClients.get(i).getId())
+                serverClients.get(i).writePacket(packet);
         }
     }
 
@@ -114,6 +114,6 @@ public class Server {
      * Enum containing all the possible statuses of the server. TODO add more.
      */
     enum ServerStatus {
-        STOPPED, IDLE, CRASHED
+        STOPPED, IDLE, CRASHED, RUNNING
     }
 }

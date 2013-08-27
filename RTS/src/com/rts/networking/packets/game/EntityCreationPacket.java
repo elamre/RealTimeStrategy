@@ -1,4 +1,4 @@
-package com.rts.networking.packets.system;
+package com.rts.networking.packets.game;
 
 import com.rts.networking.NetworkEntity;
 import com.rts.networking.packets.Packet;
