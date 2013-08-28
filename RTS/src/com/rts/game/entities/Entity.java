@@ -5,8 +5,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.rts.game.gameplay.Camera;
-import com.rts.networking.packets.game.MoveEntityPacket;
 import com.rts.networking.packets.game.EntityCreationPacket;
+import com.rts.networking.packets.game.MoveEntityPacket;
 import com.rts.util.Logger;
 
 
@@ -127,8 +127,11 @@ public abstract class Entity {
 
     protected void setSprite(Sprite sprite) {
         this.sprite = sprite;
-        this.width = (int) sprite.getWidth();
-        this.height = (int) sprite.getHeight();
+        //this.width = (int) sprite.getWidth();
+        //this.height = (int) sprite.getHeight();
+        this.width = 1;
+        this.height = 1;
+        sprite.setSize(1, 1);
     }
 
     public String toString() {

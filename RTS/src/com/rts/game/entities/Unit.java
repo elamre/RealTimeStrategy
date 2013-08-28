@@ -12,6 +12,7 @@ import com.rts.networking.packets.game.EntityCreationPacket;
  * To change this template use File | Settings | File Templates.
  */
 public abstract class Unit extends Entity {
+
     private float angle = 0;
 
     protected Unit(int x, int y, int entityType) {

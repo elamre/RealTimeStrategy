@@ -9,12 +9,9 @@ import com.rts.game.gameplay.World;
 import com.rts.game.multiplayer.ClientEventListener;
 import com.rts.game.multiplayer.ConnectionBridge;
 import com.rts.game.pathfinding.JumpPoint;
-import com.rts.game.pathfinding.Node;
 import com.rts.game.screens.InGame;
 import com.rts.util.Configuration;
 import com.rts.util.Logger;
-
-import java.util.ArrayList;
 
 public class Game implements ApplicationListener {
     ConnectionBridge connectionBridge;
@@ -62,7 +59,7 @@ public class Game implements ApplicationListener {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 
-        world.draw(Camera.batch);
+        world.draw();
 
         inGame.draw();
 

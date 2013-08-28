@@ -137,8 +137,6 @@ public class JumpPoint {
         int dx = x - px, dy = y - py;
         int[] jx, jy;
 
-        System.out.println("DX: " + dx + ",  " + dy);
-
         if (grid.isBlockedAt(x, y)) {
             return null;
         }
@@ -188,7 +186,6 @@ public class JumpPoint {
         // moving diagonally, must make sure one of the vertical/horizontal
         // neighbors is open to allow the path
         if (grid.isWalkableAt(x + dx, y) || grid.isWalkableAt(x, y + dy)) {
-            System.out.println("Here 2");
             return jump(x + dx, y + dy, x, y, end);
         } else {
             return null;

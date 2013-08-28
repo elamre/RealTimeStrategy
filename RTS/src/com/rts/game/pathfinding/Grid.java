@@ -20,12 +20,9 @@ public class Grid {
     }
 
     public boolean isBlockedAt(int x, int y) {
-        System.out.println(x + ", " + y);
         if (valid(x, y)) {
-            System.out.println("Works?");
             return nodes[x][y].isBlocked();
         }
-        System.out.println("Works 2?");
         return true;
     }
 

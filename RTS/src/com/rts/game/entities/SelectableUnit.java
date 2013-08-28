@@ -6,8 +6,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.rts.game.Assets;
 import com.rts.game.gameplay.Camera;
-import com.rts.networking.packets.game.MoveEntityPacket;
+import com.rts.game.gameplay.World;
+import com.rts.game.pathfinding.Node;
 import com.rts.networking.packets.game.EntityCreationPacket;
+import com.rts.networking.packets.game.MoveEntityPacket;
+
+import java.util.ArrayList;
 
 /**
  * Created with IntelliJ IDEA.
@@ -20,10 +24,12 @@ public abstract class SelectableUnit extends Unit {
     float deltaX, deltaY;
     private boolean netEntity = false;
     private Sprite selectionSprite;
-    private boolean selected, atLocation = true;
-    private float destinationX, destinationY;
-    private float speed = 100;
+    private boolean selected, atFinalLocation = true;
+    private int nextDestinationX, nextDestinationY, finalDestinationX, finalDestinationY;
+    private float speed = 10;
     private MoveEntityPacket moveEntityPacket;
+    ArrayList<Node> path;
+    int currentNode = 0;
 
     protected SelectableUnit(int x, int y, int entityType) {
         super(x, y, entityType);
@@ -48,16 +54,38 @@ public abstract class SelectableUnit extends Unit {
 
     @Override
     public void implementUpdate_2(float deltaT) {
-        if (!atLocation || netEntity) {
+
+        if (!atFinalLocation || netEntity) {
+
             this.x -= deltaX * deltaT * speed;
             this.y -= deltaY * deltaT * speed;
-            if (getDistance(destinationX, destinationY) <= speed * deltaT) {
-                atLocation = true;
+
+            if (getDistance(nextDestinationX, nextDestinationY) <= speed * deltaT) {
+
+
+                if (getDistance(nextDestinationX, nextDestinationY) <= speed * deltaT) {
+                    atFinalLocation = true;
+                    path = null;
+                    deltaX = 0;
+                    deltaY = 0;
+                } else {
+                    currentNode++;
+
+                    nextDestinationX = path.get(currentNode).getX();
+                    nextDestinationY = path.get(currentNode).getY();
+
+                    faceAt(nextDestinationX, nextDestinationY);
+                    deltaX = (float) (Math.cos(Math.toRadians(getAngle() - 90)));
+                    deltaY = (float) (Math.sin(Math.toRadians(getAngle() - 90)));
+                }
+
+                moveEntityPacket = new MoveEntityPacket(this.getId(), (int) getX(), (int) getY(), (int) nextDestinationX, (int) nextDestinationY, 0);
+
             }
             selectionSprite.setPosition(getX(), getY());
         } else {
-            destinationX = this.x;
-            destinationY = this.y;
+            nextDestinationX = (int) this.x;
+            nextDestinationY = (int) this.y;
             deltaX = 0;
             deltaY = 0;
         }
@@ -66,13 +94,31 @@ public abstract class SelectableUnit extends Unit {
     }
 
     public void setDestination(float x, float y) {
-        atLocation = false;
-        this.destinationX = x;
-        this.destinationY = y;
-        faceAt(x, y);
-        deltaX = (float) (Math.cos(Math.toRadians(getAngle() - 90)));
-        deltaY = (float) (Math.sin(Math.toRadians(getAngle() - 90)));
-        moveEntityPacket = new MoveEntityPacket(this.getId(), (int) getX(), (int) getY(), (int) destinationX, (int) destinationY, 0);
+        atFinalLocation = false;
+        this.finalDestinationX = (int) x;
+        this.finalDestinationY = (int) y;
+
+        path = World.jps.search((int) this.getX(), (int) this.getY(), (int) finalDestinationX, (int) finalDestinationY);
+
+        if (path.size() >= 2) {
+            this.nextDestinationX = path.get(1).getX();
+            this.nextDestinationY = path.get(1).getY();
+            //Set to 1 because index 0 is the start area, and to move to the start area would be useless or would make unnatural movement patterns.
+
+            currentNode = 1;
+
+            for (Node n : path) {
+                System.out.println("Node:" + n.getX() + ", " + n.getY());
+            }
+
+        } else {
+            this.nextDestinationX = (int) getX();
+            this.nextDestinationY = (int) getY();
+
+            System.out.println("No path");
+        }
+
+        moveEntityPacket = new MoveEntityPacket(this.getId(), (int) getX(), (int) getY(), (int) nextDestinationX, (int) nextDestinationY, 0);
     }
 
     public abstract void implementUpdate_3(float deltaT);
@@ -88,7 +134,7 @@ public abstract class SelectableUnit extends Unit {
             shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
             shapeRenderer.setProjectionMatrix(Camera.getOrthographicCamera().combined);
             shapeRenderer.setColor(Color.BLACK);
-            shapeRenderer.line(x, y, destinationX, destinationY);
+            shapeRenderer.line(x, y, nextDestinationX, nextDestinationY);
             shapeRenderer.end();
         }
     }
@@ -100,9 +146,9 @@ public abstract class SelectableUnit extends Unit {
     public void moveEntity(MoveEntityPacket moveEntityPacket) {
         this.x = moveEntityPacket.getX();
         this.y = moveEntityPacket.getY();
-        atLocation = false;
-        this.destinationX = moveEntityPacket.getTargetX();
-        this.destinationY = moveEntityPacket.getTargetY();
+        atFinalLocation = false;
+        this.nextDestinationX = moveEntityPacket.getTargetX();
+        this.nextDestinationY = moveEntityPacket.getTargetY();
         faceAt(moveEntityPacket.getTargetX(), moveEntityPacket.getTargetY());
         deltaX = (float) (Math.cos(Math.toRadians(getAngle() - 90)));
         deltaY = (float) (Math.sin(Math.toRadians(getAngle() - 90)));

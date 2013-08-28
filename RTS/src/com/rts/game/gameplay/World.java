@@ -1,6 +1,9 @@
 package com.rts.game.gameplay;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.rts.game.pathfinding.JumpPoint;
+
+import java.util.Random;
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,7 +14,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  */
 public class World {
 
+    Random rand = new Random();
+
     private Chunk[][] chunks = new Chunk[chunkAmount][chunkAmount];
+
+    public static JumpPoint jps = new JumpPoint();
 
     public static int getChunkSize() {
         return chunkSize;
@@ -24,24 +31,50 @@ public class World {
 
     }
 
-    public void draw(SpriteBatch batch) {
+    public void draw() {
         for (int x = 0; x < chunkAmount; x++) {
             for (int y = 0; y < chunkAmount; y++) {
-                chunks[x][y].draw(batch);
+                chunks[x][y].draw();
             }
         }
+
+        ShapeRenderer box = new ShapeRenderer();
+        box.begin(ShapeRenderer.ShapeType.FilledRectangle);
+        box.setProjectionMatrix(Camera.getOrthographicCamera().combined);
+        box.setColor(1, 0, 1, 0.5f);
+        for (int x = 0; x < jps.grid.nodes.length; x++) {
+            for (int y = 0; y < jps.grid.nodes[0].length; y++) {
+                if (jps.grid.isBlockedAt(x, y)) {
+                    box.filledRect(x, y, 1, 1);
+                }
+            }
+        }
+        box.end();
+
+
     }
 
     public void initTestMap() {
+
+        jps.grid.buildNodes(256, 256);
+
         for (int x = 0; x < chunkAmount; x++) {
             for (int y = 0; y < chunkAmount; y++) {
                 chunks[x][y] = new Chunk();
                 chunks[x][y].create(x * chunkSize, y * chunkSize);
             }
         }
+
+        for (int x = 0; x < jps.grid.nodes.length; x++) {
+            for (int y = 0; y < jps.grid.nodes[0].length; y++) {
+                if (rand.nextInt(10) == 0)
+                    jps.grid.nodes[x][y].setBlocked();
+            }
+        }
+
     }
 
-    public boolean getCollisionAt(int x, int y) {
-        return chunks[x / getChunkSize()][y / getChunkSize()].filled[x % getChunkSize()][y % getChunkSize()];
-    }
+    //public boolean getCollisionAt(int x, int y) {
+    //    return jps.grid.isBlockedAt(x, y);
+    //}
 }

@@ -3,9 +3,7 @@ package com.rts.game.gameplay;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.rts.game.gameplay.World;
 
 /**
  * Created with IntelliJ IDEA.
@@ -20,9 +18,6 @@ public class Chunk {
     int y;
     String texture = "Images/Environment/Grass.png";
     Sprite sprite;
-
-    public boolean[][] filled = new boolean[World.getChunkSize()][World.getChunkSize()];
-
 
     public void create(int x, int y) {
 
@@ -39,14 +34,13 @@ public class Chunk {
 
         sprite = new Sprite(region);
 
-        //sprite.setSize(World.getChunkSize(), World.getChunkSize());
         sprite.setOrigin(0, 0);
         sprite.setPosition(x, y);
     }
 
 
-    public void draw(SpriteBatch batch) {
-        sprite.draw(batch);
+    public void draw() {
+        sprite.draw(Camera.batch);
     }
 
 }
