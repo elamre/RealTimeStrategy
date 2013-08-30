@@ -1,24 +1,23 @@
-package com.rts.game;
+package com.rts.game.screens;
 
-import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
 import com.rts.game.gameplay.Camera;
 import com.rts.game.gameplay.Cursor;
 import com.rts.game.gameplay.World;
 import com.rts.game.multiplayer.ClientEventListener;
 import com.rts.game.multiplayer.ConnectionBridge;
-import com.rts.game.screens.InGame;
 import com.rts.util.Configuration;
 import com.rts.util.Logger;
 
-public class Game implements ApplicationListener {
+public class Game implements Screen {
     ConnectionBridge connectionBridge;
     World world = new World();
     InGame inGame;
 
     @Override
-    public void create() {
+    public void show() {
 
         Camera.create();
         Cursor.create();
@@ -42,9 +41,9 @@ public class Game implements ApplicationListener {
     }
 
     @Override
-    public void render() {
+    public void render(float delta) {
 
-        Camera.update(Gdx.graphics.getDeltaTime());
+        Camera.update(delta);
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
@@ -59,10 +58,11 @@ public class Game implements ApplicationListener {
 
         Camera.finishBatches();
 
-        update(Gdx.graphics.getDeltaTime());
+        update(delta);
     }
 
-    public void dispose() {
+    @Override
+	public void dispose() {
 
     }
 
@@ -88,4 +88,8 @@ public class Game implements ApplicationListener {
     @Override
     public void resume() {
     }
+
+	@Override
+	public void hide() {
+	}
 }
