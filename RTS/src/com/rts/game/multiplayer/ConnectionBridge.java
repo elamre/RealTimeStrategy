@@ -21,6 +21,7 @@ import java.io.IOException;
  */
 public class ConnectionBridge {
     Client client;
+    private Packet packet;
     private EntityManager entityManager;
 
     public ConnectionBridge() {
@@ -51,13 +52,14 @@ public class ConnectionBridge {
     }
 
     public void update() {
-        Packet packet = client.getPacket();
-        if (packet instanceof EntityCreationPacket) {
-            Entity entity = new TestEntity((EntityCreationPacket) packet);
-            entityManager.createEntity(entity);
-        } else if (packet instanceof MoveEntityPacket) {
-            Logger.getInstance().debug("Receiving movement!");
-            ((SelectableUnit) entityManager.getEntity(((MoveEntityPacket) packet).getEntityId())).moveEntity((MoveEntityPacket) packet);
+        while ((packet = client.getPacket()) != null) {
+            if (packet instanceof EntityCreationPacket) {
+                Entity entity = new TestEntity((EntityCreationPacket) packet);
+                entityManager.createEntity(entity);
+            } else if (packet instanceof MoveEntityPacket) {
+                Logger.getInstance().debug("Receiving movement!");
+                ((SelectableUnit) entityManager.getEntity(((MoveEntityPacket) packet).getEntityId())).moveEntity((MoveEntityPacket) packet);
+            }
         }
     }
 }

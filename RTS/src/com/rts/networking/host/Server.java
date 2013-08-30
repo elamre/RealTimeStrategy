@@ -65,6 +65,10 @@ public class Server {
         }
     }
 
+    public void removeClient(ServerClient serverClient){
+        serverClients.remove(serverClient);
+    }
+
     /**
      * This function will stop the server
      */

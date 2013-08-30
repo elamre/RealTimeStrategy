@@ -1,368 +1,291 @@
-spritesheet.png
+SpriteSheet.png
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-Environment/Bush
+UI/resources_hud
   rotate: false
-  xy: 1000, 2
-  size: 17, 18
-  orig: 17, 18
-  offset: 0, 0
-  index: -1
-Animations/Units/man2
-  rotate: false
-  xy: 160, 168
-  size: 24, 24
-  orig: 24, 24
-  offset: 0, 0
-  index: -1
-Buttons/archerybutton
-  rotate: false
-  xy: 987, 220
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-Animations/Units/man1
-  rotate: false
-  xy: 346, 128
-  size: 24, 24
-  orig: 24, 24
-  offset: 0, 0
-  index: -1
-Animations/Units/Boogman4
-  rotate: false
-  xy: 476, 128
-  size: 24, 24
-  orig: 24, 24
-  offset: 0, 0
-  index: -1
-Buildings/BaseShadow
-  rotate: false
-  xy: 886, 2
-  size: 112, 80
-  orig: 112, 80
-  offset: 0, 0
-  index: -1
-Buttons/exitButton
-  rotate: false
-  xy: 2, 102
-  size: 192, 64
-  orig: 192, 64
-  offset: 0, 0
-  index: -1
-Buildings/towershadow
-  rotate: false
-  xy: 68, 168
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: -1
-Hud/mouse
-  rotate: false
-  xy: 2, 168
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: -1
-Buttons/startButton
-  rotate: false
-  xy: 2, 36
-  size: 192, 64
-  orig: 192, 64
-  offset: 0, 0
-  index: -1
-Environment/Grass
-  rotate: false
-  xy: 988, 84
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-Animations/Units/man3
-  rotate: false
-  xy: 134, 168
-  size: 24, 24
-  orig: 24, 24
-  offset: 0, 0
-  index: -1
-Buildings/tower
-  rotate: false
-  xy: 821, 226
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-Buttons/joinButton
-  rotate: false
-  xy: 196, 36
-  size: 192, 64
-  orig: 192, 64
-  offset: 0, 0
-  index: -1
-Buildings/LumberjackShadow
-  rotate: false
-  xy: 196, 128
-  size: 82, 64
-  orig: 82, 64
-  offset: 0, 0
-  index: -1
-Buttons/castlebutton
-  rotate: false
-  xy: 829, 158
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-Animations/Units/man4
-  rotate: false
-  xy: 821, 260
-  size: 24, 24
-  orig: 24, 24
-  offset: 0, 0
-  index: -1
-Environment/Tree
-  rotate: false
-  xy: 584, 36
-  size: 42, 42
-  orig: 42, 42
-  offset: 0, 0
-  index: -1
-Units/selected
-  rotate: false
-  xy: 961, 166
-  size: 24, 24
-  orig: 24, 24
-  offset: 0, 0
-  index: -1
-Animations/Units/Besman1
-  rotate: false
-  xy: 424, 154
-  size: 24, 24
-  orig: 24, 24
-  offset: 0, 0
-  index: -1
-Units/WorkerShadow
-  rotate: false
-  xy: 961, 192
-  size: 24, 24
-  orig: 24, 24
-  offset: 0, 0
-  index: -1
-Buildings/HouseShadow
-  rotate: false
-  xy: 280, 128
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: -1
-Animations/Units/worker_strip8
-  rotate: false
-  xy: 196, 102
-  size: 192, 24
-  orig: 192, 24
-  offset: 0, 0
-  index: -1
-Animations/Units/houtman2
-  rotate: false
-  xy: 424, 128
-  size: 24, 24
-  orig: 24, 24
-  offset: 0, 0
-  index: -1
-Buildings/Base
-  rotate: false
-  xy: 863, 166
-  size: 96, 64
-  orig: 96, 64
-  offset: 0, 0
-  index: -1
-Hud/hud
-  rotate: false
-  xy: 2, 2
+  xy: 2, 244
   size: 640, 32
   orig: 640, 32
   offset: 0, 0
   index: -1
-Environment/BushShadow
+Buildings/sawmill
   rotate: false
-  xy: 450, 154
-  size: 23, 23
-  orig: 23, 23
-  offset: 0, 0
-  index: -1
-Buttons/towerbutton
-  rotate: false
-  xy: 988, 118
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-Animations/Units/man5
-  rotate: false
-  xy: 961, 218
-  size: 24, 24
-  orig: 24, 24
-  offset: 0, 0
-  index: -1
-Animations/Units/Besman2
-  rotate: false
-  xy: 398, 154
-  size: 24, 24
-  orig: 24, 24
-  offset: 0, 0
-  index: -1
-Buttons/lumberjackbutton
-  rotate: false
-  xy: 988, 152
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-Buildings/CastleShadow
-  rotate: false
-  xy: 584, 124
-  size: 141, 118
-  orig: 141, 118
-  offset: 0, 0
-  index: -1
-Environment/TreeShadow
-  rotate: false
-  xy: 949, 254
-  size: 66, 67
-  orig: 66, 67
-  offset: 0, 0
-  index: -1
-Animations/Units/houtman1
-  rotate: false
-  xy: 450, 128
-  size: 24, 24
-  orig: 24, 24
-  offset: 0, 0
-  index: -1
-Hud/buildbar
-  rotate: false
-  xy: 644, 2
-  size: 240, 120
-  orig: 240, 120
-  offset: 0, 0
-  index: -1
-Buildings/Archery
-  rotate: false
-  xy: 855, 232
+  xy: 340, 2
   size: 92, 64
   orig: 92, 64
   offset: 0, 0
   index: -1
-Buildings/House
+UI/tower_button
   rotate: false
-  xy: 584, 80
+  xy: 678, 244
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+Special/wood
+  rotate: false
+  xy: 577, 122
+  size: 20, 20
+  orig: 20, 20
+  offset: 0, 0
+  index: -1
+Map/Tileset
+  rotate: false
+  xy: 468, 2
+  size: 144, 64
+  orig: 144, 64
+  offset: 0, 0
+  index: -1
+UI/castle_button
+  rotate: false
+  xy: 909, 122
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+Shadows/house_shadow
+  rotate: false
+  xy: 116, 122
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+UI/citycenter_button
+  rotate: false
+  xy: 943, 122
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+Shadows/citycenter_shadow
+  rotate: false
+  xy: 2, 122
+  size: 112, 80
+  orig: 112, 80
+  offset: 0, 0
+  index: -1
+Special/arrow
+  rotate: false
+  xy: 426, 122
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+Special/stone
+  rotate: false
+  xy: 555, 122
+  size: 20, 20
+  orig: 20, 20
+  offset: 0, 0
+  index: -1
+Shadows/unit_shadow
+  rotate: false
+  xy: 400, 122
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+Map/tree
+  rotate: false
+  xy: 667, 2
   size: 42, 42
   orig: 42, 42
   offset: 0, 0
   index: -1
-Animations/Units/Boogman1
+Buildings/archery
   rotate: false
-  xy: 554, 128
-  size: 24, 24
-  orig: 24, 24
-  offset: 0, 0
-  index: -1
-Animations/Units/Besman3
-  rotate: false
-  xy: 372, 154
-  size: 24, 24
-  orig: 24, 24
-  offset: 0, 0
-  index: -1
-Buildings/Lumberjack
-  rotate: false
-  xy: 727, 198
+  xy: 2, 2
   size: 92, 64
   orig: 92, 64
   offset: 0, 0
   index: -1
-Animations/Units/houtman4
+UI/button
   rotate: false
-  xy: 372, 128
-  size: 24, 24
-  orig: 24, 24
-  offset: 0, 0
-  index: -1
-Animations/Units/foodworker_strip8
-  rotate: false
-  xy: 390, 102
-  size: 192, 24
-  orig: 192, 24
-  offset: 0, 0
-  index: -1
-Buttons/basebutton
-  rotate: false
-  xy: 987, 186
+  xy: 875, 122
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-Buildings/ArcheryShadow
+Special/gold
   rotate: false
-  xy: 727, 124
+  xy: 466, 122
+  size: 20, 20
+  orig: 20, 20
+  offset: 0, 0
+  index: -1
+Buildings/tower
+  rotate: false
+  xy: 434, 2
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+Buildings/house
+  rotate: false
+  xy: 296, 2
+  size: 42, 42
+  orig: 42, 42
+  offset: 0, 0
+  index: -1
+Shadows/bush_shadow
+  rotate: false
+  xy: 813, 2
+  size: 23, 23
+  orig: 23, 23
+  offset: 0, 0
+  index: -1
+Shadows/archery_shadow
+  rotate: false
+  xy: 711, 2
   size: 100, 72
   orig: 100, 72
   offset: 0, 0
   index: -1
-Buttons/hostButton
+Shadows/tree_shadow
   rotate: false
-  xy: 390, 36
-  size: 192, 64
-  orig: 192, 64
+  xy: 332, 122
+  size: 66, 67
+  orig: 66, 67
   offset: 0, 0
   index: -1
-Animations/Units/Boogman2
+Special/mouse
   rotate: false
-  xy: 528, 128
-  size: 24, 24
-  orig: 24, 24
+  xy: 510, 122
+  size: 17, 17
+  orig: 17, 17
   offset: 0, 0
   index: -1
-Animations/Units/Besman4
+Special/iron
   rotate: false
-  xy: 346, 154
-  size: 24, 24
-  orig: 24, 24
+  xy: 488, 122
+  size: 20, 20
+  orig: 20, 20
   offset: 0, 0
   index: -1
-Buildings/Castle
+UI/build_hud
   rotate: false
-  xy: 886, 84
+  xy: 633, 122
+  size: 240, 120
+  orig: 240, 120
+  offset: 0, 0
+  index: -1
+UI/archery_button
+  rotate: false
+  xy: 599, 122
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+Units/worker_wood
+  rotate: false
+  xy: 100, 288
+  size: 96, 24
+  orig: 96, 24
+  offset: 0, 0
+  index: -1
+Buildings/castle
+  rotate: false
+  xy: 96, 2
   size: 100, 80
   orig: 100, 80
   offset: 0, 0
   index: -1
-Buttons/button
+UI/house_button
   rotate: false
-  xy: 829, 192
+  xy: 977, 122
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-Animations/Units/houtman3
+Shadows/tower_shadow
   rotate: false
-  xy: 398, 128
-  size: 24, 24
-  orig: 24, 24
+  xy: 266, 122
+  size: 64, 64
+  orig: 64, 64
   offset: 0, 0
   index: -1
-Buttons/housebutton
+Units/worker_empty
   rotate: false
-  xy: 829, 124
+  xy: 836, 244
+  size: 120, 24
+  orig: 120, 24
+  offset: 0, 0
+  index: -1
+Shadows/sawmill_shadow
+  rotate: false
+  xy: 182, 122
+  size: 82, 64
+  orig: 82, 64
+  offset: 0, 0
+  index: -1
+Map/bush
+  rotate: false
+  xy: 614, 2
+  size: 17, 18
+  orig: 17, 18
+  offset: 0, 0
+  index: -1
+Map/grass
+  rotate: false
+  xy: 633, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-Animations/Units/Boogman3
+Special/selection
   rotate: false
-  xy: 502, 128
+  xy: 529, 122
   size: 24, 24
   orig: 24, 24
+  offset: 0, 0
+  index: -1
+Special/food
+  rotate: false
+  xy: 444, 122
+  size: 20, 20
+  orig: 20, 20
+  offset: 0, 0
+  index: -1
+Buildings/citycenter
+  rotate: false
+  xy: 198, 2
+  size: 96, 64
+  orig: 96, 64
+  offset: 0, 0
+  index: -1
+UI/sawmill_button
+  rotate: false
+  xy: 644, 244
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+Units/worker_food
+  rotate: false
+  xy: 2, 288
+  size: 96, 24
+  orig: 96, 24
+  offset: 0, 0
+  index: -1
+Shadows/castle_shadow
+  rotate: false
+  xy: 838, 2
+  size: 141, 118
+  orig: 141, 118
+  offset: 0, 0
+  index: -1
+Units/cavalry
+  rotate: false
+  xy: 810, 244
+  size: 24, 42
+  orig: 24, 42
+  offset: 0, 0
+  index: -1
+Units/archer_shooting
+  rotate: false
+  xy: 712, 244
+  size: 96, 24
+  orig: 96, 24
   offset: 0, 0
   index: -1

@@ -6,6 +6,7 @@ import com.rts.networking.packets.PacketManager;
 import com.rts.networking.packets.game.MoveEntityPacket;
 import com.rts.networking.packets.system.ChatPacket;
 import com.rts.networking.packets.game.EntityCreationPacket;
+import com.rts.networking.packets.system.DisconnectPacket;
 import com.rts.networking.packets.system.PingPacket;
 import com.rts.networking.packets.game.RequestEntityPacket;
 import com.rts.util.Logger;
@@ -74,6 +75,7 @@ public class ServerClient implements Runnable {
     }
 
     public void run() {
+        int reason = DisconnectPacket.DISCONNECT_BY_USER;
         boolean timeOutCheck = false;
         lastMessage = System.nanoTime() / (1000 * 1000);
         // TODO handshake packet, server rules, current players connected
@@ -102,9 +104,11 @@ public class ServerClient implements Runnable {
         }
         if (timeOutCheck) {
             run = false;
+            reason = DisconnectPacket.TIMED_OUT;
             logger.system("ID: " + id + " Timed out!");
         }
-        //TODO remove from the server
+        Server.getServer().removeClient(this);  //TODO send notification to everybody
+        Server.getServer().sendAllTCP(new DisconnectPacket(reason,id));
     }
 
     private void writePackets() throws IOException {

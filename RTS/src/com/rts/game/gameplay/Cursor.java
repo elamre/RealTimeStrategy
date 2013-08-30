@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.rts.game.Assets;
 
 /**
  * A virtual cursor to use
@@ -20,14 +21,14 @@ public class Cursor {
         //TODO: Make mouse cursor correct size and direction
 
         sprite = new Sprite();
-        String texture = "Images/Hud/mouse.png";
-        Texture tex = new Texture(Gdx.files.internal(texture));
-        tex.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        tex.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+//        String texture = "Images/Hud/mouse.png";
+//        Texture tex = new Texture(Gdx.files.internal(texture));
+ //       tex.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+ //       tex.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
 
-        TextureRegion region = new TextureRegion(tex, 0, 0, tex.getWidth(), tex.getHeight());
+   //     TextureRegion region = new TextureRegion(tex, 0, 0, tex.getWidth(), tex.getHeight());
 
-        sprite = new Sprite(region);
+        sprite = new Sprite(Assets.getAssets().getTextureRegion("Special/mouse"));
 
         sprite.setSize(World.getChunkSize(), World.getChunkSize());
         sprite.setOrigin(0, 0);

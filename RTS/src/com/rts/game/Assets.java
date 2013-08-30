@@ -3,6 +3,7 @@ package com.rts.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 /**
  * Created with IntelliJ IDEA.
@@ -28,5 +29,9 @@ public class Assets {
 
     public Sprite getSprite(String name) {
         return textureAtlas.createSprite(name);
+    }
+
+    public TextureRegion getTextureRegion(String name) {
+        return textureAtlas.findRegion(name);
     }
 }

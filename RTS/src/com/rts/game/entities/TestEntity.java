@@ -16,12 +16,8 @@ public class TestEntity extends SelectableUnit {
         super(x, y, EntityList.UNIT_TEST_1);
     }
 
-    public TestEntity(int id, int x, int y) {
-        super(id, x, y, EntityList.UNIT_TEST_1, Assets.getAssets().getSprite("Animations/Units/houtman3"));
-    }
-
     public TestEntity(EntityCreationPacket packet) {
-        super(packet, EntityList.UNIT_TEST_1, Assets.getAssets().getSprite("Animations/Units/houtman3"));
+        super(packet, EntityList.UNIT_TEST_1, Assets.getAssets().getTextureRegion("Units/worker_wood"), 4, 0.1f);
     }
 
     @Override
@@ -30,7 +26,7 @@ public class TestEntity extends SelectableUnit {
     }
 
     @Override
-    public void implementUpdate_3(float deltaT) {
+    public void implementUpdate_4(float deltaT) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 

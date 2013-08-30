@@ -1,7 +1,9 @@
 package com.rts.game.entities;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.rts.game.gameplay.Camera;
@@ -25,7 +27,8 @@ public abstract class Entity {
     /* The angle of the entity IN DEGREES. */
     protected boolean debug = false;
     protected float x, y;
-    private Sprite sprite;
+    protected float angle;
+    private TextureRegion textureRegion;
     private Rectangle hitBox = new Rectangle(0, 0, 1, 1);
     private float debugTimer = 0;
 
@@ -64,7 +67,6 @@ public abstract class Entity {
                 Logger.getInstance().debug(toString());
             }
         }
-        sprite.setPosition(x, y);
         implementUpdate_1(deltaT);
         hitBox.set(x, y, width, height);
     }
@@ -72,9 +74,12 @@ public abstract class Entity {
     public abstract void implementUpdate_1(float deltaT);
 
     public void draw(SpriteBatch spriteBatch) {
+        implementDraw_1(spriteBatch);
         if (debug)
             drawDebug(spriteBatch);
-        implementDraw_1(spriteBatch);
+        if (textureRegion != null) {
+            spriteBatch.draw(textureRegion, x, y, width / 2, height / 2, width, height, 1, 1, angle);
+        }
     }
 
     public abstract void implementDraw_1(SpriteBatch spriteBatch);
@@ -121,17 +126,14 @@ public abstract class Entity {
         return y + height / 2;
     }
 
-    public Sprite getSprite() {
-        return sprite;
+    public TextureRegion getTextureRegion() {
+        return textureRegion;
     }
 
-    protected void setSprite(Sprite sprite) {
-        this.sprite = sprite;
-        //this.width = (int) sprite.getWidth();
-        //this.height = (int) sprite.getHeight();
-        this.width = 1;
-        this.height = 1;
-        sprite.setSize(1, 1);
+    protected void setTextureRegion(TextureRegion textureRegion) {
+        this.textureRegion = textureRegion;
+        this.width = textureRegion.getRegionWidth();
+        this.height = textureRegion.getRegionHeight();
     }
 
     public String toString() {
