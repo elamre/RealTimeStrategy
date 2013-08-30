@@ -25,7 +25,7 @@ public abstract class SelectableUnit extends MovingUnit {
     private boolean netEntity = false;
     private Sprite selectionSprite;
     private boolean selected, atFinalLocation = false;
-    private int nextDestinationX, nextDestinationY, finalDestinationX, finalDestinationY;
+    private int nextDestinationX = 1, nextDestinationY = 1, finalDestinationX = 1, finalDestinationY = 1;
     private float speed = 3;
     private MoveEntityPacket moveEntityPacket;
     ArrayList<Node> path = new ArrayList<Node>(64);
@@ -167,8 +167,8 @@ public abstract class SelectableUnit extends MovingUnit {
         }
         if (debug) {
             ShapeRenderer shapeRenderer = new ShapeRenderer();
-            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
             shapeRenderer.setProjectionMatrix(Camera.getOrthographicCamera().combined);
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
             shapeRenderer.setColor(Color.BLACK);
             shapeRenderer.line(x, y, nextDestinationX, nextDestinationY);
 
