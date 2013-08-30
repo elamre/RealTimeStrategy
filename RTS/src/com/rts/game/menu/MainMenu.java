@@ -5,10 +5,8 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.rts.game.RealTimeStrategy;
-import com.rts.game.ScreenState;
 
-/** TODO this is going to be the main menu */
+/** TODO this is going to be the main menu */ // will continue later, I have to go now
 public class MainMenu implements Screen {
 
 	private Skin skin;
@@ -29,7 +27,6 @@ public class MainMenu implements Screen {
 
 	@Override
 	public void show() {
-		RealTimeStrategy.screenState = ScreenState.MENU;
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 	}
 

@@ -11,10 +11,15 @@ public class Games {
     String ip = "";
     int players = 0;
     int timeUp = 0;
+    GameState gameState = GameState.LOBBY;
 
     Games(String ip, int players) {
         this.ip = ip;
         this.players = players;
+    }
+
+    public void setGameState(GameState gameState) {
+        this.gameState = gameState;
     }
 
     public int getTimeUp() {
@@ -39,5 +44,9 @@ public class Games {
 
     public void setIp(String ip) {
         this.ip = ip;
+    }
+
+    enum GameState {
+        LOBBY, IN_GAME, FINISHED
     }
 }

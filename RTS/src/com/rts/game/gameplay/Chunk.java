@@ -1,7 +1,12 @@
 package com.rts.game.gameplay;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.rts.game.Assets;
+import com.rts.game.gameplay.World;
 
 /**
  * Created with IntelliJ IDEA.
@@ -39,8 +44,8 @@ public class Chunk {
     }
 
 
-    public void draw() {
-        sprite.draw(Camera.batch);
+    public void draw(SpriteBatch batch) {
+        sprite.draw(batch);
     }
 
 }

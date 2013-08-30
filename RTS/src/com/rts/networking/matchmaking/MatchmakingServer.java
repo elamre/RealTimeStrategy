@@ -10,11 +10,11 @@ import java.util.HashMap;
  * Time: 1:00 PM
  * To change this template use File | Settings | File Templates.
  */
-public class Server implements Runnable {
+public class MatchmakingServer implements Runnable {
     private HashMap<String, Games> games = new HashMap<String, Games>();
 
     public static void main(String[] args) {
-        Thread serverThread = new Thread(new Server());
+        Thread serverThread = new Thread(new MatchmakingServer());
         serverThread.start();
     }
 
@@ -23,6 +23,10 @@ public class Server implements Runnable {
         while (true) {
 
         }
+    }
+
+    public void hostGame(){
+
     }
 
     public class clientHandler implements Runnable {

@@ -37,14 +37,22 @@ public class Server {
     }
 
     public static void main(String[] args) {
-        Server.getServer().startServer();
+        Server.getServer().startServer(true);
         //server.stopServer();
     }
 
     /**
      * This function will start the server.
      */
-    public void startServer() {
+    public void startServer(boolean publicServer) {
+        if (publicServer) {
+            logger.system("Trying to connect to match making service. . . ");
+            try {
+                Socket socket = new Socket("127.0.0.1", Configuration.MM_PORT);
+            } catch (IOException e) {
+                logger.system("Unable to connect to the match making service. Maybe it's down? \nServer will be hosted privately.");
+            }
+        }
         tcpServer = new TCPServer(this);
         tcpServer.startListening(Configuration.TCP_PORT);
         tcpThread = new Thread(tcpServer);
@@ -59,13 +67,13 @@ public class Server {
 
     public void addClient(Socket socket) {
         try {
-            serverClients.add(new ServerClient(connectionId++, socket));
+            serverClients.add(new ServerClient(socket, 2000, connectionId++));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void removeClient(ServerClient serverClient){
+    public void removeClient(ServerClient serverClient) {
         serverClients.remove(serverClient);
     }
 
@@ -89,7 +97,7 @@ public class Server {
             Logger.getInstance().system("Restarting server...");
             stopServer();
             while (running) ;
-            startServer();
+            startServer(false);
         } else {
             Logger.getInstance().warn("Trying to restart server while the server is not running!");
         }

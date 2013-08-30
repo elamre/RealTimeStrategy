@@ -25,7 +25,7 @@ public abstract class SelectableUnit extends MovingUnit {
     private boolean netEntity = false;
     private Sprite selectionSprite;
     private boolean selected, atFinalLocation = false;
-    private int nextDestinationX = 1, nextDestinationY = 1, finalDestinationX = 1, finalDestinationY = 1;
+    private int nextDestinationX, nextDestinationY, finalDestinationX, finalDestinationY;
     private float speed = 3;
     private MoveEntityPacket moveEntityPacket;
     ArrayList<Node> path = new ArrayList<Node>(64);
@@ -111,9 +111,7 @@ public abstract class SelectableUnit extends MovingUnit {
         implementUpdate_4(deltaT);
         //To change body of implemented methods use File | Settings | File Templates.
     }
-
     public abstract void implementUpdate_4(float deltaT);
-
     private void setDirection() {
         deltaX = (float) (Math.cos(Math.toRadians(getAngle() - 90)));
         deltaY = (float) (Math.sin(Math.toRadians(getAngle() - 90)));
@@ -122,7 +120,7 @@ public abstract class SelectableUnit extends MovingUnit {
     public void setDestination(int x, int y) {
 
         System.out.println("Goal: " + x + ", " + y);
-        System.out.println("Current: " + (int) getX() + ", " + (int) getY());
+        System.out.println("Current: " + this.x + ", " + this.y);
 
         path = World.getPath((int) getX(), (int) getY(), x, y);
         //path = World.getPath(0, 0, 100, 100);
@@ -167,8 +165,8 @@ public abstract class SelectableUnit extends MovingUnit {
         }
         if (debug) {
             ShapeRenderer shapeRenderer = new ShapeRenderer();
-            shapeRenderer.setProjectionMatrix(Camera.getOrthographicCamera().combined);
             shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+            shapeRenderer.setProjectionMatrix(Camera.getOrthographicCamera().combined);
             shapeRenderer.setColor(Color.BLACK);
             shapeRenderer.line(x, y, nextDestinationX, nextDestinationY);
 
