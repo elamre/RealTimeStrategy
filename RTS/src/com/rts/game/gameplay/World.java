@@ -36,7 +36,7 @@ public class World {
     public void draw() {
         for (int x = 0; x < chunkAmount; x++) {
             for (int y = 0; y < chunkAmount; y++) {
-                chunks[x][y].draw();
+                chunks[x][y].draw(Camera.batch);
             }
         }
 
