@@ -3,6 +3,7 @@ package com.rts.game.entities;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.rts.game.Assets;
 import com.rts.game.gameplay.Camera;
@@ -20,8 +21,7 @@ import java.util.ArrayList;
  * Time: 5:33 PM
  * To change this template use File | Settings | File Templates.
  */
-public abstract class SelectableUnit extends Unit {
-    float deltaX, deltaY;
+public abstract class SelectableUnit extends MovingUnit {
     private boolean netEntity = false;
     private Sprite selectionSprite;
     private boolean selected, atFinalLocation = false;
@@ -52,25 +52,27 @@ public abstract class SelectableUnit extends Unit {
         super(packet, entityType, sprite);
     }
 
+    protected SelectableUnit(EntityCreationPacket packet, int entityType, TextureRegion region, int frames, float speed) {
+        super(packet, entityType, region, frames, speed);
+        System.out.println("new unit has been made?");
+    }
+
     @Override
     public void onCreate() {
-        selectionSprite = Assets.getAssets().getSprite("Units/selected");
+        selectionSprite = Assets.getAssets().getSprite("Special/selection");
         selectionSprite.setColor(1f, 0f, 0f, 1f);
+        selectionSprite.setPosition(x, y);
         onCreate_1();
     }
 
     public abstract void onCreate_1();
 
-    @Override
-    public void implementUpdate_2(float deltaT) {
+    public void implementUpdate_3(float deltaT) {
 
         if (!atFinalLocation || netEntity) {
 
             faceAt(nextDestinationX, nextDestinationY);
             setDirection();
-            this.x -= deltaX * deltaT * speed;
-            this.y -= deltaY * deltaT * speed;
-
 
             if (getDistance(nextDestinationX, nextDestinationY) <= speed * deltaT) {
 
@@ -97,7 +99,6 @@ public abstract class SelectableUnit extends Unit {
                 }
             }
 
-
             selectionSprite.setPosition(getX(), getY());
         } else {
             finalDestinationY = (int) this.y;
@@ -107,10 +108,10 @@ public abstract class SelectableUnit extends Unit {
             deltaX = 0;
             deltaY = 0;
         }
-        implementUpdate_3(deltaT);
+        implementUpdate_4(deltaT);
         //To change body of implemented methods use File | Settings | File Templates.
     }
-
+    public abstract void implementUpdate_4(float deltaT);
     private void setDirection() {
         deltaX = (float) (Math.cos(Math.toRadians(getAngle() - 90)));
         deltaY = (float) (Math.sin(Math.toRadians(getAngle() - 90)));
@@ -155,8 +156,6 @@ public abstract class SelectableUnit extends Unit {
             System.out.println("No path");
         }
     }
-
-    public abstract void implementUpdate_3(float deltaT);
 
     @Override
     public void implementDraw_2(SpriteBatch spriteBatch) {
