@@ -8,7 +8,6 @@ import com.rts.game.gameplay.Cursor;
 import com.rts.game.gameplay.World;
 import com.rts.game.multiplayer.ClientEventListener;
 import com.rts.game.multiplayer.ConnectionBridge;
-import com.rts.game.pathfinding.JumpPoint;
 import com.rts.game.screens.InGame;
 import com.rts.util.Configuration;
 import com.rts.util.Logger;
@@ -17,19 +16,10 @@ public class Game implements ApplicationListener {
     ConnectionBridge connectionBridge;
     World world = new World();
     InGame inGame;
-    JumpPoint jps;
-    boolean[][] testArray = {
-
-            {false, false, false, false, false},
-            {false, false, true, true, true},
-            {true, false, false, false, true},
-            {false, false, false, true, false},
-            {true, true, false, false, false}
-
-    };
 
     @Override
     public void create() {
+
         Camera.create();
         Cursor.create();
 

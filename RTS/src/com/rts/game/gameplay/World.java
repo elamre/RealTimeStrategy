@@ -2,7 +2,9 @@ package com.rts.game.gameplay;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.rts.game.pathfinding.JumpPoint;
+import com.rts.game.pathfinding.Node;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -41,7 +43,7 @@ public class World {
         ShapeRenderer box = new ShapeRenderer();
         box.begin(ShapeRenderer.ShapeType.FilledRectangle);
         box.setProjectionMatrix(Camera.getOrthographicCamera().combined);
-        box.setColor(1, 0, 1, 0.5f);
+        box.setColor(1, 0, 1, 0.8f);
         for (int x = 0; x < jps.grid.nodes.length; x++) {
             for (int y = 0; y < jps.grid.nodes[0].length; y++) {
                 if (jps.grid.isBlockedAt(x, y)) {
@@ -56,8 +58,6 @@ public class World {
 
     public void initTestMap() {
 
-        jps.grid.buildNodes(256, 256);
-
         for (int x = 0; x < chunkAmount; x++) {
             for (int y = 0; y < chunkAmount; y++) {
                 chunks[x][y] = new Chunk();
@@ -65,16 +65,22 @@ public class World {
             }
         }
 
+        jps.grid.buildNodes(128, 128);
+
         for (int x = 0; x < jps.grid.nodes.length; x++) {
             for (int y = 0; y < jps.grid.nodes[0].length; y++) {
                 if (rand.nextInt(10) == 0)
-                    jps.grid.nodes[x][y].setBlocked();
+                    jps.grid.nodes[x][y].setBlocked(true);
+                else {
+                    jps.grid.nodes[x][y].setBlocked(false);
+                }
             }
         }
 
     }
 
-    //public boolean getCollisionAt(int x, int y) {
-    //    return jps.grid.isBlockedAt(x, y);
-    //}
+    public static ArrayList<Node> getPath(int x, int y, int x2, int y2) {
+        return jps.search(x, y, x2, y2);
+    }
+
 }

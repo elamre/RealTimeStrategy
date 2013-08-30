@@ -21,7 +21,6 @@ public class Node {
 
     private Node parent;
 
-
     private float fromStart;
     private float toEnd;
     private float startToEnd;
@@ -29,6 +28,18 @@ public class Node {
     public Node(int x, int y) {
         this.x = x;
         this.y = y;
+    }
+
+    public void reset() {
+        f = 0;
+        g = 0;
+        h = 0;
+        opened = false;
+        closed = false;
+        parent = null;
+        fromStart = 0;
+        toEnd = 0;
+        startToEnd = 0;
     }
 
     public Node(int x, int y, boolean blocked) {

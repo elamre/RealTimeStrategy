@@ -50,10 +50,10 @@ public class Grid {
         }
     }
 
-    public void buildNodes(int width, int height, boolean[][] blocked) {
-        nodes = new Node[width][height];
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
+    public void buildNodes(boolean[][] blocked) {
+        nodes = new Node[blocked.length][blocked[0].length];
+        for (int x = 0; x < nodes.length; x++) {
+            for (int y = 0; y < nodes[0].length; y++) {
                 nodes[x][y] = new Node(x, y, blocked[x][y]);
             }
         }

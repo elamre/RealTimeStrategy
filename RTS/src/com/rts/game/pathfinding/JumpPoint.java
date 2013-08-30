@@ -14,14 +14,24 @@ public class JumpPoint {
     //TODO: Fix jump point error checking and edge detection
 
     public Grid grid;
-    ArrayList<Node> openList = new ArrayList<Node>(128);
+    ArrayList<Node> openList = new ArrayList<Node>(256);
+    ArrayList<Node> usedList = new ArrayList<Node>(512);
+
+    int recursionDX;
+    int recursionDY;
+
 
     public JumpPoint() {
         grid = new Grid();
-        Heuristic.setCurrentHeuristic(Heuristic.MANHATTAN);
+        Heuristic.setCurrentHeuristic(Heuristic.EUCLIDIAN);
     }
 
     public ArrayList<Node> search(int startX, int startY, int endX, int endY) {
+
+        if (startX < 0 || startY < 0 || endX >= grid.nodes.length || endY >= grid.nodes[0].length || grid.nodes[endX][endY].isBlocked()) {
+            ArrayList<Node> failed = new ArrayList<Node>(2);
+            return failed;
+        }
 
         Node endNode = grid.nodes[endX][endY];
 
@@ -53,9 +63,15 @@ public class JumpPoint {
             openList.remove(lowFPos);
 
             node.closed = true;
+            usedList.add(node);
 
             if (node.getX() == endNode.getX() && node.getY() == endNode.getY()) {
-                return backtrace(endNode);
+                ArrayList<Node> pathway = backtrace(endNode);
+                for (Node n : usedList) {
+                    n.reset();
+                }
+                usedList.clear();
+                return pathway;
             }
 
             identifySuccessors(node, endNode);
@@ -98,6 +114,8 @@ public class JumpPoint {
 
                     if (!jump.closed) {
 
+                        usedList.add(jump);
+
                         float d = Heuristic.get(Math.abs(x - node.getX()), Math.abs(y - node.getY()));
                         float ng = node.g + d;
                         //(grid.distance(x, y, node.getX(), node.getY()) + node.g);   //get the distance from start
@@ -113,9 +131,6 @@ public class JumpPoint {
                                 openList.add(jump);
                                 jump.opened = true;
                             }
-                            //else {
-                            //openList.updateItem(jumpNode);
-                            // }
                         }
 
                     }
@@ -141,11 +156,15 @@ public class JumpPoint {
             return null;
         }
 
-        /*
-            if(this.trackJumpRecursion === true) {
-        grid.getNodeAt(x, y).tested = true;
-    }
-         */
+
+        if (dx == recursionDX && dy == recursionDY) {
+            return null;
+        }
+        //Check for infinite loops and stop them
+
+        recursionDX = dx;
+        recursionDY = dy;
+
 
         if (x == end.getX() && y == end.getY()) {
             return new int[]{x, y};
@@ -218,7 +237,8 @@ public class JumpPoint {
                     neighbors.add(grid.nodes[x + dx][y]);
                 }
                 if (grid.isWalkableAt(x, y + dy) || grid.isWalkableAt(x + dx, y)) {
-                    neighbors.add(grid.nodes[x + dx][y + dy]);
+                    if (grid.valid(x + dx, y + dy))
+                        neighbors.add(grid.nodes[x + dx][y + dy]);
                 }
                 if (!grid.isWalkableAt(x - dx, y) && grid.isWalkableAt(x, y + dy)) {
                     neighbors.add(grid.nodes[x - dx][y + dy]);
@@ -234,10 +254,10 @@ public class JumpPoint {
                         if (grid.isWalkableAt(x, y + dy)) {
                             neighbors.add(grid.nodes[x][y + dy]);
                         }
-                        if (!grid.isWalkableAt(x + 1, y)) {
+                        if (!grid.isWalkableAt(x + 1, y) && grid.valid(x + 1, y)) {
                             neighbors.add(grid.nodes[x + 1][y + dy]);
                         }
-                        if (!grid.isWalkableAt(x - 1, y)) {
+                        if (!grid.isWalkableAt(x - 1, y) && grid.valid(x - 1, y)) {
                             neighbors.add(grid.nodes[x - 1][y + dy]);
                         }
                     }
@@ -246,10 +266,10 @@ public class JumpPoint {
                         if (grid.isWalkableAt(x + dx, y)) {
                             neighbors.add(grid.nodes[x + dx][y]);
                         }
-                        if (!grid.isWalkableAt(x, y + 1)) {
+                        if (!grid.isWalkableAt(x, y + 1) && grid.valid(x, y + 1)) {
                             neighbors.add(grid.nodes[x + dx][y + 1]);
                         }
-                        if (!grid.isWalkableAt(x, y - 1)) {
+                        if (!grid.isWalkableAt(x, y - 1) && grid.valid(x, y - 1)) {
                             neighbors.add(grid.nodes[x + dx][y - 1]);
                         }
                     }
@@ -258,7 +278,11 @@ public class JumpPoint {
         }
         // return all neighbors
         else {
-            neighbors = grid.getNeighbors(node, true, true);
+            neighbors = grid.getNeighbors(node, true, false);
+        }
+
+        for (Node n : neighbors) {
+            usedList.add(n);
         }
 
         return neighbors;

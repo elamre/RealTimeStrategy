@@ -6,8 +6,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.rts.game.entities.EntityManager;
 import com.rts.game.entities.Entity;
+import com.rts.game.entities.EntityManager;
 import com.rts.game.entities.SelectableUnit;
 import com.rts.util.Logger;
 
@@ -83,7 +83,7 @@ public class Player {
     private void moveSelection() {
         for (int i = 0, l = currentSelection.size(); i < l; i++) {
             if (currentSelection.get(i) instanceof SelectableUnit) {
-                ((SelectableUnit) currentSelection.get(i)).setDestination(Camera.getRealWorldX(), Camera.getRealWorldY());
+                ((SelectableUnit) currentSelection.get(i)).setDestination((int) Camera.getRealWorldX(), (int) Camera.getRealWorldY());
             }
         }
     }

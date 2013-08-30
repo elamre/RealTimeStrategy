@@ -24,19 +24,28 @@ public abstract class SelectableUnit extends Unit {
     float deltaX, deltaY;
     private boolean netEntity = false;
     private Sprite selectionSprite;
-    private boolean selected, atFinalLocation = true;
+    private boolean selected, atFinalLocation = false;
     private int nextDestinationX, nextDestinationY, finalDestinationX, finalDestinationY;
-    private float speed = 10;
+    private float speed = 3;
     private MoveEntityPacket moveEntityPacket;
-    ArrayList<Node> path;
+    ArrayList<Node> path = new ArrayList<Node>(64);
     int currentNode = 0;
 
     protected SelectableUnit(int x, int y, int entityType) {
         super(x, y, entityType);
+        nextDestinationX = x;
+        nextDestinationY = y;
+        finalDestinationX = x;
+        finalDestinationY = y;
+
     }
 
     public SelectableUnit(int id, int x, int y, int entityType, Sprite sprite) {
         super(id, x, y, entityType, sprite);
+        nextDestinationX = x;
+        nextDestinationY = y;
+        finalDestinationX = x;
+        finalDestinationY = y;
     }
 
     protected SelectableUnit(EntityCreationPacket packet, int entityType, Sprite sprite) {
@@ -57,33 +66,42 @@ public abstract class SelectableUnit extends Unit {
 
         if (!atFinalLocation || netEntity) {
 
+            faceAt(nextDestinationX, nextDestinationY);
+            setDirection();
             this.x -= deltaX * deltaT * speed;
             this.y -= deltaY * deltaT * speed;
+
 
             if (getDistance(nextDestinationX, nextDestinationY) <= speed * deltaT) {
 
 
-                if (getDistance(nextDestinationX, nextDestinationY) <= speed * deltaT) {
+                if (getDistance(finalDestinationX, finalDestinationY) <= speed * deltaT) {
+
                     atFinalLocation = true;
                     path = null;
                     deltaX = 0;
                     deltaY = 0;
+
                 } else {
-                    currentNode++;
+                    if (currentNode < path.size() - 1)
+                        currentNode++;
 
                     nextDestinationX = path.get(currentNode).getX();
                     nextDestinationY = path.get(currentNode).getY();
 
                     faceAt(nextDestinationX, nextDestinationY);
-                    deltaX = (float) (Math.cos(Math.toRadians(getAngle() - 90)));
-                    deltaY = (float) (Math.sin(Math.toRadians(getAngle() - 90)));
+                    setDirection();
+
+                    moveEntityPacket = new MoveEntityPacket(this.getId(), (int) getX(), (int) getY(), (int) nextDestinationX, (int) nextDestinationY, 0);
+
                 }
-
-                moveEntityPacket = new MoveEntityPacket(this.getId(), (int) getX(), (int) getY(), (int) nextDestinationX, (int) nextDestinationY, 0);
-
             }
+
+
             selectionSprite.setPosition(getX(), getY());
         } else {
+            finalDestinationY = (int) this.y;
+            finalDestinationX = (int) this.x;
             nextDestinationX = (int) this.x;
             nextDestinationY = (int) this.y;
             deltaX = 0;
@@ -93,32 +111,49 @@ public abstract class SelectableUnit extends Unit {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    public void setDestination(float x, float y) {
-        atFinalLocation = false;
-        this.finalDestinationX = (int) x;
-        this.finalDestinationY = (int) y;
+    private void setDirection() {
+        deltaX = (float) (Math.cos(Math.toRadians(getAngle() - 90)));
+        deltaY = (float) (Math.sin(Math.toRadians(getAngle() - 90)));
+    }
 
-        path = World.jps.search((int) this.getX(), (int) this.getY(), (int) finalDestinationX, (int) finalDestinationY);
+    public void setDestination(int x, int y) {
 
-        if (path.size() >= 2) {
+        System.out.println("Goal: " + x + ", " + y);
+        System.out.println("Current: " + this.x + ", " + this.y);
+
+        path = World.getPath((int) getX(), (int) getY(), x, y);
+        //path = World.getPath(0, 0, 100, 100);
+        System.out.println("Finding path...");
+
+
+        if (path != null && path.size() >= 2) {
+
+            System.out.println("Node size: " + path.size());
+            for (Node n : path) {
+                System.out.println("Pathing Node: " + n.getX() + ", " + n.getY());
+            }
+
+            atFinalLocation = false;
+            this.finalDestinationX = x;
+            this.finalDestinationY = y;
+
             this.nextDestinationX = path.get(1).getX();
             this.nextDestinationY = path.get(1).getY();
             //Set to 1 because index 0 is the start area, and to move to the start area would be useless or would make unnatural movement patterns.
 
             currentNode = 1;
 
-            for (Node n : path) {
-                System.out.println("Node:" + n.getX() + ", " + n.getY());
-            }
+            moveEntityPacket = new MoveEntityPacket(this.getId(), (int) getX(), (int) getY(), nextDestinationX, nextDestinationY, 0);
+
 
         } else {
             this.nextDestinationX = (int) getX();
             this.nextDestinationY = (int) getY();
+            this.finalDestinationX = (int) getX();
+            this.finalDestinationY = (int) getY();
 
             System.out.println("No path");
         }
-
-        moveEntityPacket = new MoveEntityPacket(this.getId(), (int) getX(), (int) getY(), (int) nextDestinationX, (int) nextDestinationY, 0);
     }
 
     public abstract void implementUpdate_3(float deltaT);
@@ -135,7 +170,17 @@ public abstract class SelectableUnit extends Unit {
             shapeRenderer.setProjectionMatrix(Camera.getOrthographicCamera().combined);
             shapeRenderer.setColor(Color.BLACK);
             shapeRenderer.line(x, y, nextDestinationX, nextDestinationY);
+
+            shapeRenderer.setColor(1f, 0, 0, 0.5f);
+
+            if (path != null && path.size() > 1) {
+                for (int i = 0; i < path.size() - 1; i++) {
+                    shapeRenderer.line(path.get(i).getX(), path.get(i).getY(), path.get(i + 1).getX(), path.get(i + 1).getY());
+                }
+            }
+
             shapeRenderer.end();
+
         }
     }
 
