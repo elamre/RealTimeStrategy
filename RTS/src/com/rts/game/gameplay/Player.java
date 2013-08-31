@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.rts.game.entities.Entity;
 import com.rts.game.entities.EntityManager;
 import com.rts.game.entities.SelectableUnit;
+import com.rts.game.pathfinding.PathfindingDebugger;
 import com.rts.util.Logger;
 
 import java.util.ArrayList;
@@ -29,6 +30,9 @@ public class Player {
     private boolean rightPressed = false;
     private Vector2 selectionStart;
     private Vector2 selectionEnd;
+
+    static boolean lastPressedT = false;
+
 
     public void create() {
         selectionStart = new Vector2(0, 0);
@@ -61,6 +65,16 @@ public class Player {
         } else {
             rightPressed = false;
         }
+
+
+        if (Gdx.input.isKeyPressed(Input.Keys.T) && !lastPressedT) {
+            PathfindingDebugger.set((int) Camera.getRealWorldX(), (int) Camera.getRealWorldY());
+            lastPressedT = true;
+        }
+        if (!Gdx.input.isKeyPressed(Input.Keys.T)) {
+            lastPressedT = false;
+        }
+
 
     }
 

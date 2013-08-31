@@ -3,6 +3,7 @@ package com.rts.game.gameplay;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.rts.game.pathfinding.JumpPoint;
 import com.rts.game.pathfinding.Node;
+import com.rts.game.pathfinding.PathfindingDebugger;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -20,7 +21,7 @@ public class World {
 
     private Chunk[][] chunks = new Chunk[chunkAmount][chunkAmount];
 
-    public static JumpPoint jps = new JumpPoint();
+    public static JumpPoint jps = new JumpPoint(128, 128);
 
     public static int getChunkSize() {
         return chunkSize;
@@ -41,17 +42,32 @@ public class World {
         }
 
         ShapeRenderer box = new ShapeRenderer();
-        box.begin(ShapeRenderer.ShapeType.FilledRectangle);
         box.setProjectionMatrix(Camera.getOrthographicCamera().combined);
+        box.begin(ShapeRenderer.ShapeType.FilledRectangle);
         box.setColor(1, 0, 1, 0.8f);
-        for (int x = 0; x < jps.grid.nodes.length; x++) {
-            for (int y = 0; y < jps.grid.nodes[0].length; y++) {
-                if (jps.grid.isBlockedAt(x, y)) {
-                    box.filledRect(x, y, 1, 1);
+        for (int x = 0; x < jps.grid.grid.length; x++) {
+            for (int y = 0; y < jps.grid.grid[0].length; y++) {
+                if (!jps.grid.getNode(x, y).isPass()) {
+                    box.filledRect(x - 0.5f, y - 0.5f, 1, 1);
                 }
             }
         }
         box.end();
+
+
+        box = new ShapeRenderer();
+        box.setProjectionMatrix(Camera.getOrthographicCamera().combined);
+        box.begin(ShapeRenderer.ShapeType.Point);
+        box.setColor(1, 0, 0, 0.8f);
+        for (int x = 0; x < jps.grid.grid.length; x++) {
+            for (int y = 0; y < jps.grid.grid[0].length; y++) {
+                box.point(x, y, 0);
+            }
+        }
+        box.end();
+
+
+        PathfindingDebugger.draw();
 
 
     }
@@ -65,18 +81,15 @@ public class World {
             }
         }
 
-        jps.grid.buildNodes(128, 128);
-
-        for (int x = 0; x < jps.grid.nodes.length; x++) {
-            for (int y = 0; y < jps.grid.nodes[0].length; y++) {
+        for (int x = 0; x < jps.grid.grid.length; x++) {
+            for (int y = 0; y < jps.grid.grid[0].length; y++) {
                 if (rand.nextInt(10) == 0)
-                    jps.grid.nodes[x][y].setBlocked(true);
+                    jps.grid.grid[x][y].setPassable(false);
                 else {
-                    jps.grid.nodes[x][y].setBlocked(false);
+                    jps.grid.grid[x][y].setPassable(true);
                 }
             }
         }
-
     }
 
     public static ArrayList<Node> getPath(int x, int y, int x2, int y2) {

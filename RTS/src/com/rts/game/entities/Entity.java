@@ -1,7 +1,5 @@
 package com.rts.game.entities;
 
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -88,7 +86,7 @@ public abstract class Entity {
         ShapeRenderer box = new ShapeRenderer();
         box.begin(ShapeRenderer.ShapeType.FilledRectangle);
         box.setProjectionMatrix(Camera.getOrthographicCamera().combined);
-        box.setColor(1, 0, 1, 0.1f);
+        box.setColor(0, 0, 1, 0.1f);
         box.filledRect(x, y, hitBox.getWidth(), hitBox.getHeight());
         box.end();
         //TODO draw rectangle or sumtin

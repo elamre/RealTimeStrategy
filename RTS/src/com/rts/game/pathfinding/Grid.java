@@ -3,149 +3,169 @@ package com.rts.game.pathfinding;
 import java.util.ArrayList;
 
 /**
- * Created with IntelliJ IDEA.
- * User: Jake
- * Date: 8/23/13
- * Time: 12:07 AM
- * To change this template use File | Settings | File Templates.
+ * Holds a Node[][] 2d array "grid" for path-finding tests, all drawing is done through here.
+ *
+ * @author Clint Mullins
  */
 public class Grid {
+    public Node[][] grid;
+    private Heap heap;
+    public boolean addFirstNode = true;
 
-    public Node[][] nodes;
 
-    public boolean isWalkableAt(int x, int y) {
-        if (valid(x, y))
-            return nodes[x][y].isWalkable();
-        else return false;
+    /**
+     * Grid is created, Land is generated in either uniform or random fashion, landscape 'Map' is created in printed.
+     *
+     * @param xMax - (int) maximum x coordinate
+     * @param yMax - (int) maximum y coordinate
+     */
+    public Grid(int xMax, int yMax) {
+        grid = new Node[xMax][yMax];
+        heap = new Heap();
+        initGrid();
     }
 
-    public boolean isBlockedAt(int x, int y) {
-        if (valid(x, y)) {
-            return nodes[x][y].isBlocked();
-        }
-        return true;
-    }
-
-    public void setWalkable(int x, int y) {
-        nodes[x][y].setWalkable();
-    }
-
-    public void setBlocked(int x, int y) {
-        nodes[x][y].setBlocked();
-    }
-
-    public boolean valid(int x, int y) {
-        if (x >= 0 && y >= 0 && x < nodes.length && y < nodes[0].length) {
-            return true;
-        }
-        return false;
-    }
-
-    public void buildNodes(int width, int height) {
-        nodes = new Node[width][height];
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-                nodes[x][y] = new Node(x, y);
-            }
-        }
-    }
-
-    public void buildNodes(boolean[][] blocked) {
-        nodes = new Node[blocked.length][blocked[0].length];
-        for (int x = 0; x < nodes.length; x++) {
-            for (int y = 0; y < nodes[0].length; y++) {
-                nodes[x][y] = new Node(x, y, blocked[x][y]);
+    private void initGrid() {
+        for (int x = 0; x < grid.length; x++) {
+            for (int y = 0; y < grid[0].length; y++) {
+                grid[x][y] = new Node(x, y);
             }
         }
     }
 
     /**
-     * Get the neighbors of the given node.
-     * offsets      diagonalOffsets:
-     * +---+---+---+    +---+---+---+
-     * |   | 0 |   |    | 0 |   | 1 |
-     * +---+---+---+    +---+---+---+
-     * | 3 |   | 1 |    |   |   |   |
-     * +---+---+---+    +---+---+---+
-     * |   | 2 |   |    | 3 |   | 2 |
-     * +---+---+---+    +---+---+---+
-     * When allowDiagonal is true, if offsets[i] is valid, then
-     * diagonalOffsets[i] and
-     * diagonalOffsets[(i + 1) % 4] is valid.
+     * returns all adjacent nodes that can be traversed
      *
-     * @param {Node}    node
-     * @param {boolean} allowDiagonal
-     * @param {boolean} dontCrossCorners
+     * @param node (Node) finds the neighbors of this node
+     * @return (int[][]) list of neighbors that can be traversed
      */
-    public ArrayList<Node> getNeighbors(Node node, boolean allowDiagonal, boolean dontCrossCorners) {
-        int x = node.getX();
-        int y = node.getY();
-        ArrayList<Node> neighbors = new ArrayList<Node>(8);
-        boolean s0 = false, d0 = false,
-                s1 = false, d1 = false,
-                s2 = false, d2 = false,
-                s3 = false, d3 = false;
+    public int[][] getNeighbors(Node node) {
+        int[][] neighbors = new int[8][2];
+        int x = node.x;
+        int y = node.y;
+        boolean d0 = false; //These booleans are for speeding up the adding of nodes.
+        boolean d1 = false;
+        boolean d2 = false;
+        boolean d3 = false;
 
-        // ↑
-        if (isWalkableAt(x, y - 1)) {
-            neighbors.add(nodes[y - 1][x]);
-            s0 = true;
+        if (walkable(x, y - 1)) {
+            neighbors[0] = (tmpInt(x, y - 1));
+            d0 = d1 = true;
         }
-        // →
-        if (isWalkableAt(x + 1, y)) {
-            neighbors.add(nodes[y][x + 1]);
-            s1 = true;
+        if (walkable(x + 1, y)) {
+            neighbors[1] = (tmpInt(x + 1, y));
+            d1 = d2 = true;
         }
-        // ↓
-        if (isWalkableAt(x, y + 1)) {
-            neighbors.add(nodes[y + 1][x]);
-            s2 = true;
+        if (walkable(x, y + 1)) {
+            neighbors[2] = (tmpInt(x, y + 1));
+            d2 = d3 = true;
         }
-        // ←
-        if (isWalkableAt(x - 1, y)) {
-            neighbors.add(nodes[y][x - 1]);
-            s3 = true;
+        if (walkable(x - 1, y)) {
+            neighbors[3] = (tmpInt(x - 1, y));
+            d3 = d0 = true;
         }
-
-        if (!allowDiagonal) {
-            return neighbors;
+        if (d0 && walkable(x - 1, y - 1)) {
+            neighbors[4] = (tmpInt(x - 1, y - 1));
         }
-
-        if (dontCrossCorners) {
-            d0 = s3 && s0;
-            d1 = s0 && s1;
-            d2 = s1 && s2;
-            d3 = s2 && s3;
-        } else {
-            d0 = s3 || s0;
-            d1 = s0 || s1;
-            d2 = s1 || s2;
-            d3 = s2 || s3;
+        if (d1 && walkable(x + 1, y - 1)) {
+            neighbors[5] = (tmpInt(x + 1, y - 1));
         }
-
-        // ↖
-        if (d0 && isWalkableAt(x - 1, y - 1)) {
-            neighbors.add(nodes[y - 1][x - 1]);
+        if (d2 && walkable(x + 1, y + 1)) {
+            neighbors[6] = (tmpInt(x + 1, y + 1));
         }
-        // ↗
-        if (d1 && isWalkableAt(x + 1, y - 1)) {
-            neighbors.add(nodes[y - 1][x + 1]);
+        if (d3 && walkable(x - 1, y + 1)) {
+            neighbors[7] = (tmpInt(x - 1, y + 1));
         }
-        // ↘
-        if (d2 && isWalkableAt(x + 1, y + 1)) {
-            neighbors.add(nodes[y + 1][x + 1]);
-        }
-        // ↙
-        if (d3 && isWalkableAt(x - 1, y + 1)) {
-            neighbors.add(nodes[y + 1][x - 1]);
-        }
-
         return neighbors;
     }
 
-    public float distance(float x, float y, float x2, float y2) {
-        return (float) Math.sqrt((x2 - x) * (x2 - x) + (y2 - y) * (y2 - y));
+    /**
+     * Tests an x,y node's ability to be walked on
+     *
+     * @param x (int) node's x coordinate
+     * @param y (int) node's y coordinate
+     * @return (boolean) true if the node is obstacle free and on the map, false otherwise
+     */
+    public boolean walkable(int x, int y) {
+        try {
+            return getNode(x, y).pass;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
+    public ArrayList<Node> reversePath(Node node, int startx, int starty) {
+        ArrayList<Node> path = new ArrayList<Node>();
+        System.out.println("Tracing Back Path...");
 
+        while (node.parent != null) {
+            path.add(0, node);
+            node = node.parent;
+        }
+
+
+        if (addFirstNode) {
+            path.add(0, getNode(startx, starty));
+        }
+
+        System.out.println("Path Trace Complete!");
+        return path;
+    }
+//-----------------------------------------------------------------//
+
+//--------------------------HEAP-----------------------------------//	
+
+    /**
+     * Adds a node's (x,y,f) to the heap. The heap is sorted by 'f'.
+     *
+     * @param node (Node) node to be added to the heap
+     */
+    public void heapAdd(Node node) {
+        float[] tmp = {node.x, node.y, node.f};
+        heap.add(tmp);
+    }
+
+    /**
+     * @return (int) size of the heap
+     */
+    public int heapSize() {
+        return heap.getSize();
+    }
+
+    /**
+     * @return (Node) takes data from popped float[] and returns the correct node
+     */
+    public Node heapPopNode() {
+        float[] tmp = heap.pop();
+        return getNode((int) tmp[0], (int) tmp[1]);
+    }
+
+//---------------------------------------------------------//
+
+    /**
+     * Encapsulates x,y in an int[] for returning. A helper method for the jump method
+     *
+     * @param x (int) point's x coordinate
+     * @param y (int) point's y coordinate
+     * @return ([]int) bundled x,y
+     */
+    public int[] tmpInt(int x, int y) {
+        return new int[]{x, y};
+    }
+
+    /**
+     * getFunc - Node at given x, y
+     *
+     * @param x (int) desired node x coordinate
+     * @param y (int) desired node y coordinate
+     * @return (Node) desired node
+     */
+    public Node getNode(int x, int y) {
+        try {
+            return grid[x][y];
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }
+

@@ -1,4 +1,4 @@
-    package com.rts.game.screens;
+package com.rts.game.screens;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -43,10 +43,10 @@ public class Game implements ApplicationListener {
     @Override
     public void render() {
 
-        Camera.update(Gdx.graphics.getDeltaTime());
-
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+
+        Camera.update(Gdx.graphics.getDeltaTime());
 
         world.draw();
 
