@@ -54,6 +54,10 @@ public abstract class SelectableUnit extends MovingUnit {
 
     protected SelectableUnit(EntityCreationPacket packet, int entityType, TextureRegion region, int frames, float speed) {
         super(packet, entityType, region, frames, speed);
+        finalDestinationX = (int) x;
+        finalDestinationY = (int) y;
+        nextDestinationX = (int) x;
+        nextDestinationY = (int) y;
         System.out.println("new unit has been made?");
     }
 

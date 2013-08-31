@@ -1,4 +1,4 @@
-package com.rts.game.screens;
+    package com.rts.game.screens;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
