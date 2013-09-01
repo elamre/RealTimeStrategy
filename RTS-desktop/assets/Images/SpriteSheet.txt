@@ -1,6 +1,6 @@
 SpriteSheet.png
 format: RGBA8888
-filter: Linear,Linear
+filter: Nearest,Linear
 repeat: none
 UI/resources_hud
   rotate: false

@@ -20,7 +20,6 @@ public class Cursor {
     public static Ability abilityRequesting = null;
 
     public static void create() {
-        sprite = new Sprite();
         sprite = new Sprite(Assets.getAssets().getTextureRegion("Special/mouse"));
         sprite.setSize(World.getChunkSize(), World.getChunkSize());
         sprite.setOrigin(0, 0);

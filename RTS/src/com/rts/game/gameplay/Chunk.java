@@ -19,7 +19,7 @@ public class Chunk {
 
     int x;
     int y;
-    String texture = "Images/Environment/Grass.png";
+    TextureRegion texture;
     Sprite sprite;
 
     public void create(int x, int y) {
@@ -28,6 +28,7 @@ public class Chunk {
         this.y = y;
 
         sprite = new Sprite();
+        texture = Assets.getAssets().getTextureRegion("Map/grass");
 /*
         texture = "Images/Environment/Grass.png";
         Texture tex = new Texture(Gdx.files.internal(texture));
@@ -45,7 +46,8 @@ public class Chunk {
 
 
     public void draw(SpriteBatch batch) {
-        sprite.draw(batch);
+        batch.draw(texture,x,y);
+        //sprite.draw(batch);
     }
 
 }

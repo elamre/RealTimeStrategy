@@ -1,5 +1,7 @@
 package com.rts.game.entities;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -25,15 +27,6 @@ public abstract class Entity {
     /* The angle of the entity IN DEGREES. */
     protected boolean debug = false;
     protected float x;
-
-    public void setY(float y) {
-        this.y = y;
-    }
-
-    public void setX(float x) {
-        this.x = x;
-    }
-
     protected float y;
     protected float angle;
     private TextureRegion textureRegion;
@@ -83,22 +76,28 @@ public abstract class Entity {
 
     public void draw(SpriteBatch spriteBatch) {
         implementDraw_1(spriteBatch);
-        if (debug)
+        if (debug) {
             drawDebug(spriteBatch);
+        }
         if (textureRegion != null) {
             spriteBatch.draw(textureRegion, x, y, width / 2, height / 2, width, height, 1, 1, angle);
+            Logger.getInstance().debug("Drawing something at: " + toString());
         }
     }
 
     public abstract void implementDraw_1(SpriteBatch spriteBatch);
 
     protected void drawDebug(SpriteBatch spriteBatch) {
+
+        Gdx.gl.glEnable(GL10.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
         ShapeRenderer box = new ShapeRenderer();
         box.begin(ShapeRenderer.ShapeType.FilledRectangle);
         box.setProjectionMatrix(Camera.getOrthographicCamera().combined);
-        box.setColor(0, 0, 1, 0.1f);
+        box.setColor(0, 0, 0, 0.3f);
         box.filledRect(x, y, hitBox.getWidth(), hitBox.getHeight());
         box.end();
+        Gdx.gl.glDisable(GL10.GL_BLEND);
         //TODO draw rectangle or sumtin
     }
 
@@ -122,8 +121,16 @@ public abstract class Entity {
         return x;
     }
 
+    public void setX(float x) {
+        this.x = x;
+    }
+
     public float getY() {
         return y;
+    }
+
+    public void setY(float y) {
+        this.y = y;
     }
 
     public float getOriginX() {

@@ -2,6 +2,7 @@ package com.rts.game.gameplay;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
  * To change this template use File | Settings | File Templates.
  */
 public class Player {
+    static boolean lastPressedT = false;
     public ArrayList<Entity> currentSelection = new ArrayList<Entity>(64);
     public Entity currentSelect;
     public String name;
@@ -30,9 +32,6 @@ public class Player {
     private boolean rightPressed = false;
     private Vector2 selectionStart;
     private Vector2 selectionEnd;
-
-    static boolean lastPressedT = false;
-
 
     public void create() {
         selectionStart = new Vector2(0, 0);
@@ -108,14 +107,16 @@ public class Player {
 
     private void drawSelectionBox() {
         if (runningSelection) {
-
             Camera.batch.end();
+
+            Gdx.gl.glEnable(GL10.GL_BLEND);
+            Gdx.gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 
             ShapeRenderer box = new ShapeRenderer();
             box.setProjectionMatrix(Camera.getOrthographicCamera().combined);
             box.begin(ShapeRenderer.ShapeType.FilledRectangle);
 
-            box.setColor(1, 0, 1, 0.1f);
+            box.setColor(0, 1, 0, 0.2f);
             float lx = selectionEnd.x;
             float ly = selectionEnd.y;
             if (selectionStart.x < selectionEnd.x) {
@@ -127,9 +128,13 @@ public class Player {
             box.filledRect(lx, ly, Math.abs(selectionStart.x - selectionEnd.x), Math.abs(selectionStart.y - selectionEnd.y));
             box.end();
 
+            box.begin(ShapeRenderer.ShapeType.Rectangle);
+            box.setColor(0, 1, 0, 0.5f);
+            box.rect(lx, ly, Math.abs(selectionStart.x - selectionEnd.x), Math.abs(selectionStart.y - selectionEnd.y));
+            box.end();
+
+            Gdx.gl.glDisable(GL10.GL_BLEND);
             Camera.batch.begin();
-
-
         }
     }
 
