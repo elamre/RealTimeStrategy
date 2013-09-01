@@ -24,7 +24,17 @@ public abstract class Entity {
     protected int width = 0, height = 0;
     /* The angle of the entity IN DEGREES. */
     protected boolean debug = false;
-    protected float x, y;
+    protected float x;
+
+    public void setY(float y) {
+        this.y = y;
+    }
+
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    protected float y;
     protected float angle;
     private TextureRegion textureRegion;
     private Rectangle hitBox = new Rectangle(0, 0, 1, 1);

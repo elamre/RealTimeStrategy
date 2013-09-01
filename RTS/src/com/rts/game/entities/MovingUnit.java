@@ -1,10 +1,8 @@
 package com.rts.game.entities;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.g3d.model.keyframe.Keyframe;
 import com.rts.networking.packets.game.EntityCreationPacket;
 
 /**

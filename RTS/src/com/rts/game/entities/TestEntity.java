@@ -2,6 +2,7 @@ package com.rts.game.entities;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.rts.game.Assets;
+import com.rts.game.abilities.Blink;
 import com.rts.networking.packets.game.EntityCreationPacket;
 
 /**
@@ -14,10 +15,14 @@ import com.rts.networking.packets.game.EntityCreationPacket;
 public class TestEntity extends SelectableUnit {
     public TestEntity(int x, int y) {
         super(x, y, EntityList.UNIT_TEST_1);
+        abilities.add(new Blink(this));
+
     }
 
     public TestEntity(EntityCreationPacket packet) {
         super(packet, EntityList.UNIT_TEST_1, Assets.getAssets().getTextureRegion("Units/worker_wood"), 4, 0.1f);
+        abilities.add(new Blink(this));
+
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.rts.game.Assets;
+import com.rts.game.abilities.Ability;
 
 /**
  * A virtual cursor to use
@@ -13,31 +14,36 @@ public class Cursor {
     public static float x = Gdx.graphics.getWidth() / 2;
     public static float y = Gdx.graphics.getHeight() / 2;
     static Sprite sprite;
+    static Sprite spriteAbilityUse;
+
+    public static boolean abilityRequested = false;
+    public static Ability abilityRequesting = null;
 
     public static void create() {
-
-        //TODO: Make mouse cursor correct size and direction
-
         sprite = new Sprite();
-//        String texture = "Images/Hud/mouse.png";
-//        Texture tex = new Texture(Gdx.files.internal(texture));
-        //       tex.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        //       tex.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
-
-        //     TextureRegion region = new TextureRegion(tex, 0, 0, tex.getWidth(), tex.getHeight());
-
         sprite = new Sprite(Assets.getAssets().getTextureRegion("Special/mouse"));
-
         sprite.setSize(World.getChunkSize(), World.getChunkSize());
         sprite.setOrigin(0, 0);
         sprite.flip(false, true);
 
+
+        spriteAbilityUse = new Sprite();
+        spriteAbilityUse = new Sprite(Assets.getAssets().getTextureRegion("UI/button"));
+        spriteAbilityUse.setSize(World.getChunkSize(), World.getChunkSize());
+        spriteAbilityUse.setOrigin(0, 0);
+        spriteAbilityUse.flip(false, true);
     }
 
     public static void draw() {
         Camera.makeHUDBatch();
-        sprite.setPosition(x, y);
-        sprite.draw(Camera.batch);
+
+        if (!abilityRequested) {
+            sprite.setPosition(x, y);
+            sprite.draw(Camera.batch);
+        } else {
+            spriteAbilityUse.setPosition(x, y);
+            spriteAbilityUse.draw(Camera.batch);
+        }
     }
 
     public static void update(float delta) {

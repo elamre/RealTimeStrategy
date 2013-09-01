@@ -10,4 +10,5 @@ package com.rts.game.entities;
 public class EntityList {
     public static final int UNIT_TEST_1 = 1;
     public static final int UNIT_TEST_2 = 2;
+    public static final int UNIT_TEST_3 = 3;
 }

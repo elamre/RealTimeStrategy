@@ -1,9 +1,11 @@
 package com.rts.game.entities;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.rts.game.abilities.Ability;
 import com.rts.networking.packets.game.EntityCreationPacket;
+
+import java.util.ArrayList;
 
 /**
  * Created with IntelliJ IDEA.
@@ -13,23 +15,34 @@ import com.rts.networking.packets.game.EntityCreationPacket;
  * To change this template use File | Settings | File Templates.
  */
 public abstract class Unit extends Entity {
+
+    ArrayList<Ability> abilities;
+
     protected Unit(int x, int y, int entityType) {
         super(x, y, entityType);
+        abilities = new ArrayList<Ability>(4);
     }
 
     public Unit(int id, int x, int y, int entityType, TextureRegion textureRegion) {
         super(id, x, y, entityType);
         setTextureRegion(textureRegion);
+        abilities = new ArrayList<Ability>(4);
     }
 
     public Unit(EntityCreationPacket packet, int entityType, TextureRegion textureRegion) {
         super(packet, entityType);
         if (textureRegion != null)             //animation class will handle it itself. See MovingUnit
             setTextureRegion(textureRegion);
+        abilities = new ArrayList<Ability>(4);
     }
 
     @Override
     public void implementUpdate_1(float deltaT) {
+
+        for (Ability a : abilities) {
+            a.logic();
+        }
+
         implementUpdate_2(deltaT);
         //To change body of implemented methods use File | Settings | File Templates.
     }

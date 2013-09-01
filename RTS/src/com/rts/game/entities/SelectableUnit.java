@@ -24,6 +24,11 @@ import java.util.ArrayList;
 public abstract class SelectableUnit extends MovingUnit {
     private boolean netEntity = false;
     private Sprite selectionSprite;
+
+    public boolean isSelected() {
+        return selected;
+    }
+
     private boolean selected, atFinalLocation = false;
     private int nextDestinationX, nextDestinationY, finalDestinationX, finalDestinationY;
     private float speed = 3;
@@ -115,7 +120,9 @@ public abstract class SelectableUnit extends MovingUnit {
         implementUpdate_4(deltaT);
         //To change body of implemented methods use File | Settings | File Templates.
     }
+
     public abstract void implementUpdate_4(float deltaT);
+
     private void setDirection() {
         deltaX = (float) (Math.cos(Math.toRadians(getAngle() - 90)));
         deltaY = (float) (Math.sin(Math.toRadians(getAngle() - 90)));

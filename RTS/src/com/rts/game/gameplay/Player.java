@@ -40,7 +40,7 @@ public class Player {
     }
 
     public void update(float deltaT, EntityManager entityManager) {
-        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT) && !runningSelection) {
+        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT) && !runningSelection && !Cursor.abilityRequested) {
             for (int i = 0, l = currentSelection.size(); i < l; i++) {
                 ((SelectableUnit) currentSelection.get(i)).setSelected(false);
             }
