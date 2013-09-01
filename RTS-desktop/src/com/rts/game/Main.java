@@ -8,7 +8,7 @@ public class Main {
     public static void main(String[] args) {
         LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
         cfg.title = "RTS";
-        cfg.useGL20 = false;
+        cfg.useGL20 = true;
         cfg.width = 480;
         cfg.height = 320;
         new LwjglApplication(new Game(), cfg);

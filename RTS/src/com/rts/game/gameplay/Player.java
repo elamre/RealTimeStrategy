@@ -108,9 +108,13 @@ public class Player {
 
     private void drawSelectionBox() {
         if (runningSelection) {
+
+            Camera.batch.end();
+
             ShapeRenderer box = new ShapeRenderer();
             box.setProjectionMatrix(Camera.getOrthographicCamera().combined);
             box.begin(ShapeRenderer.ShapeType.FilledRectangle);
+
             box.setColor(1, 0, 1, 0.1f);
             float lx = selectionEnd.x;
             float ly = selectionEnd.y;
@@ -122,6 +126,10 @@ public class Player {
             }
             box.filledRect(lx, ly, Math.abs(selectionStart.x - selectionEnd.x), Math.abs(selectionStart.y - selectionEnd.y));
             box.end();
+
+            Camera.batch.begin();
+
+
         }
     }
 

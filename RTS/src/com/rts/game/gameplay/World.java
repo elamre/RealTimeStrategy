@@ -41,6 +41,8 @@ public class World {
             }
         }
 
+        Camera.batch.end();
+
         ShapeRenderer box = new ShapeRenderer();
         box.setProjectionMatrix(Camera.getOrthographicCamera().combined);
         box.begin(ShapeRenderer.ShapeType.FilledRectangle);
@@ -54,7 +56,7 @@ public class World {
         }
         box.end();
 
-
+        /*
         box = new ShapeRenderer();
         box.setProjectionMatrix(Camera.getOrthographicCamera().combined);
         box.begin(ShapeRenderer.ShapeType.Point);
@@ -66,8 +68,11 @@ public class World {
         }
         box.end();
 
+        */
 
         PathfindingDebugger.draw();
+
+        Camera.batch.begin();
 
 
     }

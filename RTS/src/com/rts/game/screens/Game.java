@@ -45,6 +45,7 @@ public class Game implements ApplicationListener {
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glCullFace(GL10.GL_BACK);
 
         Camera.update(Gdx.graphics.getDeltaTime());
 
