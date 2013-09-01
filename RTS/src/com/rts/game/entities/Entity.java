@@ -89,6 +89,8 @@ public abstract class Entity {
 
     protected void drawDebug(SpriteBatch spriteBatch) {
 
+        Camera.batch.end();
+
         Gdx.gl.glEnable(GL10.GL_BLEND);
         Gdx.gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
         ShapeRenderer box = new ShapeRenderer();
@@ -99,6 +101,8 @@ public abstract class Entity {
         box.end();
         Gdx.gl.glDisable(GL10.GL_BLEND);
         //TODO draw rectangle or sumtin
+        Camera.batch.begin();
+
     }
 
     public float getDistance(float x, float y) {

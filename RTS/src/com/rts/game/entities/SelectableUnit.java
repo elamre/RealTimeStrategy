@@ -175,6 +175,9 @@ public abstract class SelectableUnit extends MovingUnit {
             selectionSprite.draw(spriteBatch, 0.8f);
         }
         if (debug) {
+
+            Camera.batch.end();
+
             ShapeRenderer shapeRenderer = new ShapeRenderer();
             shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
             shapeRenderer.setProjectionMatrix(Camera.getOrthographicCamera().combined);
@@ -190,6 +193,9 @@ public abstract class SelectableUnit extends MovingUnit {
             }
 
             shapeRenderer.end();
+
+            Camera.batch.begin();
+
 
         }
     }
