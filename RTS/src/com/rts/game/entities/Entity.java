@@ -81,7 +81,7 @@ public abstract class Entity {
         }
         if (textureRegion != null) {
             spriteBatch.draw(textureRegion, x, y, width / 2, height / 2, width, height, 1, 1, angle);
-            Logger.getInstance().debug("Drawing something at: " + toString());
+            //Logger.getInstance().debug("Drawing something at: " + toString());
         }
     }
 

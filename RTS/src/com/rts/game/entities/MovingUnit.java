@@ -3,7 +3,10 @@ package com.rts.game.entities;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.rts.game.abilities.Walk;
+import com.rts.game.gameplay.World;
 import com.rts.networking.packets.game.EntityCreationPacket;
+import com.rts.networking.packets.game.MoveEntityPacket;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,23 +15,34 @@ import com.rts.networking.packets.game.EntityCreationPacket;
  * Time: 8:35 AM
  * To change this template use File | Settings | File Templates.
  */
-public abstract class MovingUnit extends Unit {
-    protected float deltaX = 0;
-    protected float deltaY = 0;
-    protected float speed = 100;
+public abstract class MovingUnit extends SelectableUnit {
     private Animation animation;
     private float stateTime = 0;
 
+    protected float deltaX = 0;
+    protected float deltaY = 0;
+    protected float speed = 100;
+
+    private MoveEntityPacket moveEntityPacket;
+
+    Walk walker;
+
     protected MovingUnit(int x, int y, int entityType) {
         super(x, y, entityType);
+        walker = new Walk(this);
+        abilities.add(walker);
     }
 
     public MovingUnit(int id, int x, int y, int entityType, TextureRegion textureRegion) {
         super(id, x, y, entityType, textureRegion);
+        walker = new Walk(this);
+        abilities.add(walker);
     }
 
     public MovingUnit(EntityCreationPacket packet, int entityType, TextureRegion textureRegion) {
         super(packet, entityType, textureRegion);
+        walker = new Walk(this);
+        abilities.add(walker);
     }
 
     public MovingUnit(EntityCreationPacket packet, int entityType, TextureRegion textureRegion, int frames, float frameSpeed) {
@@ -41,25 +55,24 @@ public abstract class MovingUnit extends Unit {
         animation.setPlayMode(Animation.LOOP_PINGPONG);
         System.out.println("Frame amount: " + animationRegions.length);
         setTextureRegion(animationRegions[0]);
+
+        walker = new Walk(this);
+        abilities.add(walker);
     }
 
     @Override
-    public void implementUpdate_2(float deltaT) {
+    public void implementUpdate_3(float deltaT) {
         if (animation != null) {
-            if (speed != 0) {
-                stateTime += deltaT;
-                setTextureRegion(animation.getKeyFrame(stateTime));
-                if (stateTime >= animation.animationDuration * 2) {
-                    stateTime -= animation.animationDuration * 2;
-                }
+            stateTime += deltaT;
+            setTextureRegion(animation.getKeyFrame(stateTime));
+            if (stateTime >= animation.animationDuration * 2) {
+                stateTime -= animation.animationDuration * 2;
             }
         }
-        this.x -= deltaX * deltaT * speed;
-        this.y -= deltaY * deltaT * speed;
         implementUpdate_3(deltaT);
     }
 
-    public abstract void implementUpdate_3(float deltaT);
+    public abstract void implementUpdate_4(float deltaT);
 
     @Override
     public void implementDraw_2(SpriteBatch spriteBatch) {
@@ -67,29 +80,23 @@ public abstract class MovingUnit extends Unit {
 
     }
 
+    public void moveEntity(MoveEntityPacket moveEntityPacket) {
+        this.x = moveEntityPacket.getX();
+        this.y = moveEntityPacket.getY();
+        walker.nextNode = World.nodeAt(moveEntityPacket.getTargetX(), moveEntityPacket.getTargetY());
+    }
+
+    @Override
+    public MoveEntityPacket getMovePacket() {
+        MoveEntityPacket tempPacket = moveEntityPacket;
+        moveEntityPacket = null;
+        return tempPacket;
+    }
+
+
     public abstract void implementDraw_3(SpriteBatch spriteBatch);
 
-    public float getDeltaX() {
-        return deltaX;
-    }
-
-    public void setDeltaX(float deltaX) {
-        this.deltaX = deltaX;
-    }
-
-    public float getDeltaY() {
-        return deltaY;
-    }
-
-    public void setDeltaY(float deltaY) {
-        this.deltaY = deltaY;
-    }
-
-    public float getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(float speed) {
-        this.speed = speed;
+    public void setDestination(int realWorldX, int realWorldY) {
+        walker.walkTo(realWorldX, realWorldY);
     }
 }

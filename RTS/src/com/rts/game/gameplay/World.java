@@ -50,25 +50,24 @@ public class World {
         for (int x = 0; x < jps.grid.grid.length; x++) {
             for (int y = 0; y < jps.grid.grid[0].length; y++) {
                 if (!jps.grid.getNode(x, y).isPass()) {
-                    box.filledRect(x - 0.5f, y - 0.5f, 1, 1);
+                    box.filledRect(x, y, 1, 1);
                 }
             }
         }
         box.end();
 
-        /*
+
         box = new ShapeRenderer();
         box.setProjectionMatrix(Camera.getOrthographicCamera().combined);
         box.begin(ShapeRenderer.ShapeType.Point);
         box.setColor(1, 0, 0, 0.8f);
         for (int x = 0; x < jps.grid.grid.length; x++) {
             for (int y = 0; y < jps.grid.grid[0].length; y++) {
-                box.point(x, y, 0);
+                box.point(x + 0.5f, y + 0.5f, 0);
             }
         }
         box.end();
 
-        */
 
         PathfindingDebugger.draw();
 
@@ -99,6 +98,10 @@ public class World {
 
     public static ArrayList<Node> getPath(int x, int y, int x2, int y2) {
         return jps.search(x, y, x2, y2);
+    }
+
+    public static Node nodeAt(int x, int y) {
+        return jps.grid.getNode(x, y);
     }
 
 }

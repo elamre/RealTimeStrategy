@@ -12,7 +12,7 @@ import com.rts.networking.packets.game.EntityCreationPacket;
  * Time: 5:49 PM
  * To change this template use File | Settings | File Templates.
  */
-public class TestEntity extends SelectableUnit {
+public class TestEntity extends MovingUnit {
     public TestEntity(int x, int y) {
         super(x, y, EntityList.UNIT_TEST_1);
         abilities.add(new Blink(this));
@@ -27,6 +27,11 @@ public class TestEntity extends SelectableUnit {
 
     @Override
     public void onCreate_1() {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void implementUpdate_3(float deltaT) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 

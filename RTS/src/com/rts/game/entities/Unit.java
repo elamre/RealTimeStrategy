@@ -40,24 +40,22 @@ public abstract class Unit extends Entity {
     public void implementUpdate_1(float deltaT) {
 
         for (Ability a : abilities) {
-            a.logic();
+            a.logic(deltaT);
         }
 
         implementUpdate_2(deltaT);
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    public void faceAt(float x, float y) {
+    public float faceAt(float x, float y) {
         float tempAngle = (float) Math.atan2(x - this.x, y - this.y);
         angle = -(float) Math.toDegrees(tempAngle);
-        //getSprite().setPosition(getX() + width / 2, getY() + height / 2);
-        //getSprite().setRotation(angle);
+        return angle;
     }
 
-    public void faceAt(int angle) {
+    public float faceAt(float angle) {
         this.angle = angle;
-        //getSprite().setPosition(getX() + width / 2, getY() + height / 2);
-        //getSprite().setRotation(angle);
+        return angle;
     }
 
     public abstract void implementUpdate_2(float deltaT);

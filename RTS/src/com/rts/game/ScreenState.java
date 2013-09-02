@@ -8,7 +8,7 @@ package com.rts.game;
  * To change this template use File | Settings | File Templates.
  */
 public enum ScreenState {
-    MENU, LOBBY, GAME;
+    MENU, LOBBY, GAME
 }
 
 

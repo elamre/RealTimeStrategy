@@ -2,10 +2,8 @@ package com.rts.game.abilities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.rts.game.entities.Entity;
-import com.rts.game.entities.SelectableUnit;
+import com.rts.game.entities.Unit;
 import com.rts.game.gameplay.Camera;
-import com.rts.game.gameplay.Cursor;
 import com.rts.game.gameplay.World;
 
 /**
@@ -15,34 +13,18 @@ import com.rts.game.gameplay.World;
  * Time: 12:01 AM
  * To change this template use File | Settings | File Templates.
  */
-public class Blink extends Ability {
+public class Blink extends TargetedAbility {
 
-    int range = 70;
-    boolean requestClick = false;
-
-    public Blink(Entity owner) {
+    public Blink(Unit owner) {
         super(owner);
+        key = Input.Keys.B;
     }
 
     @Override
-    public void logic() {
-
-        if (Cursor.abilityRequesting != this) {
-            requestClick = false;
-        }
-
-        if (Gdx.input.isKeyPressed(Input.Keys.B) && ((SelectableUnit) owner).isSelected()) {
-            requestClick = true;
-            Cursor.abilityRequesting = this;
-            Cursor.abilityRequested = true;
-            System.out.println("Waiting for blink location");
-        }
+    public void update_1(float delta) {
 
         if (requestClick && Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-
-            requestClick = false;
-            Cursor.abilityRequesting = null;
-            Cursor.abilityRequested = false;
+            removeCursorUse();
 
             float x = owner.getX();
             float y = owner.getY();
@@ -50,22 +32,18 @@ public class Blink extends Ability {
             int x2 = (int) Camera.getRealWorldX();
             int y2 = (int) Camera.getRealWorldY();
 
-            if (getDistance(x, y, x2, y2) <= range && World.jps.grid.walkable((int) x2, (int) y2)) {
+            float tempAngle = -(float) Math.atan2(x2 - x, y2 - y);
+
+            if (getDistance(x, y, x2, y2) <= range && World.jps.grid.walkable(x2, y2)) {
                 owner.setX(x2);
                 owner.setY(y2);
                 System.out.println("Blink in range, going to spot normally");
             } else {
 
-                float tempAngle = (float) Math.atan2(x2 - x, y2 - y);
-                tempAngle = -(float) Math.toDegrees(tempAngle);
+                int dx = (int) (x - (range * Math.cos(tempAngle - Math.PI / 2)));
+                int dy = (int) (y - (range * Math.sin(tempAngle - Math.PI / 2)));
 
-                int dx = (int) (x - (range * Math.cos(Math.toRadians(tempAngle - 90))));
-                int dy = (int) (y - (range * Math.sin(Math.toRadians(tempAngle - 90))));
-
-                System.out.println(tempAngle);
-                System.out.println(dx + ", " + dy);
-
-                if (World.jps.grid.walkable((int) dx, (int) dy)) {
+                if (World.jps.grid.walkable(dx, dy)) {
                     owner.setX(dx);
                     owner.setY(dy);
                     System.out.println("Blinked to location with a distance of range");
@@ -76,7 +54,6 @@ public class Blink extends Ability {
             }
 
         }
-
 
     }
 
