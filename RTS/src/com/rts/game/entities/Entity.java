@@ -23,7 +23,7 @@ public abstract class Entity {
     private final int id;
     private final int entityType;
     private final float debugThreshold = 1;
-    protected int width = 0, height = 0;
+    protected float width = 0, height = 0;
     /* The angle of the entity IN DEGREES. */
     protected boolean debug = false;
     protected float x;
@@ -151,8 +151,10 @@ public abstract class Entity {
 
     protected void setTextureRegion(TextureRegion textureRegion) {
         this.textureRegion = textureRegion;
-        this.width = textureRegion.getRegionWidth();
-        this.height = textureRegion.getRegionHeight();
+        //this.width = textureRegion.getRegionWidth();
+        //this.height = textureRegion.getRegionHeight();
+        this.width = 0.8f;
+        this.height = 0.8f;
     }
 
     public String toString() {

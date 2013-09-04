@@ -1,7 +1,11 @@
 package com.rts.game.abilities;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.rts.game.entities.MovingUnit;
 import com.rts.game.entities.Unit;
+import com.rts.game.gameplay.Camera;
+import com.rts.game.gameplay.World;
 import com.rts.game.pathfinding.Node;
 import com.rts.networking.packets.game.MoveEntityPacket;
 
@@ -9,26 +13,18 @@ import java.util.ArrayList;
 
 /**
  * IDEAS:
- * <p/>
  * If the jps pathfinding produces only straight lines at angles
  * with multples of 45 degrees, therefore we can set our current block to be
  * ONLY the next block in that straight line. We consider this next block
  * to be the current block until the next one is selected.
  * <p/>
  * Nodes will store the entities currently taking them up as their current spot
- * <p/>
  * Paths may intersect using the following rules.
  * <p/>
  * If a unit in the path of another unit has its current square in the way,
  * but not having the current square being the final square,
  * The entity trying to move there will pause for a second and try to resume.
- * <p/>
- * If one unit's path is interrupted by another unit getting in the way of its
- * path and being at its final destination, recalculate the path
- * when the next square is being blocked by the 2nd's final
- * <p/>
- * If a unit already exists with the same final destination,
- * choose the nearest empty block to that as the final destination
+ * If the blocking unit has its final set at its current, find a new path.
  * <p/>
  * If multple units are selected, set each one's final destination in
  * A pattern around destination, such as a circle or rectangle
@@ -46,29 +42,85 @@ public class Walk extends TargetedAbility {
     //The square currently being attempted to be occupied
     public Node currentSquare;
 
+    public float dx;
+    public float dy;
+
     //TODO: Make walk follow friendly units
+    //TODO: Change JPS so that it will return the path that leads to the closest valid point if target is invalid
+    //TODO: Make units land exactly at a square's center
 
     public Walk(Unit owner) {
         super(owner);
         key = Input.Keys.Z;
+        range = 9999999;
     }
 
     @Override
     public void update_1(float deltaT) {
 
-        // owner.x -= deltaX * deltaT * speed;
-        // owner.y -= deltaY * deltaT * speed;
+        if (requestClick && Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
 
+            path = World.getPath((int) owner.getX(), (int) owner.getY(), (int) Camera.getRealWorldX(), (int) Camera.getRealWorldY());
+            removeCursorUse();
 
+            System.out.println("Owner: " + owner.getX() + ", " + owner.getY());
+
+            for (Node n : path) {
+                n.debug();
+            }
+
+            nodePos = 1;
+            nextNode = path.get(1);
+            finalDest = path.get(path.size() - 1);
+            currentSquare = World.nodeAt(owner.getX(), owner.getY());
+
+            updateDeltaSpeed();
+
+            System.out.println("Set path to " + finalDest + ".");
+
+        }
+
+        if (finalDest != null) {
+
+            if (getDistance(owner.getX(), owner.getY(), path.get(nodePos - 1).getX(), path.get(nodePos - 1).getY()) >= getDistance(nextNode.getX(), nextNode.getY(), path.get(nodePos - 1).getX(), path.get(nodePos - 1).getY())) {
+                if (nodePos < path.size() - 1) {
+                    nodePos++;
+                    nextNode = path.get(nodePos);
+                    updateDeltaSpeed();
+                } else {
+                    dx = 0;
+                    dy = 0;
+                }
+            }
+
+            if (World.nodeAt(owner.getX(), owner.getY()) != currentSquare) {
+                currentSquare.standing = null;
+                currentSquare = World.nodeAt(owner.getX(), owner.getY());
+            }
+
+            owner.setX(owner.getX() + dx * deltaT);
+            owner.setY(owner.getY() + dy * deltaT);
+        }
     }
 
     public void walkTo(int x, int y) {
 
     }
 
+    public void updateDeltaSpeed() {
+        float tempAngle = -(float) Math.atan2(nextNode.getX() - owner.getX(), nextNode.getY() - owner.getY());
+        dx = (float) -(((MovingUnit) owner).speed * Math.cos(tempAngle - Math.PI / 2));
+        dy = (float) -(((MovingUnit) owner).speed * Math.sin(tempAngle - Math.PI / 2));
+    }
+
     public void interpretPacket(MoveEntityPacket packet) {
 
     }
+
+
+    // owner.x -= deltaX * deltaT * speed;
+    // owner.y -= deltaY * deltaT * speed;
+
 
     /*
 

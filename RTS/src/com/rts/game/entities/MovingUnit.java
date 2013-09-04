@@ -21,7 +21,7 @@ public abstract class MovingUnit extends SelectableUnit {
 
     protected float deltaX = 0;
     protected float deltaY = 0;
-    protected float speed = 100;
+    public float speed = 1;
 
     private MoveEntityPacket moveEntityPacket;
 

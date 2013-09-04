@@ -57,8 +57,4 @@ public class Blink extends TargetedAbility {
 
     }
 
-    private float getDistance(float x, float y, float x2, float y2) {
-        return (float) Math.sqrt((x - x2) * (x - x2) + (y - y2) * (y - y2));
-    }
-
 }

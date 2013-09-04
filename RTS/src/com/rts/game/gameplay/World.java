@@ -104,4 +104,8 @@ public class World {
         return jps.grid.getNode(x, y);
     }
 
+    public static Node nodeAt(float x, float y) {
+        return jps.grid.getNode((int) x, (int) y);
+    }
+
 }

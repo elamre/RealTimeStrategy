@@ -1,7 +1,11 @@
 package com.rts.game.pathfinding;
 
+import com.rts.game.entities.Entity;
+
 public class Node {
     int x;
+
+    public Entity standing;
 
     public int getY() {
         return y;
@@ -51,6 +55,10 @@ public class Node {
         this.parent = parent;
         this.g = g;
         f = g + h;
+    }
+
+    public void debug() {
+        System.out.println("Node: " + x + ", " + y + ", " + (pass ? "Walkable" : "Not Walkable"));
     }
 
 }
