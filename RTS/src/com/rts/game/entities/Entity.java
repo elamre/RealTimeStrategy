@@ -1,6 +1,7 @@
 package com.rts.game.entities;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -88,6 +89,7 @@ public abstract class Entity {
     public abstract void implementDraw_1(SpriteBatch spriteBatch);
 
     protected void drawDebug(SpriteBatch spriteBatch) {
+        ShapeRenderer.setColor(Color.PINK);
         ShapeRenderer.drawRectangle((int) x, (int) y, (int) width, (int) height, false);
     }
 

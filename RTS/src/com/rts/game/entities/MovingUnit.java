@@ -48,7 +48,6 @@ public abstract class MovingUnit extends SelectableUnit {
         }
         animation = new Animation(frameSpeed, animationRegions);
         animation.setPlayMode(Animation.LOOP_PINGPONG);
-        System.out.println("Frame amount: " + animationRegions.length);
         setTextureRegion(animationRegions[0]);
 
         walker = new Walk(this);
@@ -62,11 +61,10 @@ public abstract class MovingUnit extends SelectableUnit {
                 stateTime += deltaT;
                 setTextureRegion(animation.getKeyFrame(stateTime));
                 if (stateTime >= animation.animationDuration * 2) {
-                    stateTime -= animation.animationDuration * 2;
+                    stateTime = 0;
                 }
             }
         }
-        System.out.println("dx,dy: " + walker.dx + ", " + walker.dy);
         setAngle((float) Math.toDegrees(walker.getNextAngle()));
         implementUpdate_4(deltaT);
     }

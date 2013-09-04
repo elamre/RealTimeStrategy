@@ -1,6 +1,7 @@
 package com.rts.game.gameplay;
 
 
+import com.badlogic.gdx.graphics.Color;
 import com.rts.game.pathfinding.JumpPoint;
 import com.rts.game.pathfinding.Node;
 import com.rts.game.pathfinding.PathfindingDebugger;
@@ -48,6 +49,7 @@ public class World {
 /*        box.setProjectionMatrix(Camera.getOrthographicCamera().combined);
         box.begin(ShapeRenderer.ShapeType.FilledRectangle);*/
         //box.setColor(1, 0, 1, 0.8f);
+        ShapeRenderer.setColor(Color.CYAN);
         for (int x = 0; x < jps.grid.grid.length; x++) {
             for (int y = 0; y < jps.grid.grid[0].length; y++) {
                 if (!jps.grid.getNode(x, y).isPass()) {

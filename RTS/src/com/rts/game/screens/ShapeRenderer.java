@@ -25,6 +25,7 @@ public class ShapeRenderer {
 
     public static void setColor(Color color1) {
         color = color1;
+
         rectangle.setColor(color);
     }
 
