@@ -31,11 +31,6 @@ public class TestEntity extends MovingUnit {
     }
 
     @Override
-    public void implementUpdate_3(float deltaT) {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
     public void implementUpdate_4(float deltaT) {
         //To change body of implemented methods use File | Settings | File Templates.
     }

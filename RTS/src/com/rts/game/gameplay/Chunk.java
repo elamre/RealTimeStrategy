@@ -20,14 +20,18 @@ public class Chunk {
     int x;
     int y;
     TextureRegion texture;
+/*
     Sprite sprite;
+*/
 
     public void create(int x, int y) {
 
         this.x = x;
         this.y = y;
 
+/*
         sprite = new Sprite();
+*/
         texture = Assets.getAssets().getTextureRegion("Map/grass");
 /*
         texture = "Images/Environment/Grass.png";
@@ -38,15 +42,13 @@ public class Chunk {
         TextureRegion region = new TextureRegion(tex, 0, 0, 256, 256);
 */
 
-        sprite = new Sprite(Assets.getAssets().getSprite("Map/grass"));
-
+/*        sprite = new Sprite(Assets.getAssets().getSprite("Map/grass"));
         sprite.setOrigin(0, 0);
-        sprite.setPosition(x, y);
+        sprite.setPosition(x, y);*/
     }
 
-
     public void draw(SpriteBatch batch) {
-        batch.draw(texture,x,y);
+        batch.draw(texture, x, y, 1f, 1f);
         //sprite.draw(batch);
     }
 

@@ -16,16 +16,11 @@ import com.rts.networking.packets.game.MoveEntityPacket;
  * To change this template use File | Settings | File Templates.
  */
 public abstract class MovingUnit extends SelectableUnit {
+    public float speed = 1;
+    Walk walker;
     private Animation animation;
     private float stateTime = 0;
-
-    protected float deltaX = 0;
-    protected float deltaY = 0;
-    public float speed = 1;
-
     private MoveEntityPacket moveEntityPacket;
-
-    Walk walker;
 
     protected MovingUnit(int x, int y, int entityType) {
         super(x, y, entityType);
@@ -63,13 +58,17 @@ public abstract class MovingUnit extends SelectableUnit {
     @Override
     public void implementUpdate_3(float deltaT) {
         if (animation != null) {
-            stateTime += deltaT;
-            setTextureRegion(animation.getKeyFrame(stateTime));
-            if (stateTime >= animation.animationDuration * 2) {
-                stateTime -= animation.animationDuration * 2;
+            if (walker.dx != 0 || walker.dy != 0) {
+                stateTime += deltaT;
+                setTextureRegion(animation.getKeyFrame(stateTime));
+                if (stateTime >= animation.animationDuration * 2) {
+                    stateTime -= animation.animationDuration * 2;
+                }
             }
         }
-        implementUpdate_3(deltaT);
+        System.out.println("dx,dy: " + walker.dx + ", " + walker.dy);
+        setAngle((float) Math.toDegrees(walker.getNextAngle()));
+        implementUpdate_4(deltaT);
     }
 
     public abstract void implementUpdate_4(float deltaT);
@@ -92,7 +91,6 @@ public abstract class MovingUnit extends SelectableUnit {
         moveEntityPacket = null;
         return tempPacket;
     }
-
 
     public abstract void implementDraw_3(SpriteBatch spriteBatch);
 

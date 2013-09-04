@@ -28,7 +28,7 @@ public class PathfindingDebugger {
         ShapeRenderer shapeRenderer = new ShapeRenderer();
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setProjectionMatrix(Camera.getOrthographicCamera().combined);
-        shapeRenderer.setColor(Color.BLACK);
+        //shapeRenderer.setColor(Color.BLACK);
         shapeRenderer.setColor(1f, 0, 0, 0.5f);
 
         if (path != null && path.size() > 1) {

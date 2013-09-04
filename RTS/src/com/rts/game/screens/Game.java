@@ -2,6 +2,7 @@ package com.rts.game.screens;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.rts.game.gameplay.Camera;
 import com.rts.game.gameplay.Cursor;
@@ -72,6 +73,7 @@ public class Game implements ApplicationListener {
      * @param deltaT the time that has passed since the previous update
      */
     public void update(float deltaT) {
+        Gdx.graphics.setTitle("FPS: " + Gdx.graphics.getFramesPerSecond());
         Cursor.update(deltaT);
         inGame.update(deltaT);
         world.update();

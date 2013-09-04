@@ -38,10 +38,12 @@ public abstract class Unit extends Entity {
 
     @Override
     public void implementUpdate_1(float deltaT) {
-
-        for (Ability a : abilities) {
-            a.logic(deltaT);
+        for (int i = 0, l = abilities.size(); i < l; i++) {
+            abilities.get(i).logic(deltaT);
         }
+/*        for (Ability a : abilities) {
+            a.logic(deltaT);
+        }*/
 
         implementUpdate_2(deltaT);
         //To change body of implemented methods use File | Settings | File Templates.
@@ -50,6 +52,7 @@ public abstract class Unit extends Entity {
     public float faceAt(float x, float y) {
         float tempAngle = (float) Math.atan2(x - this.x, y - this.y);
         angle = -(float) Math.toDegrees(tempAngle);
+        System.out.println(angle);
         return angle;
     }
 

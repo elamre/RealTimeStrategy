@@ -4,9 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.rts.game.gameplay.Camera;
+import com.rts.game.screens.ShapeRenderer;
 import com.rts.networking.packets.game.EntityCreationPacket;
 import com.rts.networking.packets.game.MoveEntityPacket;
 import com.rts.util.Logger;
@@ -88,21 +88,7 @@ public abstract class Entity {
     public abstract void implementDraw_1(SpriteBatch spriteBatch);
 
     protected void drawDebug(SpriteBatch spriteBatch) {
-
-        Camera.batch.end();
-
-        Gdx.gl.glEnable(GL10.GL_BLEND);
-        Gdx.gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
-        ShapeRenderer box = new ShapeRenderer();
-        box.begin(ShapeRenderer.ShapeType.FilledRectangle);
-        box.setProjectionMatrix(Camera.getOrthographicCamera().combined);
-        box.setColor(0, 0, 0, 0.3f);
-        box.filledRect(x, y, hitBox.getWidth(), hitBox.getHeight());
-        box.end();
-        Gdx.gl.glDisable(GL10.GL_BLEND);
-        //TODO draw rectangle or sumtin
-        Camera.batch.begin();
-
+        ShapeRenderer.drawRectangle((int) x, (int) y, (int) width, (int) height, false);
     }
 
     public float getDistance(float x, float y) {

@@ -1,9 +1,10 @@
 package com.rts.game.gameplay;
 
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
 import com.rts.game.pathfinding.JumpPoint;
 import com.rts.game.pathfinding.Node;
 import com.rts.game.pathfinding.PathfindingDebugger;
+import com.rts.game.screens.ShapeRenderer;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -28,7 +29,7 @@ public class World {
     }
 
     private static final int chunkSize = 16;
-    private static final int chunkAmount = 16;
+    private static final int chunkAmount = 16*16;
 
     public void update() {
 
@@ -41,23 +42,24 @@ public class World {
             }
         }
 
-        Camera.batch.end();
+        //Camera.batch.end();
 
         ShapeRenderer box = new ShapeRenderer();
-        box.setProjectionMatrix(Camera.getOrthographicCamera().combined);
-        box.begin(ShapeRenderer.ShapeType.FilledRectangle);
-        box.setColor(1, 0, 1, 0.8f);
+/*        box.setProjectionMatrix(Camera.getOrthographicCamera().combined);
+        box.begin(ShapeRenderer.ShapeType.FilledRectangle);*/
+        //box.setColor(1, 0, 1, 0.8f);
         for (int x = 0; x < jps.grid.grid.length; x++) {
             for (int y = 0; y < jps.grid.grid[0].length; y++) {
                 if (!jps.grid.getNode(x, y).isPass()) {
-                    box.filledRect(x, y, 1, 1);
+                    ShapeRenderer.drawRectangle(x,y,1,1,true);
+                   // box.filledRect(x, y, 1, 1);
                 }
             }
         }
-        box.end();
+        //  box.end();
 
 
-        box = new ShapeRenderer();
+/*        box = new ShapeRenderer();
         box.setProjectionMatrix(Camera.getOrthographicCamera().combined);
         box.begin(ShapeRenderer.ShapeType.Point);
         box.setColor(1, 0, 0, 0.8f);
@@ -66,12 +68,12 @@ public class World {
                 box.point(x + 0.5f, y + 0.5f, 0);
             }
         }
-        box.end();
+        box.end();*/
 
 
-        PathfindingDebugger.draw();
+       // PathfindingDebugger.draw();
 
-        Camera.batch.begin();
+        //Camera.batch.begin();
 
 
     }
@@ -81,7 +83,7 @@ public class World {
         for (int x = 0; x < chunkAmount; x++) {
             for (int y = 0; y < chunkAmount; y++) {
                 chunks[x][y] = new Chunk();
-                chunks[x][y].create(x * chunkSize, y * chunkSize);
+                chunks[x][y].create(x, y );
             }
         }
 

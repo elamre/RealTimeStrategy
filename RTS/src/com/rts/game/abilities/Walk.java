@@ -41,6 +41,8 @@ public class Walk extends TargetedAbility {
     public Node nextNode;
     //The square currently being attempted to be occupied
     public Node currentSquare;
+    /* The angle the entity is walking in */
+    float angle = 0f;
 
     public float dx;
     public float dy;
@@ -108,9 +110,13 @@ public class Walk extends TargetedAbility {
     }
 
     public void updateDeltaSpeed() {
-        float tempAngle = -(float) Math.atan2(nextNode.getX() - owner.getX(), nextNode.getY() - owner.getY());
-        dx = (float) -(((MovingUnit) owner).speed * Math.cos(tempAngle - Math.PI / 2));
-        dy = (float) -(((MovingUnit) owner).speed * Math.sin(tempAngle - Math.PI / 2));
+        angle = -(float) Math.atan2(nextNode.getX() - owner.getX(), nextNode.getY() - owner.getY());
+        dx = (float) -(((MovingUnit) owner).speed * Math.cos(angle - Math.PI / 2));
+        dy = (float) -(((MovingUnit) owner).speed * Math.sin(angle - Math.PI / 2));
+    }
+
+    public float getNextAngle(){
+        return angle;
     }
 
     public void interpretPacket(MoveEntityPacket packet) {
