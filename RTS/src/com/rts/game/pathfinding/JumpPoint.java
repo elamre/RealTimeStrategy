@@ -24,7 +24,7 @@ public class JumpPoint {
      */
     public JumpPoint(int xMax, int yMax) {
         grid = new Grid(xMax, yMax);  //preMadeGrid is passed in because there CAN BE ONLY ONE GRID
-        Heuristic.setCurrentHeuristic(Heuristic.EUCLIDIAN);
+        Heuristic.setCurrentHeuristic(Heuristic.MANHATTAN);
     }
 
     /**

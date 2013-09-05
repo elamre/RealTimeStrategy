@@ -88,7 +88,13 @@ public class Walk extends TargetedAbility {
 
         if (finalDest != null) {
 
-            if (getDistance(owner.getX(), owner.getY(), path.get(nodePos - 1).getX(), path.get(nodePos - 1).getY()) >= getDistance(nextNode.getX(), nextNode.getY(), path.get(nodePos - 1).getX(), path.get(nodePos - 1).getY())) {
+            //If the distance from the owner to the last node plus their current movement speed is greater than the
+            //Distance from the last node to the next node
+            if (getDistance(owner.getX(), owner.getY(), path.get(nodePos - 1).getX(), path.get(nodePos - 1).getY())
+                    + Math.abs(dx * deltaT * ((MovingUnit) owner).speed) + Math.abs(dy * deltaT * ((MovingUnit) owner).speed)
+                    >= getDistance(nextNode.getX(), nextNode.getY(), path.get(nodePos - 1).getX(), path.get(nodePos - 1).getY())) {
+
+
                 if (nodePos < path.size() - 1) {
                     nodePos++;
 
