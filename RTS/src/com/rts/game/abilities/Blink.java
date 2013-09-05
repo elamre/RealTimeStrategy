@@ -37,6 +37,7 @@ public class Blink extends TargetedAbility {
             if (getDistance(x, y, x2, y2) <= range && World.jps.grid.walkable(x2, y2)) {
                 owner.setX(x2);
                 owner.setY(y2);
+
                 System.out.println("Blink in range, going to spot normally");
             } else {
 
@@ -46,6 +47,7 @@ public class Blink extends TargetedAbility {
                 if (World.jps.grid.walkable(dx, dy)) {
                     owner.setX(dx);
                     owner.setY(dy);
+
                     System.out.println("Blinked to location with a distance of range");
                 } else {
                     System.out.println("Invalid location for blink");

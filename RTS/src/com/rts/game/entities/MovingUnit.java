@@ -17,7 +17,7 @@ import com.rts.networking.packets.game.MoveEntityPacket;
  */
 public abstract class MovingUnit extends SelectableUnit {
     public float speed = 1;
-    Walk walker;
+    public Walk walker;
     private Animation animation;
     private float stateTime = 0;
     private MoveEntityPacket moveEntityPacket;
@@ -48,6 +48,7 @@ public abstract class MovingUnit extends SelectableUnit {
         }
         animation = new Animation(frameSpeed, animationRegions);
         animation.setPlayMode(Animation.LOOP_PINGPONG);
+        System.out.println("Frame amount: " + animationRegions.length);
         setTextureRegion(animationRegions[0]);
 
         walker = new Walk(this);
@@ -61,10 +62,16 @@ public abstract class MovingUnit extends SelectableUnit {
                 stateTime += deltaT;
                 setTextureRegion(animation.getKeyFrame(stateTime));
                 if (stateTime >= animation.animationDuration * 2) {
-                    stateTime = 0;
+                    stateTime -= animation.animationDuration * 2;
                 }
             }
         }
+
+        if (World.nodeAt(getX(), getY()) != walker.currentSquare) {
+            walker.setCurrentSquare();
+        }
+
+        //System.out.println("dx,dy: " + walker.dx + ", " + walker.dy);
         setAngle((float) Math.toDegrees(walker.getNextAngle()));
         implementUpdate_4(deltaT);
     }

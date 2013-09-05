@@ -23,11 +23,15 @@ import java.util.ArrayList;
  * <p/>
  * If a unit in the path of another unit has its current square in the way,
  * but not having the current square being the final square,
+ * or the square is somehow filled,
  * The entity trying to move there will pause for a second and try to resume.
- * If the blocking unit has its final set at its current, find a new path.
+ * If the blocking unit has its final set at its current,
+ * or if that block is now filled, find a new path.
  * <p/>
  * If multple units are selected, set each one's final destination in
  * A pattern around destination, such as a circle or rectangle
+ * <p/>
+ * The current square will be considered to be filled
  */
 public class Walk extends TargetedAbility {
 
@@ -50,6 +54,7 @@ public class Walk extends TargetedAbility {
     //TODO: Make walk follow friendly units
     //TODO: Change JPS so that it will return the path that leads to the closest valid point if target is invalid
     //TODO: Make units land exactly at a square's center
+    //TODO: Make current square considered to be filled to other units pathfinding
 
     public Walk(Unit owner) {
         super(owner);
@@ -74,7 +79,6 @@ public class Walk extends TargetedAbility {
             nodePos = 1;
             nextNode = path.get(1);
             finalDest = path.get(path.size() - 1);
-            currentSquare = World.nodeAt(owner.getX(), owner.getY());
 
             updateDeltaSpeed();
 
@@ -87,22 +91,32 @@ public class Walk extends TargetedAbility {
             if (getDistance(owner.getX(), owner.getY(), path.get(nodePos - 1).getX(), path.get(nodePos - 1).getY()) >= getDistance(nextNode.getX(), nextNode.getY(), path.get(nodePos - 1).getX(), path.get(nodePos - 1).getY())) {
                 if (nodePos < path.size() - 1) {
                     nodePos++;
+
+                    owner.setX(nextNode.getX());
+                    owner.setY(nextNode.getY());
+
                     nextNode = path.get(nodePos);
                     updateDeltaSpeed();
                 } else {
                     dx = 0;
                     dy = 0;
-                }
-            }
 
-            if (World.nodeAt(owner.getX(), owner.getY()) != currentSquare) {
-                currentSquare.standing = null;
-                currentSquare = World.nodeAt(owner.getX(), owner.getY());
+                    owner.setX(nextNode.getX());
+                    owner.setY(nextNode.getY());
+
+                }
             }
 
             owner.setX(owner.getX() + dx * deltaT);
             owner.setY(owner.getY() + dy * deltaT);
         }
+    }
+
+    public void setCurrentSquare() {
+        if (currentSquare != null)
+            currentSquare.standing = null;
+        currentSquare = World.nodeAt(owner.getX(), owner.getY());
+        currentSquare.standing = owner;
     }
 
     public void walkTo(int x, int y) {
@@ -115,7 +129,7 @@ public class Walk extends TargetedAbility {
         dy = (float) -(((MovingUnit) owner).speed * Math.sin(angle - Math.PI / 2));
     }
 
-    public float getNextAngle(){
+    public float getNextAngle() {
         return angle;
     }
 
