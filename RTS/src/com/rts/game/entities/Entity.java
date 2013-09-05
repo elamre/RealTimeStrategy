@@ -1,11 +1,7 @@
 package com.rts.game.entities;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Rectangle;
-import com.rts.game.gameplay.Camera;
 import com.rts.game.screens.ShapeRenderer;
 import com.rts.networking.packets.game.EntityCreationPacket;
 import com.rts.networking.packets.game.MoveEntityPacket;
@@ -30,7 +26,6 @@ public abstract class Entity {
     protected float y;
     protected float angle;
     private TextureRegion textureRegion;
-    private Rectangle hitBox = new Rectangle(0, 0, 1, 1);
     private float debugTimer = 0;
 
     //USE THIS ONLY FOR SENDING NETWORK DETAILS!
@@ -69,7 +64,6 @@ public abstract class Entity {
             }
         }
         implementUpdate_1(deltaT);
-        hitBox.set(x, y, width, height);
     }
 
     public abstract void implementUpdate_1(float deltaT);
@@ -97,10 +91,6 @@ public abstract class Entity {
 
     public void setDebug(boolean debug) {
         this.debug = debug;
-    }
-
-    public Rectangle getHitBox() {
-        return hitBox;
     }
 
     public int getId() {

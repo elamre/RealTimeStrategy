@@ -17,7 +17,7 @@ import com.rts.networking.packets.game.MoveEntityPacket;
  */
 public abstract class MovingUnit extends SelectableUnit {
     public float speed = 1;
-    Walk walker;
+    public Walk walker;
     private Animation animation;
     private float stateTime = 0;
     private MoveEntityPacket moveEntityPacket;
@@ -66,7 +66,12 @@ public abstract class MovingUnit extends SelectableUnit {
                 }
             }
         }
-        System.out.println("dx,dy: " + walker.dx + ", " + walker.dy);
+
+        if (World.nodeAt(getX(), getY()) != walker.currentSquare) {
+            walker.setCurrentSquare();
+        }
+
+        //System.out.println("dx,dy: " + walker.dx + ", " + walker.dy);
         setAngle((float) Math.toDegrees(walker.getNextAngle()));
         implementUpdate_4(deltaT);
     }

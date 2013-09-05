@@ -17,6 +17,8 @@ public abstract class TargetedAbility extends Ability {
     boolean requestClick = false;
     int range = 70;
 
+    //TODO: Targeted abilities should not remove current unit selection
+
     public TargetedAbility(Unit owner) {
         super(owner);
     }

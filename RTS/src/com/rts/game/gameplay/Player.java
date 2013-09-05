@@ -5,14 +5,13 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Polygon;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.rts.game.entities.Entity;
 import com.rts.game.entities.EntityManager;
 import com.rts.game.entities.MovingUnit;
 import com.rts.game.entities.SelectableUnit;
+import com.rts.game.pathfinding.Node;
 import com.rts.game.pathfinding.PathfindingDebugger;
-import com.rts.util.Logger;
 
 import java.util.ArrayList;
 
@@ -26,7 +25,6 @@ import java.util.ArrayList;
 public class Player {
     static boolean lastPressedT = false;
     public ArrayList<Entity> currentSelection = new ArrayList<Entity>(64);
-    public Entity currentSelect;
     public String name;
     Polygon polygon;
     boolean runningSelection = false;
@@ -79,16 +77,13 @@ public class Player {
     }
 
     private void checkSelection(EntityManager entityManager) {
-        Rectangle selectionRectangle = new Rectangle((selectionStart.x < selectionEnd.x) ? selectionStart.x : selectionEnd.x,
-                (selectionStart.y < selectionEnd.y) ? selectionStart.y : selectionEnd.y,
-                Math.abs(selectionStart.x - selectionEnd.x), Math.abs(selectionStart.y - selectionEnd.y));
-        //Rectangle selectionRectangle = new Rectangle(selectionStart.x, selectionStart.y, selectionEnd.x - selectionStart.x, selectionEnd.y - selectionStart.y);
-        for (Entity unit : entityManager.entities.values()) {
-            if (unit instanceof SelectableUnit) {
-                if (selectionRectangle.overlaps(unit.getHitBox())) {
-                    currentSelection.add(unit);
-                    Logger.getInstance().debug("unit: " + unit.toString() + " in area: " + selectionRectangle.toString());
-                    ((SelectableUnit) unit).setSelected(true);
+        for (int x = (int) selectionStart.x; x <= (int) selectionEnd.x; x++) {
+            for (int y = (int) selectionStart.y; y <= (int) selectionEnd.y; y++) {
+                Node n = World.nodeAt(x, y);
+                n.debug();
+                if (n.standing != null && !currentSelection.contains(n.standing)) {
+                    currentSelection.add(n.standing);
+                    ((SelectableUnit) n.standing).setSelected(true);
                 }
             }
         }
