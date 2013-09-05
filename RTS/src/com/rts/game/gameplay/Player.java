@@ -80,10 +80,12 @@ public class Player {
         for (int x = (int) selectionStart.x; x <= (int) selectionEnd.x; x++) {
             for (int y = (int) selectionStart.y; y <= (int) selectionEnd.y; y++) {
                 Node n = World.nodeAt(x, y);
-                n.debug();
-                if (n.standing != null && !currentSelection.contains(n.standing)) {
-                    currentSelection.add(n.standing);
-                    ((SelectableUnit) n.standing).setSelected(true);
+                if (n != null) {
+                    n.debug();
+                    if (n.standing != null && !currentSelection.contains(n.standing)) {
+                        currentSelection.add(n.standing);
+                        ((SelectableUnit) n.standing).setSelected(true);
+                    }
                 }
             }
         }

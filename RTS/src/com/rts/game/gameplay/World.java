@@ -3,7 +3,7 @@ package com.rts.game.gameplay;
 
 import com.rts.game.pathfinding.JumpPoint;
 import com.rts.game.pathfinding.Node;
-import com.rts.game.pathfinding.PathfindingDebugger;
+import com.rts.game.pathfinding.PathSmoother;
 import com.rts.game.screens.ShapeRenderer;
 
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ public class World {
     }
 
     private static final int chunkSize = 16;
-    private static final int chunkAmount = 16*16;
+    private static final int chunkAmount = 16 * 16;
 
     public void update() {
 
@@ -51,8 +51,8 @@ public class World {
         for (int x = 0; x < jps.grid.grid.length; x++) {
             for (int y = 0; y < jps.grid.grid[0].length; y++) {
                 if (!jps.grid.getNode(x, y).isPass()) {
-                    ShapeRenderer.drawRectangle(x,y,1,1,true);
-                   // box.filledRect(x, y, 1, 1);
+                    ShapeRenderer.drawRectangle(x, y, 1, 1, true);
+                    // box.filledRect(x, y, 1, 1);
                 }
             }
         }
@@ -71,7 +71,7 @@ public class World {
         box.end();*/
 
 
-       // PathfindingDebugger.draw();
+        // PathfindingDebugger.draw();
 
         //Camera.batch.begin();
 
@@ -83,7 +83,7 @@ public class World {
         for (int x = 0; x < chunkAmount; x++) {
             for (int y = 0; y < chunkAmount; y++) {
                 chunks[x][y] = new Chunk();
-                chunks[x][y].create(x, y );
+                chunks[x][y].create(x, y);
             }
         }
 
@@ -99,7 +99,8 @@ public class World {
     }
 
     public static ArrayList<Node> getPath(int x, int y, int x2, int y2) {
-        return jps.search(x, y, x2, y2);
+        return PathSmoother.smoothBasic(jps.search(x, y, x2, y2));
+        //return jps.search(x, y, x2, y2);
     }
 
     public static Node nodeAt(int x, int y) {
