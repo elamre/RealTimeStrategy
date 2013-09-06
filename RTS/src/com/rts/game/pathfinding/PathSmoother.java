@@ -99,8 +99,8 @@ public class PathSmoother {
         int x2 = (a.getX() > b.getX() ? a.getX() : b.getX());
         int y2 = (a.getY() > b.getY() ? a.getY() : b.getY());
         outerloop:
-        for (int i = x; i < x2; i++) {
-            for (int c = y; c < y2; c++) {
+        for (int i = x - 1; i < x2 + 1; i++) {
+            for (int c = y - 1; c < y2 + 1; c++) {
                 Node n = World.nodeAt(i, c);
                 rect = new Rectangle2D.Float(n.getX(), n.getY(), 1, 1);
                 if (!n.isPass())

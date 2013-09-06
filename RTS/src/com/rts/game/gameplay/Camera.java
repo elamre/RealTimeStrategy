@@ -20,10 +20,10 @@ public class Camera {
     private static int h;
     private static float x = 0f;
     private static float y = 0f;
-    private static float cameraMoveSensitivityMouse = 1;
+    private static float cameraMoveSensitivityMouse = 3;
     private static float cameraMoveSensitivityKeys = 1;
     private static float zoom = 1f;
-    private static float zoomSensitivity = 0.01f;
+    private static float zoomSensitivity = 0.02f;
 
     public static void draw() {
     }
