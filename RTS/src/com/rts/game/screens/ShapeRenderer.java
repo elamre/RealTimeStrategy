@@ -1,9 +1,7 @@
 package com.rts.game.screens;
 
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.rts.game.Assets;
 import com.rts.game.gameplay.Camera;
 
@@ -28,7 +26,7 @@ public class ShapeRenderer {
         rectangle.setColor(color);
     }
 
-    public static void drawRectangle(int x, int y, int width, int height, boolean filled) {
+    public static void drawRectangle(float x, float y, float width, float height, boolean filled) {
         if (!filled) {
             drawLine(x, y, x + width, y);
             drawLine(x, y, x, y + height);
@@ -41,7 +39,7 @@ public class ShapeRenderer {
         }
     }
 
-    public static void drawLine(int x1, int y1, int x2, int y2) {
+    public static void drawLine(float x1, float y1, float x2, float y2) {
         rectangle.setSize(x2 - x1 + 1, y2 - y1 + 1);
         rectangle.setPosition(x1, y1);
         rectangle.draw(Camera.batch);
