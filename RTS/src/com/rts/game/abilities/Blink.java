@@ -29,12 +29,12 @@ public class Blink extends TargetedAbility {
             float x = owner.getX();
             float y = owner.getY();
 
-            int x2 = (int) Camera.getRealWorldX();
-            int y2 = (int) Camera.getRealWorldY();
+            float x2 = 0.5f + (int) Camera.getRealWorldX();
+            float y2 = 0.5f + (int) Camera.getRealWorldY();
 
             float tempAngle = -(float) Math.atan2(x2 - x, y2 - y);
 
-            if (getDistance(x, y, x2, y2) <= range && World.jps.grid.walkable(x2, y2)) {
+            if (getDistance(x, y, x2, y2) <= range && World.jps.grid.walkable((int) x2, (int) y2)) {
                 owner.setX(x2);
                 owner.setY(y2);
 
@@ -45,8 +45,8 @@ public class Blink extends TargetedAbility {
                 int dy = (int) (y - (range * Math.sin(tempAngle - Math.PI / 2)));
 
                 if (World.jps.grid.walkable(dx, dy)) {
-                    owner.setX(dx);
-                    owner.setY(dy);
+                    owner.setX(dx + 0.5f);
+                    owner.setY(dy + 0.5f);
 
                     System.out.println("Blinked to location with a distance of range");
                 } else {
