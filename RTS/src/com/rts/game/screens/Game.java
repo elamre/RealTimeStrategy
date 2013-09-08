@@ -19,7 +19,6 @@ public class Game implements ApplicationListener {
 
     @Override
     public void create() {
-
         Camera.create();
         Cursor.create();
 

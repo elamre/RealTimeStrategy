@@ -31,6 +31,10 @@ public class Assets {
         return textureAtlas.createSprite(name);
     }
 
+    public TextureAtlas getTextureAtlas() {
+        return textureAtlas;
+    }
+
     public TextureRegion getTextureRegion(String name) {
         return textureAtlas.findRegion(name);
     }

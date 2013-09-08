@@ -2,6 +2,7 @@ package com.rts.game.entities;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.rts.game.gameplay.Camera;
 import com.rts.game.screens.ShapeRenderer;
 import com.rts.networking.packets.game.EntityCreationPacket;
 import com.rts.networking.packets.game.MoveEntityPacket;
@@ -69,13 +70,14 @@ public abstract class Entity {
     public abstract void implementUpdate_1(float deltaT);
 
     public void draw(SpriteBatch spriteBatch) {
-        implementDraw_1(spriteBatch);
-        if (debug) {
-            drawDebug(spriteBatch);
-        }
-        if (textureRegion != null) {
-            spriteBatch.draw(textureRegion, x + (1 - width), y + (1 - height), width / 2, height / 2, width, height, 1, 1, angle);
-            //Logger.getInstance().debug("Drawing something at: " + toString());
+        if (Camera.isInFocus(x, y, width, height)) {
+            implementDraw_1(spriteBatch);
+            if (debug) {
+                drawDebug(spriteBatch);
+            }
+            if (textureRegion != null) {
+                spriteBatch.draw(textureRegion, x + (1 - width), y + (1 - height), width / 2, height / 2, width, height, 1, 1, angle);
+            }
         }
     }
 
@@ -134,7 +136,7 @@ public abstract class Entity {
     }
 
     public String toString() {
-        return "id: " + this.id + " [" + (int) getX() + "," + (int) getY() + "]";
+        return "id: " + this.id + " [" + (int) getX() + "," + (int) getY() + "] size: [" + width + "," + height + "]";
     }
 
     public MoveEntityPacket getMovePacket() {

@@ -1,14 +1,11 @@
-package com.rts.game;
+package com.rts.game.hud;
 
 /**
  * Created with IntelliJ IDEA.
  * User: Elmar
- * Date: 8/26/13
- * Time: 10:18 AM
+ * Date: 9/7/13
+ * Time: 8:44 PM
  * To change this template use File | Settings | File Templates.
  */
-public enum ScreenState {
-    MENU, LOBBY, GAME
+public class HUD {
 }
-
-

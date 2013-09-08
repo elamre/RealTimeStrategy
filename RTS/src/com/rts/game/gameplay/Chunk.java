@@ -48,7 +48,8 @@ public class Chunk {
     }
 
     public void draw(SpriteBatch batch) {
-        batch.draw(texture, x, y, 1f, 1f);
+        if (Camera.isInFocus(x, y, 16, 16))
+            batch.draw(texture, x, y, 1f, 1f);
         //sprite.draw(batch);
     }
 

@@ -28,22 +28,26 @@ public class ShapeRenderer {
     }
 
     public static void drawRectangle(float x, float y, float width, float height, boolean filled) {
-        if (!filled) {
-            drawLine(x, y, x + width, y);
-            drawLine(x, y, x, y + height);
-            drawLine(x, y + height, x + width, y + height);
-            drawLine(x + width, y, x + height, y + height);
-        } else {
-            rectangle.setPosition(x, y);
-            rectangle.setSize(width, height);
-            rectangle.draw(Camera.batch);
+        if (Camera.isInFocus(x, y, width, height)) {
+            if (!filled) {
+                drawLine(x, y, x + width, y);
+                drawLine(x, y, x, y + height);
+                drawLine(x, y + height, x + width, y + height);
+                drawLine(x + width, y, x + height, y + height);
+            } else {
+                rectangle.setPosition(x, y);
+                rectangle.setSize(width, height);
+                rectangle.draw(Camera.batch);
+            }
         }
     }
 
     public static void drawLine(float x1, float y1, float x2, float y2) {
-        rectangle.setSize(x2 - x1 + 1, y2 - y1 + 1);
-        rectangle.setPosition(x1, y1);
-        rectangle.draw(Camera.batch);
+        if (Camera.isInFocus(x1, y1, Math.max(1, Math.abs(x2 - x1)), Math.max(1, Math.abs(y2 - y1)))) {
+            rectangle.setSize(x2 - x1 + 1, y2 - y1 + 1);
+            rectangle.setPosition(x1, y1);
+            rectangle.draw(Camera.batch);
+        }
     }
 
     public static void drawCircle(int centerX, int centerY, int radius, boolean filled) {

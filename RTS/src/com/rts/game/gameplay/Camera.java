@@ -4,6 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
+import com.rts.util.Logger;
+
 
 /**
  * Created with IntelliJ IDEA.
@@ -24,6 +27,7 @@ public class Camera {
     private static float cameraMoveSensitivityKeys = 1;
     private static float zoom = 1f;
     private static float zoomSensitivity = 0.02f;
+    private static Rectangle viewPort;
 
     public static void draw() {
     }
@@ -58,6 +62,7 @@ public class Camera {
         hudOrthographicCamera.setToOrtho(true);
 
         batch = new SpriteBatch();
+        viewPort = new Rectangle((int) x, (int) y, w, h);
     }
 
     public static void update(float delta) {
@@ -83,8 +88,7 @@ public class Camera {
 
         orthographicCamera.position.set(new float[]{x, y, 0});
         orthographicCamera.zoom = zoom;
-
-
+        viewPort.set(getRealWorldCameraX(), getRealWorldCameraY(), w, h); //TODO implement width and height
     }
 
     public static void finishBatches() {
@@ -129,6 +133,18 @@ public class Camera {
         return cx;
     }
 
+    public static float getRealWorldCameraX() {
+        float cx = (x);
+        cx = cx - (w / 2) * zoom;
+        return cx;
+    }
+
+    public static float getRealWorldCameraY() {
+        float cy = (y);
+        cy = cy - (h / 2) * zoom;
+        return cy;
+    }
+
     public static float getRealWorldY() {
         //return Gdx.input.getY() - Gdx.graphics.getHeight() / 2 + y;
         float cy = (y);
@@ -137,6 +153,30 @@ public class Camera {
     }
 
     public static boolean isInHUD() {
+        return false;
+    }
+
+    public static int getWidth() {
+        return w;
+    }
+
+    public static int getHeight() {
+        return h;
+    }
+
+    public static float getY() {
+        return y;
+    }
+
+    public static float getX() {
+        return x;
+    }
+
+    //TODO IMPROVE
+    public static boolean isInFocus(float x, float y, float width, float height) {
+        Rectangle rectangle = new Rectangle(x, y, width, height);
+        if (viewPort.contains(rectangle))
+            return true;
         return false;
     }
 }

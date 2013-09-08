@@ -2,10 +2,14 @@ package com.rts.game.gameplay;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
+import com.rts.game.Assets;
 import com.rts.game.entities.Entity;
 import com.rts.game.entities.EntityManager;
 import com.rts.game.entities.MovingUnit;
@@ -28,6 +32,9 @@ public class Player {
     public String name;
     Polygon polygon;
     boolean runningSelection = false;
+    BuildingButtons buildingButtons;
+    private Sprite hudBuildBar;
+    private Sprite hudResourceBar;
     private boolean rightPressed = false;
     private Vector2 selectionStart;
     private Vector2 selectionEnd;
@@ -35,6 +42,12 @@ public class Player {
     public void create() {
         selectionStart = new Vector2(0, 0);
         selectionEnd = new Vector2(0, 0);
+        hudBuildBar = Assets.getAssets().getSprite("UI/build_hud");
+        hudBuildBar.flip(false, true);
+        hudResourceBar = Assets.getAssets().getSprite("UI/resources_hud");
+        hudResourceBar.flip(false, true);
+        hudBuildBar.setPosition(0, Gdx.graphics.getHeight() - hudBuildBar.getHeight());
+        buildingButtons = new BuildingButtons(0,(int)(Gdx.graphics.getHeight() - hudBuildBar.getHeight()));
     }
 
     public void update(float deltaT, EntityManager entityManager) {
@@ -101,6 +114,7 @@ public class Player {
 
     public void draw() {
         drawSelectionBox();
+        drawHUD();
     }
 
     private void drawSelectionBox() {
@@ -136,5 +150,62 @@ public class Player {
         }
     }
 
+    private void drawHUD() {
+        Camera.makeHUDBatch();
+        hudResourceBar.draw(Camera.batch);
+        hudBuildBar.draw(Camera.batch);
+        buildingButtons.draw(Camera.batch);
+        Camera.makeWorldBatch();
+    }
 
+    class Resources {
+        int food, wood, gold, stone;
+
+        public void draw(SpriteBatch spriteBatch) {
+
+        }
+    }
+
+    class BuildingButtons {
+        private ArrayList<BuildingButton> buildingButtons = new ArrayList<BuildingButton>();
+
+        /**
+         * Constructor for the buildingbuttons initialisation. Position should be relative to that of the build bar
+         *
+         * @param x the x the buildbar is positioned at
+         * @param y the y the buildbar is positioned at
+         */
+        BuildingButtons(int x, int y) {
+            buildingButtons.add(new BuildingButton(1, Assets.getAssets().getSprite("UI/house_button"), x + 10, y + 10, "House"));
+        }
+
+        public void draw(SpriteBatch spriteBatch) {
+            for (int i = 0, l = buildingButtons.size(); i < l; i++) {
+                buildingButtons.get(i).draw(spriteBatch);
+            }
+        }
+
+        public int getEntityType(int x, int y) {
+            //if can build
+            return -1;
+        }
+
+        class BuildingButton {
+            int entityType = 0;
+            Sprite sprite;
+            String name;
+
+            BuildingButton(int entityType, Sprite sprite, int x, int y, String name) {
+                this.entityType = entityType;
+                this.sprite = sprite;
+                sprite.flip(false, true);
+                this.name = name;
+                sprite.setPosition(x, y);
+            }
+
+            public void draw(SpriteBatch spriteBatch) {
+                sprite.draw(spriteBatch);
+            }
+        }
+    }
 }
