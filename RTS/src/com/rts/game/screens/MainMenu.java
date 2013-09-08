@@ -40,7 +40,8 @@ public class MainMenu implements Screen {
 		Gdx.gl.glClearColor(0, .25f, 0, 1);
 
 		Gdx.input.setInputProcessor(stage = new Stage());
-		skin = new Skin(Gdx.files.internal("ui/menuSkin.json"), Assets.getAssets().getTextureAtlas());
+		skin = new Skin(Gdx.files.internal("ui/menuSkin.json"));
+		skin.addRegions(Assets.getAssets().getTextureAtlas());
 
 		table = new Table(skin);
 		table.setFillParent(true);
@@ -97,7 +98,6 @@ public class MainMenu implements Screen {
 	public void dispose() {
 		stage.dispose();
 		skin.dispose();
-		// Assets.getAssets().reload();
 	}
 
 }
