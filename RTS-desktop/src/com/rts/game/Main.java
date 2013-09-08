@@ -2,7 +2,6 @@ package com.rts.game;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.rts.game.screens.Game;
 
 public class Main {
     public static void main(String[] args) {
@@ -12,6 +11,6 @@ public class Main {
         cfg.width = 640;
         cfg.height = 480;
         cfg.vSyncEnabled = true;
-        new LwjglApplication(new Game(), cfg);
+        new LwjglApplication(new RealTimeStrategy(), cfg);
     }
 }
