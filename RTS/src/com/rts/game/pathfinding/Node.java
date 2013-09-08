@@ -19,6 +19,15 @@ public class Node {
         return x;
     }
 
+    public float getCenterX() {
+        return x + 0.5f;
+    }
+
+    public float getCenterY() {
+        return y + 0.5f;
+    }
+
+
     public void setX(int x) {
         this.x = x;
     }

@@ -79,6 +79,10 @@ public abstract class Entity {
                 spriteBatch.draw(textureRegion, x + (1 - width), y + (1 - height), width / 2, height / 2, width, height, 1, 1, angle);
             }
         }
+        if (textureRegion != null) {
+            spriteBatch.draw(textureRegion, x - (1 - width) * 2, y - (1 - height) * 2, width / 2, height / 2, width, height, 1, 1, angle);
+            //Logger.getInstance().debug("Drawing something at: " + toString());
+        }
     }
 
     public abstract void implementDraw_1(SpriteBatch spriteBatch);

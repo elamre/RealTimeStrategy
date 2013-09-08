@@ -70,7 +70,7 @@ public class PathSmoother {
 
         boolean valid = true;
 
-        Line2D l = new Line2D.Float(a.getX(), a.getY(), b.getX(), b.getY());
+        Line2D l = new Line2D.Float(a.getCenterX(), a.getCenterY(), b.getCenterX(), b.getCenterY());
         Rectangle2D rect;
 
         /*

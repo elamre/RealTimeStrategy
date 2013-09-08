@@ -90,16 +90,16 @@ public class Walk extends TargetedAbility {
 
             //If the distance from the owner to the last node plus their current movement speed is greater than the
             //Distance from the last node to the next node
-            if (getDistance(owner.getX(), owner.getY(), path.get(nodePos - 1).getX(), path.get(nodePos - 1).getY())
+            if (getDistance(owner.getX(), owner.getY(), path.get(nodePos - 1).getCenterX(), path.get(nodePos - 1).getCenterY())
                     + Math.abs(dx * deltaT * ((MovingUnit) owner).speed) + Math.abs(dy * deltaT * ((MovingUnit) owner).speed)
-                    >= getDistance(nextNode.getX(), nextNode.getY(), path.get(nodePos - 1).getX(), path.get(nodePos - 1).getY())) {
+                    >= getDistance(nextNode.getCenterX(), nextNode.getCenterY(), path.get(nodePos - 1).getCenterX(), path.get(nodePos - 1).getCenterY())) {
 
 
                 if (nodePos < path.size() - 1) {
                     nodePos++;
 
-                    owner.setX(nextNode.getX());
-                    owner.setY(nextNode.getY());
+                    owner.setX(nextNode.getCenterX());
+                    owner.setY(nextNode.getCenterY());
 
                     nextNode = path.get(nodePos);
                     updateDeltaSpeed();
@@ -107,8 +107,8 @@ public class Walk extends TargetedAbility {
                     dx = 0;
                     dy = 0;
 
-                    owner.setX(nextNode.getX());
-                    owner.setY(nextNode.getY());
+                    owner.setX(nextNode.getCenterX());
+                    owner.setY(nextNode.getCenterY());
 
                 }
             }
@@ -130,7 +130,7 @@ public class Walk extends TargetedAbility {
     }
 
     public void updateDeltaSpeed() {
-        angle = -(float) Math.atan2(nextNode.getX() - owner.getX(), nextNode.getY() - owner.getY());
+        angle = -(float) Math.atan2(nextNode.getCenterX() - owner.getX(), nextNode.getCenterY() - owner.getY());
         dx = (float) -(((MovingUnit) owner).speed * Math.cos(angle - Math.PI / 2));
         dy = (float) -(((MovingUnit) owner).speed * Math.sin(angle - Math.PI / 2));
     }
