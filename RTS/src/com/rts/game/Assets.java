@@ -21,9 +21,8 @@ public class Assets {
     }
 
     public static Assets getAssets() {
-        if (assets == null) {
+        if (assets == null)
             assets = new Assets();
-        }
         return assets;
     }
 
