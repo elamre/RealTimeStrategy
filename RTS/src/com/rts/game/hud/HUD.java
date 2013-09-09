@@ -1,5 +1,7 @@
 package com.rts.game.hud;
 
+import com.rts.game.gameplay.Camera;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Elmar
@@ -8,4 +10,22 @@ package com.rts.game.hud;
  * To change this template use File | Settings | File Templates.
  */
 public class HUD {
+    private Resources resources;
+    private BuildingHUD buildingHUD;
+
+    public HUD() {
+        resources = new Resources();
+        buildingHUD = new BuildingHUD();
+    }
+
+    public void update() {
+        buildingHUD.update();
+    }
+
+    public void draw() {
+        Camera.makeHUDBatch();
+        resources.draw();
+        buildingHUD.draw();
+        Camera.makeWorldBatch();
+    }
 }

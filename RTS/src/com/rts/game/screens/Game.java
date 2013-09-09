@@ -3,6 +3,9 @@ package com.rts.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
+import com.rts.game.Assets;
+import com.rts.game.entities.EntityList;
+import com.rts.game.entities.TestBuilding;
 import com.rts.game.gameplay.Camera;
 import com.rts.game.gameplay.Cursor;
 import com.rts.game.gameplay.World;
@@ -19,6 +22,8 @@ public class Game implements Screen {
 	String ip;
 
 	public Game(String ip) {
+        EntityList.empty();
+        EntityList.registerEntity(TestBuilding.class, Assets.getAssets().getTextureRegion("Buildings/house"));
 		this.ip = ip;
 	}
 

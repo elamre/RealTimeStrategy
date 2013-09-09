@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -14,6 +15,7 @@ import com.rts.game.entities.Entity;
 import com.rts.game.entities.EntityManager;
 import com.rts.game.entities.MovingUnit;
 import com.rts.game.entities.SelectableUnit;
+import com.rts.game.hud.HUD;
 import com.rts.game.pathfinding.Node;
 import com.rts.game.pathfinding.PathfindingDebugger;
 
@@ -33,24 +35,26 @@ public class Player {
     Polygon polygon;
     boolean runningSelection = false;
     BuildingButtons buildingButtons;
+    private HUD hud;
     private Sprite hudBuildBar;
-    private Sprite hudResourceBar;
     private boolean rightPressed = false;
     private Vector2 selectionStart;
     private Vector2 selectionEnd;
 
     public void create() {
+        hud = new HUD();
         selectionStart = new Vector2(0, 0);
         selectionEnd = new Vector2(0, 0);
         hudBuildBar = Assets.getAssets().getSprite("UI/build_hud");
         hudBuildBar.flip(false, true);
-        hudResourceBar = Assets.getAssets().getSprite("UI/resources_hud");
-        hudResourceBar.flip(false, true);
+
         hudBuildBar.setPosition(0, Gdx.graphics.getHeight() - hudBuildBar.getHeight());
-        buildingButtons = new BuildingButtons(0,(int)(Gdx.graphics.getHeight() - hudBuildBar.getHeight()));
+        buildingButtons = new BuildingButtons(0, (int) (Gdx.graphics.getHeight() - hudBuildBar.getHeight()));
+
     }
 
     public void update(float deltaT, EntityManager entityManager) {
+        hud.update();
         if (Gdx.input.isButtonPressed(Input.Buttons.LEFT) && !runningSelection && !Cursor.abilityRequested) {
             for (int i = 0, l = currentSelection.size(); i < l; i++) {
                 ((SelectableUnit) currentSelection.get(i)).setSelected(false);
@@ -151,11 +155,12 @@ public class Player {
     }
 
     private void drawHUD() {
+
         Camera.makeHUDBatch();
-        hudResourceBar.draw(Camera.batch);
-        hudBuildBar.draw(Camera.batch);
-        buildingButtons.draw(Camera.batch);
+        //hudBuildBar.draw(Camera.batch);
+        //buildingButtons.draw(Camera.batch);
         Camera.makeWorldBatch();
+        hud.draw();
     }
 
     class Resources {
