@@ -3,6 +3,7 @@ package com.rts.game.entities;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.rts.game.Assets;
 import com.rts.game.abilities.Blink;
+import com.rts.game.abilities.BuildingSpace;
 import com.rts.networking.packets.game.EntityCreationPacket;
 
 /**
@@ -13,10 +14,29 @@ import com.rts.networking.packets.game.EntityCreationPacket;
  * To change this template use File | Settings | File Templates.
  */
 public class TestEntity extends MovingUnit {
+
     public TestEntity(int x, int y) {
         super(x, y, EntityList.UNIT_TEST_1);
         abilities.add(new Blink(this));
 
+        BuildingSpace builds = new BuildingSpace(this);
+
+        boolean[][] space = {
+
+                {true, true, true, true},
+                {true, false, false, true},
+                {false, false, true, true},
+                {true, true, true, false}
+        };
+
+        builds.loadSpace(space);
+
+        if (builds.isCreatable()) {
+            builds.create();
+        }
+
+
+        abilities.add(builds);
     }
 
     public TestEntity(EntityCreationPacket packet) {
