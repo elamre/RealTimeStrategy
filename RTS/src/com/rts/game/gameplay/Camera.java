@@ -5,7 +5,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
-import com.rts.util.Logger;
 
 
 /**
@@ -175,7 +174,7 @@ public class Camera {
     //TODO IMPROVE
     public static boolean isInFocus(float x, float y, float width, float height) {
         Rectangle rectangle = new Rectangle(x, y, width, height);
-        if (viewPort.contains(rectangle))
+        if (viewPort.overlaps(rectangle))
             return true;
         return false;
     }

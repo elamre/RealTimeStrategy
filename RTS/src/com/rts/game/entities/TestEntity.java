@@ -3,7 +3,7 @@ package com.rts.game.entities;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.rts.game.Assets;
 import com.rts.game.abilities.Blink;
-import com.rts.game.abilities.BuildingSpace;
+import com.rts.game.abilities.Build;
 import com.rts.networking.packets.game.EntityCreationPacket;
 
 /**
@@ -18,31 +18,13 @@ public class TestEntity extends MovingUnit {
     public TestEntity(int x, int y) {
         super(x, y, EntityList.UNIT_TEST_1);
         abilities.add(new Blink(this));
-
-        BuildingSpace builds = new BuildingSpace(this);
-
-        boolean[][] space = {
-
-                {true, true, true, true},
-                {true, false, false, true},
-                {false, false, true, true},
-                {true, true, true, false}
-        };
-
-        builds.loadSpace(space);
-
-        if (builds.isCreatable()) {
-            builds.create();
-        }
-
-
-        abilities.add(builds);
+        abilities.add(new Build(this));
     }
 
     public TestEntity(EntityCreationPacket packet) {
         super(packet, EntityList.UNIT_TEST_1, Assets.getAssets().getTextureRegion("Units/worker_wood"), 4, 0.1f);
         abilities.add(new Blink(this));
-
+        abilities.add(new Build(this));
     }
 
     @Override

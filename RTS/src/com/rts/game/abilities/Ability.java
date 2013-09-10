@@ -22,6 +22,8 @@ public abstract class Ability {
 
     public abstract void logic(float delta);
 
+    public abstract void draw();
+
     public Ability(Unit owner) {
         this.owner = owner;
     }

@@ -15,6 +15,11 @@ import com.rts.game.gameplay.World;
  */
 public class Blink extends TargetedAbility {
 
+    @Override
+    public void draw() {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
     public Blink(Unit owner) {
         super(owner);
         key = Input.Keys.B;

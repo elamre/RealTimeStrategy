@@ -2,6 +2,10 @@ package com.rts.game.hud;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.rts.game.abilities.Ability;
+import com.rts.game.abilities.Build;
+import com.rts.game.entities.Entity;
+import com.rts.game.entities.Unit;
 import com.rts.game.screens.ShapeRenderer;
 
 /**
@@ -12,12 +16,10 @@ import com.rts.game.screens.ShapeRenderer;
  * To change this template use File | Settings | File Templates.
  */
 public class BuildingButton extends Button {
-    BuildingGhost buildingGhost;
     int id;
 
-    public BuildingButton(int x, int y, Sprite sprite, int id, String text, BuildingGhost buildingGhost) {
+    public BuildingButton(int x, int y, Sprite sprite, int id, String text) {
         super(x, y, sprite, text, true);
-        this.buildingGhost = buildingGhost;
         this.id = id;
     }
 
@@ -25,9 +27,9 @@ public class BuildingButton extends Button {
     public void mouseOver(Button button) {
         //TODO show some text
         ShapeRenderer.setColor(Color.BLUE);
-        ShapeRenderer.drawRectangle(button.x,button.y,32,32,true);
+        ShapeRenderer.drawRectangle(button.x, button.y, 32, 32, true);
         ShapeRenderer.setColor(Color.BLACK);
-        ShapeRenderer.drawRectangle(button.x,button.y,72,32,false);
+        ShapeRenderer.drawRectangle(button.x, button.y, 72, 32, false);
     }
 
     @Override
@@ -37,7 +39,16 @@ public class BuildingButton extends Button {
 
     @Override
     public void buttonReleased(Button button) {
-        buildingGhost.changeEntity(id);
+
+        outer:
+        for (Entity e : game.inGame.player.currentSelection) {
+            for (Ability a : ((Unit) e).abilities) {
+                if (a instanceof Build) {
+                    ((Build) a).requestCursorUse();
+                    break outer;
+                }
+            }
+        }
     }
 
     @Override

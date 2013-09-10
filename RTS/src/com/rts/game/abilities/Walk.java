@@ -56,6 +56,11 @@ public class Walk extends TargetedAbility {
     //TODO: Make units land exactly at a square's center
     //TODO: Make current square considered to be filled to other units pathfinding
 
+    @Override
+    public void draw() {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
     public Walk(Unit owner) {
         super(owner);
         key = Input.Keys.Z;

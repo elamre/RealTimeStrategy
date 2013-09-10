@@ -1,8 +1,8 @@
 package com.rts.game.screens;
 
-import com.rts.game.multiplayer.ConnectionBridge;
 import com.rts.game.entities.EntityManager;
 import com.rts.game.gameplay.Player;
+import com.rts.game.multiplayer.ConnectionBridge;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,7 +12,7 @@ import com.rts.game.gameplay.Player;
  * To change this template use File | Settings | File Templates.
  */
 public class InGame {
-    Player player;
+    public Player player;
     ConnectionBridge connectionBridge;
     EntityManager entityManager;
 

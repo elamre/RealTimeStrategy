@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.rts.game.entities.Entity;
 import com.rts.game.entities.EntityList;
-import com.rts.game.gameplay.Cursor;
+import com.rts.game.gameplay.Camera;
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,6 +14,7 @@ import com.rts.game.gameplay.Cursor;
  * To change this template use File | Settings | File Templates.
  */
 public class BuildingGhost extends Entity {
+
     Sprite sprite;
 
     public BuildingGhost(int x, int y) {
@@ -26,17 +27,23 @@ public class BuildingGhost extends Entity {
 
     @Override
     public void implementUpdate_1(float deltaT) {
-        if (sprite != null)
-            sprite.setPosition(Cursor.x, Cursor.y);
+        x = (int) Camera.getRealWorldX();
+        y = (int) Camera.getRealWorldY();
     }
 
     @Override
     public void implementDraw_1(SpriteBatch spriteBatch) {
-        if (sprite != null)
-            sprite.draw(spriteBatch);
+
+    }
+
+    public void draw(SpriteBatch spriteBatch) {
+        spriteBatch.draw(sprite, x - (1 - width) * 2, y - (1 - height) * 2, width / 2, height / 2, width, height, 1, 1, angle);
+
     }
 
     public void changeEntity(int newEntityId) {
+        height = 1;
+        width = 1;
         sprite = new Sprite(EntityList.getTextureArea(newEntityId));
         sprite.setColor(sprite.getColor().r, sprite.getColor().g, sprite.getColor().b, .3f);
     }

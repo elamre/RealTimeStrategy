@@ -15,7 +15,6 @@ import com.rts.game.gameplay.Camera;
  * To change this template use File | Settings | File Templates.
  */
 public class BuildingHUD {
-    BuildingGhost buildingGhost;
     BuildingButton houseButton;
     private Sprite hudBuildBar;
 
@@ -25,17 +24,14 @@ public class BuildingHUD {
 
         hudBuildBar.setPosition(0, Gdx.graphics.getHeight() - hudBuildBar.getHeight());
 
-        buildingGhost = new BuildingGhost(20, 20);
-        houseButton = new BuildingButton(10, 10 + (int) hudBuildBar.getY(), Assets.getAssets().getSprite("UI/house_button"), EntityList.getEntityType(TestBuilding.class), "HOUSE", buildingGhost);
+        houseButton = new BuildingButton(10, 10 + (int) hudBuildBar.getY(), Assets.getAssets().getSprite("UI/house_button"), EntityList.getEntityType(TestBuilding.class), "HOUSE");
     }
 
     public void update() {
-        buildingGhost.update(0);
         houseButton.update();
     }
 
     public void draw() {
-        buildingGhost.draw(Camera.batch);
         hudBuildBar.draw(Camera.batch);
         houseButton.draw();
     }

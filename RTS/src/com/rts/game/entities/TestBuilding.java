@@ -1,8 +1,8 @@
 package com.rts.game.entities;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.rts.game.Assets;
+import com.rts.game.abilities.BuildingSpace;
 import com.rts.networking.packets.game.EntityCreationPacket;
 
 /**
@@ -13,8 +13,28 @@ import com.rts.networking.packets.game.EntityCreationPacket;
  * To change this template use File | Settings | File Templates.
  */
 public class TestBuilding extends SelectableUnit {
-    protected TestBuilding(EntityCreationPacket packet) {
+    public TestBuilding(EntityCreationPacket packet) {
         super(packet, EntityList.BUILDING_TEST, Assets.getAssets().getTextureRegion("Buildings/building_house"));
+
+        BuildingSpace builds = new BuildingSpace(this);
+
+        boolean[][] space = {
+
+                {true, true, true, true},
+                {true, false, false, true},
+                {false, false, true, true},
+                {true, true, true, false}
+        };
+
+        builds.loadSpace(space);
+
+        if (builds.isCreatable()) {
+            builds.create();
+        }
+
+
+        abilities.add(builds);
+
     }
 
     @Override

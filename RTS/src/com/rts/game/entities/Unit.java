@@ -16,7 +16,7 @@ import java.util.ArrayList;
  */
 public abstract class Unit extends Entity {
 
-    ArrayList<Ability> abilities;
+    public ArrayList<Ability> abilities;
 
     protected Unit(int x, int y, int entityType) {
         super(x, y, entityType);
@@ -66,7 +66,9 @@ public abstract class Unit extends Entity {
     @Override
     public void implementDraw_1(SpriteBatch spriteBatch) {
         implementDraw_2(spriteBatch);
-
+        for (Ability a : abilities) {
+            a.draw();
+        }
     }
 
     public float getAngle() {

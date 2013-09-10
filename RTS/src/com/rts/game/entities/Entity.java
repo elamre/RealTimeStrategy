@@ -26,7 +26,7 @@ public abstract class Entity {
     protected float x;
     protected float y;
     protected float angle;
-    private TextureRegion textureRegion;
+    protected TextureRegion textureRegion;
     private float debugTimer = 0;
 
     //USE THIS ONLY FOR SENDING NETWORK DETAILS!
