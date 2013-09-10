@@ -46,7 +46,7 @@ public class EntityManager {
     /**
      * The network client to send data to
      */
-    private ConnectionBridge connectionBridge;
+    private static ConnectionBridge connectionBridge;
 
     public EntityManager(ConnectionBridge connectionBridge) {
         this.connectionBridge = connectionBridge;
@@ -123,17 +123,14 @@ public class EntityManager {
      *
      * @param e The Entity to be added.
      */
-    public void addEntity(Entity e) {
+    public static void addEntity(Entity e) {
         connectionBridge.addEntity(e);
         // addList.add(e);
     }
 
     public void draw() {
-        Color color = Color.BLUE;
-
         for (Map.Entry<Integer, Entity> entry : entities.entrySet()) {
             entry.getValue().draw(Camera.batch);
-            //entry.getValue().bounds.debugShape();
         }
     }
 
@@ -159,9 +156,12 @@ public class EntityManager {
      * Adds all wanted Entities. Uses the addList List.
      */
     private void addEntities() {
-        for (Entity anAddList : addList) {
-            entities.put(new Integer(anAddList.getId()), anAddList);
+        for (int i = 0, l = addList.size(); i < l; i++) {
+            entities.put(new Integer(addList.get(i).getId()), addList.get(i));
         }
+/*        for (Entity anAddList : addList) {
+            entities.put(new Integer(anAddList.getId()), anAddList);
+        }*/
         addList.clear();
     }
 

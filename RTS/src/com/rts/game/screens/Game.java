@@ -18,7 +18,7 @@ public class Game implements Screen {
 
 	ConnectionBridge connectionBridge;
 	World world = new World();
-	InGame inGame;
+	public InGame inGame;
 	String ip;
 
 	public Game(String ip) {

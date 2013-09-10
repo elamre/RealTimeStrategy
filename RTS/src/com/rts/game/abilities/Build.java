@@ -3,6 +3,7 @@ package com.rts.game.abilities;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.rts.game.entities.EntityList;
+import com.rts.game.entities.EntityManager;
 import com.rts.game.entities.TestBuilding;
 import com.rts.game.entities.Unit;
 import com.rts.game.gameplay.Camera;
@@ -34,7 +35,7 @@ public class Build extends TargetedAbility {
             if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
                 removeCursorUse();
 
-                TestBuilding test = new TestBuilding();
+                TestBuilding test = new TestBuilding(0, 0);
                 BuildingSpace bspace = new BuildingSpace(test);
                 bspace.loadSpace(new boolean[][]{
 
@@ -46,7 +47,7 @@ public class Build extends TargetedAbility {
                 if (bspace.isCreatable()) {
                     bspace.create();
                     test.abilities.add(bspace);
-                    EntityManager.add(test);
+                    EntityManager.addEntity(test);
                     //TODO: Make this be added to the entity list somehow
                 }
             }

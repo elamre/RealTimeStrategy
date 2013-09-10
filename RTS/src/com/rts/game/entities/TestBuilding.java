@@ -13,8 +13,8 @@ import com.rts.networking.packets.game.EntityCreationPacket;
  * To change this template use File | Settings | File Templates.
  */
 public class TestBuilding extends SelectableUnit {
-    public TestBuilding(EntityCreationPacket packet) {
-        super(packet, EntityList.BUILDING_TEST, Assets.getAssets().getTextureRegion("Buildings/building_house"));
+    public TestBuilding(int x, int y) {
+        super(x, y, EntityList.BUILDING_TEST);
 
         BuildingSpace builds = new BuildingSpace(this);
 
@@ -34,6 +34,11 @@ public class TestBuilding extends SelectableUnit {
 
 
         abilities.add(builds);
+    }
+
+    public TestBuilding(EntityCreationPacket packet) {
+        super(packet, EntityList.BUILDING_TEST, Assets.getAssets().getTextureRegion("Buildings/building_house"));
+
 
     }
 

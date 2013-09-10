@@ -1,9 +1,6 @@
 package com.rts.game.multiplayer;
 
-import com.rts.game.entities.Entity;
-import com.rts.game.entities.EntityManager;
-import com.rts.game.entities.MovingUnit;
-import com.rts.game.entities.TestEntity;
+import com.rts.game.entities.*;
 import com.rts.networking.client.Client;
 import com.rts.networking.packets.Packet;
 import com.rts.networking.packets.game.EntityCreationPacket;
@@ -54,8 +51,16 @@ public class ConnectionBridge {
     public void update() {
         while ((packet = client.getPacket()) != null) {
             if (packet instanceof EntityCreationPacket) {
-                Entity entity = new TestEntity((EntityCreationPacket) packet);
-                entityManager.createEntity(entity);
+                Entity entity = null;
+                if (((EntityCreationPacket) packet).getEntityType() == EntityList.UNIT_TEST_1) {
+                    entity = new TestEntity((EntityCreationPacket) packet);
+                } else if (((EntityCreationPacket) packet).getEntityType() == EntityList.BUILDING_TEST) {
+                    entity = new TestBuilding((EntityCreationPacket) packet);
+                }
+                if (entity != null)
+                    entityManager.createEntity(entity);
+                else
+                    Logger.getInstance().debug("Trying to add non existent unit");
             } else if (packet instanceof MoveEntityPacket) {
                 Logger.getInstance().debug("Receiving movement!");
                 ((MovingUnit) entityManager.getEntity(((MoveEntityPacket) packet).getEntityId())).moveEntity((MoveEntityPacket) packet);

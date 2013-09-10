@@ -12,7 +12,7 @@ import com.rts.game.multiplayer.ConnectionBridge;
  * To change this template use File | Settings | File Templates.
  */
 public class InGame {
-    public Player player;
+    public static Player player;
     ConnectionBridge connectionBridge;
     EntityManager entityManager;
 
