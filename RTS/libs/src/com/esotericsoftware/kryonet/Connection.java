@@ -270,7 +270,7 @@ public class Connection {
 		return udpRemoteAddress;
 	}
 
-	/** Workaround for broken NIO networking on Android 1.6. If true, the underlying NIO buffer is always copied to the beginning of
+	/** Workaround for broken NIO networking_old on Android 1.6. If true, the underlying NIO buffer is always copied to the beginning of
 	 * the buffer before being given to the SocketChannel for sending. The Harmony SocketChannel implementation in Android 1.6
 	 * ignores the buffer position, always copying from the beginning of the buffer. This is fixed in Android 2.0+. */
 	public void setBufferPositionFix (boolean bufferPositionFix) {

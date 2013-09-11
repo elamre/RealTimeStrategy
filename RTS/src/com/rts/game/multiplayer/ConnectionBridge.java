@@ -1,10 +1,10 @@
 package com.rts.game.multiplayer;
 
 import com.rts.game.entities.*;
-import com.rts.networking.client.Client;
-import com.rts.networking.packets.Packet;
-import com.rts.networking.packets.game.EntityCreationPacket;
-import com.rts.networking.packets.game.MoveEntityPacket;
+import com.rts.networking_old.client.Client;
+import com.rts.networking_old.packets.Packet;
+import com.rts.networking_old.packets.game.EntityCreationPacket;
+import com.rts.networking_old.packets.game.MoveEntityPacket;
 import com.rts.util.Logger;
 
 import java.io.IOException;

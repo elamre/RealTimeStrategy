@@ -7,7 +7,7 @@ import com.rts.game.entities.Unit;
 import com.rts.game.gameplay.Camera;
 import com.rts.game.gameplay.World;
 import com.rts.game.pathfinding.Node;
-import com.rts.networking.packets.game.MoveEntityPacket;
+import com.rts.networking_old.packets.game.MoveEntityPacket;
 
 import java.util.ArrayList;
 

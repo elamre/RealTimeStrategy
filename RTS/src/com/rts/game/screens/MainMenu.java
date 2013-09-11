@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.rts.game.Assets;
 import com.rts.game.RealTimeStrategy;
-import com.rts.networking.host.Server;
+import com.rts.networking_old.host.Server;
 
 /** TODO this is going to be the main menu */
 public class MainMenu implements Screen {

@@ -1,7 +1,7 @@
 package com.rts.util;
 
 /**
- * This class contains some useful socket and networking utilities.
+ * This class contains some useful socket and networking_old utilities.
  *
  * @author Elmar
  */

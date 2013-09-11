@@ -3,7 +3,7 @@ package com.rts.game.entities;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.rts.game.abilities.Ability;
-import com.rts.networking.packets.game.EntityCreationPacket;
+import com.rts.networking_old.packets.game.EntityCreationPacket;
 
 import java.util.ArrayList;
 

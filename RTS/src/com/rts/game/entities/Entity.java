@@ -4,8 +4,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.rts.game.gameplay.Camera;
 import com.rts.game.screens.ShapeRenderer;
-import com.rts.networking.packets.game.EntityCreationPacket;
-import com.rts.networking.packets.game.MoveEntityPacket;
+import com.rts.networking_old.packets.game.EntityCreationPacket;
+import com.rts.networking_old.packets.game.MoveEntityPacket;
 import com.rts.util.Logger;
 
 

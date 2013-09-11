@@ -5,8 +5,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.rts.game.abilities.Walk;
 import com.rts.game.gameplay.World;
-import com.rts.networking.packets.game.EntityCreationPacket;
-import com.rts.networking.packets.game.MoveEntityPacket;
+import com.rts.networking_old.packets.game.EntityCreationPacket;
+import com.rts.networking_old.packets.game.MoveEntityPacket;
 
 /**
  * Created with IntelliJ IDEA.

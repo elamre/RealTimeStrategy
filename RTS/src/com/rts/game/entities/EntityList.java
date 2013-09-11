@@ -1,9 +1,6 @@
 package com.rts.game.entities;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.rts.game.Assets;
-import com.rts.networking.packets.Packet;
 import com.rts.util.Logger;
 
 import java.util.HashMap;

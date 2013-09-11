@@ -2,11 +2,10 @@ package com.rts.game.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
 import com.rts.game.multiplayer.ConnectionBridge;
 import com.rts.game.gameplay.Camera;
-import com.rts.networking.packets.Packet;
-import com.rts.networking.packets.game.MoveEntityPacket;
+import com.rts.networking_old.packets.Packet;
+import com.rts.networking_old.packets.game.MoveEntityPacket;
 
 import java.util.ArrayList;
 import java.util.HashMap;

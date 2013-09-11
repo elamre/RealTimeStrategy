@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.rts.game.Assets;
-import com.rts.networking.packets.game.EntityCreationPacket;
+import com.rts.networking_old.packets.game.EntityCreationPacket;
 
 /**
  * Created with IntelliJ IDEA.
