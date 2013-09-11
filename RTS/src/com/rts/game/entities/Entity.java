@@ -20,7 +20,41 @@ public abstract class Entity {
     private final int id;
     private final int entityType;
     private final float debugThreshold = 1;
-    protected float width = 0, height = 0;
+    protected float width = 0;
+
+    public float getHeight() {
+        return height;
+    }
+
+    public void setHeight(float height) {
+        this.height = height;
+    }
+
+    public float getWidth() {
+        return width;
+    }
+
+    public void setWidth(float width) {
+        this.width = width;
+    }
+
+    public boolean isDebug() {
+        return debug;
+    }
+
+    public int getEntityType() {
+        return entityType;
+    }
+
+    public float getAngle() {
+        return angle;
+    }
+
+    public void setAngle(float angle) {
+        this.angle = angle;
+    }
+
+    protected float height = 0;
     /* The angle of the entity IN DEGREES. */
     protected boolean debug = false;
     protected float x;

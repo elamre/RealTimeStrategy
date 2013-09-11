@@ -81,11 +81,15 @@ public class Walk extends TargetedAbility {
                 n.debug();
             }
 
-            nodePos = 1;
-            nextNode = path.get(1);
-            finalDest = path.get(path.size() - 1);
+            if (path.size() > 1) {
 
-            updateDeltaSpeed();
+                nodePos = 1;
+                nextNode = path.get(1);
+                finalDest = path.get(path.size() - 1);
+
+                updateDeltaSpeed();
+
+            }
 
             System.out.println("Set path to " + finalDest + ".");
 
@@ -108,15 +112,22 @@ public class Walk extends TargetedAbility {
 
                     nextNode = path.get(nodePos);
                     updateDeltaSpeed();
+
                 } else {
                     dx = 0;
                     dy = 0;
 
+                    finalDest = null;
+                    path = null;
+
                     owner.setX(nextNode.getCenterX());
                     owner.setY(nextNode.getCenterY());
 
+
                 }
             }
+
+            setCurrentSquare();
 
             owner.setX(owner.getX() + dx * deltaT);
             owner.setY(owner.getY() + dy * deltaT);

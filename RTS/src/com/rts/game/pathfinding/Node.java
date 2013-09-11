@@ -67,7 +67,7 @@ public class Node {
     }
 
     public void debug() {
-        System.out.println("Node: " + x + ", " + y + ", " + (pass ? "Walkable" : "Not Walkable"));
+        System.out.println("Node: " + x + ", " + y + ", " + (pass ? "Walkable" : "Not Walkable") + ", " + standing);
     }
 
 }

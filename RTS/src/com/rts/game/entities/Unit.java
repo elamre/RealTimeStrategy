@@ -80,4 +80,5 @@ public abstract class Unit extends Entity {
     }
 
     public abstract void implementDraw_2(SpriteBatch spriteBatch);
+
 }

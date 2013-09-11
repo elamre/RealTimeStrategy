@@ -17,6 +17,10 @@ public class PathSmoother {
 
     public static ArrayList<Node> smoothBasic(ArrayList<Node> path) {
 
+        if (path == null) {
+            return new ArrayList<Node>(1);
+        }
+
         if (path.size() < 3) {
             return path;
         }
@@ -26,8 +30,6 @@ public class PathSmoother {
         ArrayList<Node> smoothed = new ArrayList<Node>(path);
 
         while (!simplified) {
-
-            System.out.println("asdf");
 
             Node remove = null;
 
@@ -41,7 +43,6 @@ public class PathSmoother {
             }
 
             smoothed.remove(remove);
-            System.out.println(remove);
 
             if (remove == null) {
                 simplified = true;

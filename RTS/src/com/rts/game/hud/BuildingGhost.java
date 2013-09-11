@@ -37,8 +37,7 @@ public class BuildingGhost extends Entity {
     }
 
     public void draw(SpriteBatch spriteBatch) {
-        spriteBatch.draw(sprite, x - (1 - width) * 2, y - (1 - height) * 2, width / 2, height / 2, width, height, 1, 1, angle);
-
+        spriteBatch.draw(sprite, x - width / 2, y - height / 2, width / 2, height / 2, width, height, 1, 1, angle);
     }
 
     public void changeEntity(int newEntityId) {

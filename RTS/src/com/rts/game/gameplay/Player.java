@@ -2,9 +2,7 @@ package com.rts.game.gameplay;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -41,6 +39,9 @@ public class Player {
     private Vector2 selectionStart;
     private Vector2 selectionEnd;
 
+    //Temporarily disables the selection for one click
+    public static boolean preserveSelection;
+
     public void create() {
         hud = new HUD();
         selectionStart = new Vector2(0, 0);
@@ -56,11 +57,13 @@ public class Player {
     public void update(float deltaT, EntityManager entityManager) {
         hud.update();
         if (Gdx.input.isButtonPressed(Input.Buttons.LEFT) && !runningSelection && !Cursor.abilityRequested) {
-            for (int i = 0, l = currentSelection.size(); i < l; i++) {
-                ((SelectableUnit) currentSelection.get(i)).setSelected(false);
+            if (!preserveSelection) {
+                for (int i = 0, l = currentSelection.size(); i < l; i++) {
+                    ((SelectableUnit) currentSelection.get(i)).setSelected(false);
+                }
+                currentSelection.clear();
+                selectionStart.set(Camera.getRealWorldX(), Camera.getRealWorldY());
             }
-            currentSelection.clear();
-            selectionStart.set(Camera.getRealWorldX(), Camera.getRealWorldY());
             runningSelection = true;
         }
         if (runningSelection) {
@@ -69,7 +72,9 @@ public class Player {
         if (!Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
             if (runningSelection) {
                 runningSelection = false;
-                checkSelection(entityManager);
+                if (!preserveSelection)
+                    checkSelection(entityManager);
+                preserveSelection = false;
             }
         }
         if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
@@ -106,6 +111,9 @@ public class Player {
                 }
             }
         }
+
+        System.out.println(currentSelection.size());
+
     }
 
     private void moveSelection() {
@@ -117,7 +125,8 @@ public class Player {
     }
 
     public void draw() {
-        drawSelectionBox();
+        if (!preserveSelection)
+            drawSelectionBox();
         drawHUD();
     }
 

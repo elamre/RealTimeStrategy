@@ -1,9 +1,11 @@
 package com.rts.game.abilities;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.rts.game.entities.SelectableUnit;
 import com.rts.game.entities.Unit;
 import com.rts.game.gameplay.Cursor;
+import com.rts.game.gameplay.Player;
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,17 +18,30 @@ public abstract class TargetedAbility extends Ability {
 
     boolean requestClick = false;
     int range = 70;
+    boolean waitForNextClick;
+    boolean wasLastClicked;
+    boolean saveSelection;
 
-    //TODO: Targeted abilities should not remove current unit selection
 
     public TargetedAbility(Unit owner) {
         super(owner);
+        saveSelection = true;
     }
 
-    public void requestCursorUse() {
+    public void requestCursorUse(boolean waitForNextClick) {
         requestClick = true;
-        Cursor.abilityRequesting = this;
-        Cursor.abilityRequested = true;
+        this.waitForNextClick = waitForNextClick;
+        this.wasLastClicked = waitForNextClick;
+        if (!waitForNextClick) {
+            Cursor.abilityRequesting = this;
+            Cursor.abilityRequested = true;
+            if (saveSelection) {
+                Player.preserveSelection = true;
+            }
+        }
+        if (saveSelection) {
+            Player.preserveSelection = true;
+        }
     }
 
     public void removeCursorUse() {
@@ -40,8 +55,16 @@ public abstract class TargetedAbility extends Ability {
             requestClick = false;
         }
 
+        if (!wasLastClicked && Gdx.input.isButtonPressed(Input.Buttons.LEFT) && waitForNextClick) {
+            requestCursorUse(false);
+        }
+
+        if (wasLastClicked && !Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+            wasLastClicked = false;
+        }
+
         if (Gdx.input.isKeyPressed(key) && ((SelectableUnit) owner).isSelected()) {
-            requestCursorUse();
+            requestCursorUse(false);
             System.out.println("Ability target requesting");
         }
 

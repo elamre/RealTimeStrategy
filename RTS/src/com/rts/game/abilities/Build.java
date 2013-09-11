@@ -20,6 +20,14 @@ public class Build extends TargetedAbility {
 
     BuildingGhost ghost;
 
+    boolean[][] spacearray = new boolean[][]{
+
+            {false, true, true, false},
+            {true, true, true, true},
+            {true, true, true, true},
+            {false, true, true, false}
+    };
+
     public Build(Unit owner) {
         super(owner);
         key = Input.Keys.M;
@@ -30,20 +38,18 @@ public class Build extends TargetedAbility {
     @Override
     public void update_1(float delta) {
 
-        if (requestClick) {
+        if (requestClick || waitForNextClick) {
             ghost.update(delta);
-            if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+            ghost.setWidth(spacearray.length);
+            ghost.setHeight(spacearray[0].length);
+            if (Gdx.input.isButtonPressed(Input.Buttons.LEFT) && requestClick) {
                 removeCursorUse();
 
-                TestBuilding test = new TestBuilding(0, 0);
-                BuildingSpace bspace = new BuildingSpace(test);
-                bspace.loadSpace(new boolean[][]{
+                System.out.println("Attempting building place");
 
-                        {true, true, true, true},
-                        {true, false, false, true},
-                        {false, false, true, true},
-                        {true, true, true, false}
-                });
+                TestBuilding test = new TestBuilding((int) ghost.getX(), (int) ghost.getY());
+                BuildingSpace bspace = new BuildingSpace(test);
+                bspace.loadSpace(spacearray);
                 if (bspace.isCreatable()) {
                     bspace.create();
                     test.abilities.add(bspace);
@@ -58,7 +64,7 @@ public class Build extends TargetedAbility {
     }
 
     public void draw() {
-        if (requestClick) {
+        if (waitForNextClick || requestClick) {
             System.out.println("Drawing...");
             ghost.draw(Camera.batch);
         }

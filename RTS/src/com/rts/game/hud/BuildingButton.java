@@ -6,7 +6,6 @@ import com.rts.game.abilities.Ability;
 import com.rts.game.abilities.Build;
 import com.rts.game.entities.Entity;
 import com.rts.game.entities.Unit;
-import com.rts.game.screens.Game;
 import com.rts.game.screens.InGame;
 import com.rts.game.screens.ShapeRenderer;
 
@@ -37,20 +36,21 @@ public class BuildingButton extends Button {
     @Override
     public void buttonPressed(Button button) {
         //TODO play a sound
-    }
-
-    @Override
-    public void buttonReleased(Button button) {
 
         outer:
         for (Entity e : InGame.player.currentSelection) {
             for (Ability a : ((Unit) e).abilities) {
                 if (a instanceof Build) {
-                    ((Build) a).requestCursorUse();
+                    ((Build) a).requestCursorUse(true);
                     break outer;
                 }
             }
         }
+    }
+
+    @Override
+    public void buttonReleased(Button button) {
+
     }
 
     @Override
