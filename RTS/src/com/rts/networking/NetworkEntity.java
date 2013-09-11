@@ -1,6 +1,7 @@
 package com.rts.networking;
 
 import com.rts.networking.packets.game.RequestEntityPacket;
+import com.rts.util.Logger;
 
 /**
  * Created with IntelliJ IDEA.
@@ -21,6 +22,7 @@ public class NetworkEntity {
         y = requestEntityPacket.getY();
         entityType = requestEntityPacket.getEntityType();
         playerId = requestEntityPacket.getConnectionId();
+        Logger.getInstance().debug("New network entity has been made. EntityId: " + entityId + " entityType: " + entityType);
     }
 
     public int getPlayerId() {

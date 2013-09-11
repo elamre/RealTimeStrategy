@@ -64,7 +64,7 @@ public class Client {
     //TODO this doesn't belong here
     public void sendEntityRequest(Entity entity) {
         if (connection != null)
-            connection.writePacket(new RequestEntityPacket(0, 1, (int) entity.getX(), (int) entity.getY()));
+            connection.writePacket(new RequestEntityPacket(0, entity.getEntityType(), (int) entity.getX(), (int) entity.getY()));
         else {
             Logger.getInstance().error("Not connected to any server. Game will stop.");
             System.exit(0);

@@ -65,7 +65,7 @@ public class Build extends TargetedAbility {
 
     public void draw() {
         if (waitForNextClick || requestClick) {
-            System.out.println("Drawing...");
+            //System.out.println("Drawing...");
             ghost.draw(Camera.batch);
         }
     }
