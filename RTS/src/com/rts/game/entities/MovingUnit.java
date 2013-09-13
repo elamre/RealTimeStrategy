@@ -99,7 +99,4 @@ public abstract class MovingUnit extends SelectableUnit {
 
     public abstract void implementDraw_3(SpriteBatch spriteBatch);
 
-    public void setDestination(int realWorldX, int realWorldY) {
-        walker.walkTo(realWorldX, realWorldY);
-    }
 }

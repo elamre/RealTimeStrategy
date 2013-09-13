@@ -48,12 +48,13 @@ public class Walk extends TargetedAbility {
     /* The angle the entity is walking in */
     float angle = 0f;
 
+    boolean persist;
+
     public float dx;
     public float dy;
 
     //TODO: Make walk follow friendly units
     //TODO: Change JPS so that it will return the path that leads to the closest valid point if target is invalid
-    //TODO: Make units land exactly at a square's center
     //TODO: Make current square considered to be filled to other units pathfinding
 
     @Override
@@ -65,6 +66,10 @@ public class Walk extends TargetedAbility {
         super(owner);
         key = Input.Keys.Z;
         range = 9999999;
+    }
+
+    private void updatePath() {
+
     }
 
     @Override
@@ -141,10 +146,6 @@ public class Walk extends TargetedAbility {
         currentSquare.standing = owner;
     }
 
-    public void walkTo(int x, int y) {
-
-    }
-
     public void updateDeltaSpeed() {
         angle = -(float) Math.atan2(nextNode.getCenterX() - owner.getX(), nextNode.getCenterY() - owner.getY());
         dx = (float) -(((MovingUnit) owner).speed * Math.cos(angle - Math.PI / 2));
@@ -157,141 +158,19 @@ public class Walk extends TargetedAbility {
 
     public void interpretPacket(MoveEntityPacket packet) {
 
+        path = new ArrayList<Node>(1);
+
+        owner.setX(packet.getX());
+        owner.setY(packet.getY());
+
+        path.add(World.nodeAt(packet.getTargetX(), packet.getTargetY()));
+
+        nodePos = 0;
+        nextNode = path.get(0);
+        finalDest = path.get(0);
+
+        updateDeltaSpeed();
     }
-
-
-    // owner.x -= deltaX * deltaT * speed;
-    // owner.y -= deltaY * deltaT * speed;
-
-
-    /*
-
-
-
-    public void setDestination(int x, int y) {
-
-        System.out.println("Goal: " + x + ", " + y);
-        System.out.println("Current: " + this.x + ", " + this.y);
-
-        path = World.getPath((int) getX(), (int) getY(), x, y);
-        //path = World.getPath(0, 0, 100, 100);
-        System.out.println("Finding path...");
-
-
-        if (path != null && path.size() >= 2) {
-
-            System.out.println("Node size: " + path.size());
-            for (Node n : path) {
-                System.out.println("Pathing Node: " + n.getX() + ", " + n.getY());
-            }
-
-            atFinalLocation = false;
-            this.finalDestinationX = x;
-            this.finalDestinationY = y;
-
-            this.nextDestinationX = path.get(1).getX();
-            this.nextDestinationY = path.get(1).getY();
-            //Set to 1 because index 0 is the start area, and to move to the start area would be useless or would make unnatural movement patterns.
-
-            currentNode = 1;
-
-            moveEntityPacket = new MoveEntityPacket(this.getId(), (int) getX(), (int) getY(), nextDestinationX, nextDestinationY, 0);
-
-
-        } else {
-            this.nextDestinationX = (int) getX();
-            this.nextDestinationY = (int) getY();
-            this.finalDestinationX = (int) getX();
-            this.finalDestinationY = (int) getY();
-
-            System.out.println("No path");
-        }
-    }
-
-
-
-
-
-
-
-        if (!atFinalLocation || netEntity) {
-
-            faceAt(nextDestinationX, nextDestinationY);
-            setDirection();
-
-            if (getDistance(nextDestinationX, nextDestinationY) <= speed * deltaT) {
-
-
-                if (getDistance(finalDestinationX, finalDestinationY) <= speed * deltaT) {
-
-                    atFinalLocation = true;
-                    path = null;
-                    deltaX = 0;
-                    deltaY = 0;
-
-                } else {
-                    if (currentNode < path.size() - 1)
-                        currentNode++;
-
-                    nextDestinationX = path.get(currentNode).getX();
-                    nextDestinationY = path.get(currentNode).getY();
-
-                    faceAt(nextDestinationX, nextDestinationY);
-                    setDirection();
-
-                    moveEntityPacket = new MoveEntityPacket(this.getId(), (int) getX(), (int) getY(), (int) nextDestinationX, (int) nextDestinationY, 0);
-
-                }
-            }
-
-            selectionSprite.setPosition(getX(), getY());
-        } else {
-            finalDestinationY = (int) this.y;
-            finalDestinationX = (int) this.x;
-            nextDestinationX = (int) this.x;
-            nextDestinationY = (int) this.y;
-            deltaX = 0;
-            deltaY = 0;
-        }
-        implementUpdate_4(deltaT);
-        //To change body of implemented methods use File | Settings | File Templates.
-
-
-
-
-
-
-
-        if (selected) {
-            selectionSprite.draw(spriteBatch, 0.8f);
-        }
-        if (debug) {
-
-            Camera.batch.end();
-
-            ShapeRenderer shapeRenderer = new ShapeRenderer();
-            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-            shapeRenderer.setProjectionMatrix(Camera.getOrthographicCamera().combined);
-            shapeRenderer.setColor(Color.BLACK);
-            shapeRenderer.line(x, y, nextDestinationX, nextDestinationY);
-
-            shapeRenderer.setColor(1f, 0, 0, 0.5f);
-
-            if (path != null && path.size() > 1) {
-                for (int i = 0; i < path.size() - 1; i++) {
-                    shapeRenderer.line(path.get(i).getX(), path.get(i).getY(), path.get(i + 1).getX(), path.get(i + 1).getY());
-                }
-            }
-
-            shapeRenderer.end();
-
-            Camera.batch.begin();
-
-
-        }
-
-
-     */
 
 
 }

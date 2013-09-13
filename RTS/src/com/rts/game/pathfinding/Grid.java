@@ -13,6 +13,65 @@ public class Grid {
     public boolean addFirstNode = true;
 
 
+    public ArrayList<Node> validNearbyNodes(Node target, int amount) {
+        //Start with a destination point
+        //Consider the point as an array with 1 value
+        //For each entity:
+        //For each point in the array, assign to a "valid points" array if valid
+        //When the last point in the array is reached, clear array
+        //For each last value, add its neighbors if the neighbor is both passable and not added to valid points
+
+        //Attempt to assign these points to entities so that each can make space for others
+        //For example, assign points closer to the start of the valid array to entities closer to the group center
+
+        Node[] valid = new Node[amount];
+
+        return null;
+
+    }
+
+    public Node nearestValidPoint(Node target) {
+        //Start with a destination point
+        //Consider the point as an array with 1 value
+        //For each point in the array, return if valid
+        //If invalid, ignore
+        //When the last point in the array is reached, clear array
+        //For each value in the array previously, add its neighbors
+
+        //TODO: Debug this
+
+        if (target.isPass()) {
+            return target;
+        }
+
+        ArrayList<Node> nearest = new ArrayList<Node>(32);
+        ArrayList<Node> used = new ArrayList<Node>(32);
+
+        nearest.add(target);
+
+        outer:
+        while (true) {
+            ArrayList<Node> newNearest = new ArrayList<Node>(32);
+            for (Node n : nearest) {
+                used.add(n);
+                for (int i = -1; i < 1; i++) {
+                    for (int b = -1; b < 1; b++) {
+                        Node test = getNode(n.x + i, n.y + b);
+                        if (test.isPass()) {
+                            return test;
+                        }
+                        if (!used.contains(test)) {
+                            newNearest.add(test);
+                        }
+                    }
+                }
+            }
+            nearest = newNearest;
+        }
+
+    }
+
+
     /**
      * Grid is created, Land is generated in either uniform or random fashion, landscape 'Map' is created in printed.
      *
@@ -111,9 +170,6 @@ public class Grid {
         System.out.println("Path Trace Complete!");
         return path;
     }
-//-----------------------------------------------------------------//
-
-//--------------------------HEAP-----------------------------------//	
 
     /**
      * Adds a node's (x,y,f) to the heap. The heap is sorted by 'f'.
@@ -139,8 +195,6 @@ public class Grid {
         float[] tmp = heap.pop();
         return getNode((int) tmp[0], (int) tmp[1]);
     }
-
-//---------------------------------------------------------//
 
     /**
      * Encapsulates x,y in an int[] for returning. A helper method for the jump method

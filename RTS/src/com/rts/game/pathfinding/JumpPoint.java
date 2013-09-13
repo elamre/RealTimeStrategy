@@ -14,7 +14,10 @@ public class JumpPoint {
     private int endX;
     private int endY;  //variables for reference grid
 
+    boolean returnWhenNotFinal = true;
+
     //TODO: Fix bug where using the same X or Y in the start or end will miss a path
+    //TODO: Improve paths returned on a failed tile
 
     /**
      * Initializer; sets up variables, creates reference grid and actual grid, gets start and end points, initiates search
@@ -37,7 +40,17 @@ public class JumpPoint {
         this.endX = ex;      //the end point x value
         this.endY = ey;      //the end point y value
 
+        if (!grid.getNode(endX, endY).isPass()) {
+            Node n = grid.nearestValidPoint(grid.getNode(endX, endY));
+            endX = n.getX();
+            endY = n.getY();
+            System.out.println("Target node invalid, using node at " + endX + ", " + endY);
+        }
+
         long timeStart = System.currentTimeMillis();
+
+        Node backup = grid.getNode(startX, startY);
+        int backupDist = 999999;
 
 
         System.out.println("Jump Point Search\n----------------");
@@ -62,15 +75,31 @@ public class JumpPoint {
                     grid.heapAdd(possibleSuccess);        //add it to the heap for later use (a possible future cur)
                 }
             }
+
+            //Save a backup node
+            if (getDistance(cur.x, cur.y, endX, endY) < backupDist) {
+                backupDist = (int) getDistance(cur.x, cur.y, endX, endY);
+                backup = cur;
+            }
+
             if (grid.heapSize() == 0) {                        //if the grid size is 0, and we have not found our end, the end is unreachable
                 System.out.println("No Path....");            //print "No Path...." to (lolSpark) notify user
-                break;                                        //loop is done
+                if (!returnWhenNotFinal)
+                    break;                                        //loop is done
+                else {
+                    //Return backup if needed
+                    return grid.reversePath(backup, startX, startY);
+                }
             }
         }
 
 
         return null;
 
+    }
+
+    protected float getDistance(float x, float y, float x2, float y2) {
+        return (float) Math.sqrt((x - x2) * (x - x2) + (y - y2) * (y - y2));
     }
 
     /**

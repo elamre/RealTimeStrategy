@@ -20,7 +20,7 @@ public class Heuristic {
         setting = newSetting;
     }
 
-    private static float euclidian(int dx, int dy) {
+    public static float euclidian(int dx, int dy) {
         return (float) Math.sqrt(dx * dx + dy * dy);
     }
 
@@ -37,15 +37,15 @@ public class Heuristic {
         }
     }
 
-    private static float chebyshev(int a, int b) {
+    public static float chebyshev(int a, int b) {
         return Math.max(a, b);
     }
 
-    private static float manhattan(int a, int b) {
+    public static float manhattan(int a, int b) {
         return a + b;
     }
 
-    private static float abs(float a) {
+    public static float abs(float a) {
         if (a < 0) {
             return -a;
         }

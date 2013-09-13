@@ -38,7 +38,7 @@ public class BuildingButton extends Button {
         //TODO play a sound
 
         outer:
-        for (Entity e : InGame.player.currentSelection) {
+        for (Entity e : InGame.player.selection.currentSelection) {
             for (Ability a : ((Unit) e).abilities) {
                 if (a instanceof Build) {
                     ((Build) a).requestCursorUse(true);

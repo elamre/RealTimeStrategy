@@ -9,9 +9,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.rts.game.Assets;
-import com.rts.game.entities.Entity;
 import com.rts.game.entities.EntityManager;
-import com.rts.game.entities.MovingUnit;
 import com.rts.game.entities.SelectableUnit;
 import com.rts.game.hud.HUD;
 import com.rts.game.pathfinding.Node;
@@ -28,7 +26,6 @@ import java.util.ArrayList;
  */
 public class Player {
     static boolean lastPressedT = false;
-    public ArrayList<Entity> currentSelection = new ArrayList<Entity>(64);
     public String name;
     Polygon polygon;
     boolean runningSelection = false;
@@ -38,6 +35,8 @@ public class Player {
     private boolean rightPressed = false;
     private Vector2 selectionStart;
     private Vector2 selectionEnd;
+
+    public UnitSelection selection;
 
     //Temporarily disables the selection for one click
     public static boolean preserveSelection;
@@ -52,16 +51,16 @@ public class Player {
         hudBuildBar.setPosition(0, Gdx.graphics.getHeight() - hudBuildBar.getHeight());
         buildingButtons = new BuildingButtons(0, (int) (Gdx.graphics.getHeight() - hudBuildBar.getHeight()));
 
+        selection = new UnitSelection();
+
     }
 
     public void update(float deltaT, EntityManager entityManager) {
         hud.update();
         if (Gdx.input.isButtonPressed(Input.Buttons.LEFT) && !runningSelection && !Cursor.abilityRequested) {
             if (!preserveSelection) {
-                for (int i = 0, l = currentSelection.size(); i < l; i++) {
-                    ((SelectableUnit) currentSelection.get(i)).setSelected(false);
-                }
-                currentSelection.clear();
+                selection.disableCurrent();
+                selection.clear();
                 selectionStart.set(Camera.getRealWorldX(), Camera.getRealWorldY());
             }
             runningSelection = true;
@@ -104,24 +103,26 @@ public class Player {
                 Node n = World.nodeAt(x, y);
                 if (n != null) {
                     n.debug();
-                    if (n.standing != null && !currentSelection.contains(n.standing)) {
-                        currentSelection.add(n.standing);
+                    if (n.standing != null && !selection.contains(n.standing)) {
+                        selection.add(n.standing);
                         ((SelectableUnit) n.standing).setSelected(true);
                     }
                 }
             }
         }
 
-        System.out.println(currentSelection.size());
+        System.out.println(selection.currentSelection.size());
 
     }
 
     private void moveSelection() {
+        /*
         for (int i = 0, l = currentSelection.size(); i < l; i++) {
             if (currentSelection.get(i) instanceof SelectableUnit) {
                 ((MovingUnit) currentSelection.get(i)).setDestination((int) Camera.getRealWorldX(), (int) Camera.getRealWorldY());
             }
         }
+        */
     }
 
     public void draw() {
