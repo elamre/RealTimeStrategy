@@ -7,7 +7,7 @@ import com.rts.game.entities.Unit;
 import com.rts.game.gameplay.Camera;
 import com.rts.game.gameplay.World;
 import com.rts.game.pathfinding.Node;
-import com.rts.networking_old.packets.game.MoveEntityPacket;
+import com.rts.networking.mutual.packets.EntityPosChange;
 
 import java.util.ArrayList;
 
@@ -156,14 +156,14 @@ public class Walk extends TargetedAbility {
         return angle;
     }
 
-    public void interpretPacket(MoveEntityPacket packet) {
+    public void interpretPacket(EntityPosChange entityPosChange) {
 
         path = new ArrayList<Node>(1);
 
-        owner.setX(packet.getX());
-        owner.setY(packet.getY());
+        owner.setX(entityPosChange.x);
+        owner.setY(entityPosChange.y);
 
-        path.add(World.nodeAt(packet.getTargetX(), packet.getTargetY()));
+        path.add(World.nodeAt(entityPosChange.tarX, entityPosChange.tarY));
 
         nodePos = 0;
         nextNode = path.get(0);

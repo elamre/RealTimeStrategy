@@ -1,8 +1,8 @@
-package com.rts.networking;
+package com.rts.networking.mutual;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.EndPoint;
-import com.rts.networking.packets.*;
+import com.rts.networking.mutual.packets.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,10 +17,8 @@ public class Network {
         Kryo kryo = endPoint.getKryo();
         kryo.register(ChatMessage.class);
         kryo.register(EntityCreation.class);
-        kryo.register(EntityList.class);
         kryo.register(EntityPosChange.class);
         kryo.register(EntityRequest.class);
-        kryo.register(MapTransfer.class);
         kryo.register(PlayerConnected.class);
     }
 }

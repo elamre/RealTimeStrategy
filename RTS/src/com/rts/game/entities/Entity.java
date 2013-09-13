@@ -4,8 +4,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.rts.game.gameplay.Camera;
 import com.rts.game.screens.ShapeRenderer;
-import com.rts.networking_old.packets.game.EntityCreationPacket;
-import com.rts.networking_old.packets.game.MoveEntityPacket;
+import com.rts.networking.mutual.packets.EntityCreation;
+import com.rts.networking.mutual.packets.EntityPosChange;
 import com.rts.util.Logger;
 
 
@@ -21,6 +21,40 @@ public abstract class Entity {
     private final int entityType;
     private final float debugThreshold = 1;
     protected float width = 0;
+    protected float height = 0;
+    /* The angle of the entity IN DEGREES. */
+    protected boolean debug = false;
+    protected float x;
+    protected float y;
+    protected float angle;
+    protected TextureRegion textureRegion;
+    private int owner = 0;
+    private float debugTimer = 0;
+
+    //USE THIS ONLY FOR SENDING NETWORK DETAILS!
+    public Entity(int x, int y, int entityType) {
+        this.entityType = entityType;
+        this.id = 0;
+        this.x = x;
+        this.y = y;
+    }
+
+    public Entity(int id, int x, int y, int entityType) {
+        this.entityType = entityType;
+        this.id = id;
+        this.x = x;
+        this.y = y;
+        onCreate();
+    }
+
+    public Entity(EntityCreation entityCreation, int entityType) {
+        this.entityType = entityType;
+        this.id = entityCreation.id;
+        this.x = entityCreation.x;
+        this.y = entityCreation.y;
+        this.owner = entityCreation.owner;
+        onCreate();
+    }
 
     public float getHeight() {
         return height;
@@ -42,6 +76,10 @@ public abstract class Entity {
         return debug;
     }
 
+    public void setDebug(boolean debug) {
+        this.debug = debug;
+    }
+
     public int getEntityType() {
         return entityType;
     }
@@ -52,39 +90,6 @@ public abstract class Entity {
 
     public void setAngle(float angle) {
         this.angle = angle;
-    }
-
-    protected float height = 0;
-    /* The angle of the entity IN DEGREES. */
-    protected boolean debug = false;
-    protected float x;
-    protected float y;
-    protected float angle;
-    protected TextureRegion textureRegion;
-    private float debugTimer = 0;
-
-    //USE THIS ONLY FOR SENDING NETWORK DETAILS!
-    public Entity(int x, int y, int entityType) {
-        this.entityType = entityType;
-        this.id = 0;
-        this.x = x;
-        this.y = y;
-    }
-
-    public Entity(int id, int x, int y, int entityType) {
-        this.entityType = entityType;
-        this.id = id;
-        this.x = x;
-        this.y = y;
-        onCreate();
-    }
-
-    public Entity(EntityCreationPacket packet, int entityType) {
-        this.entityType = entityType;
-        this.id = packet.getEntityId();
-        this.x = packet.getX();
-        this.y = packet.getY();
-        onCreate();
     }
 
     public abstract void onCreate();
@@ -124,10 +129,6 @@ public abstract class Entity {
 
     public float getDistance(float x, float y) {
         return (float) Math.sqrt((x - this.x) * (x - this.x) + (y - this.y) * (y - this.y));
-    }
-
-    public void setDebug(boolean debug) {
-        this.debug = debug;
     }
 
     public int getId() {
@@ -174,7 +175,7 @@ public abstract class Entity {
         return "id: " + this.id + " [" + (int) getX() + "," + (int) getY() + "] size: [" + width + "," + height + "]";
     }
 
-    public MoveEntityPacket getMovePacket() {
+    public EntityPosChange getMovePacket() {
         return null;
     }
 }

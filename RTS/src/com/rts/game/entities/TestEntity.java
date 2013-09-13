@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.rts.game.Assets;
 import com.rts.game.abilities.Blink;
 import com.rts.game.abilities.Build;
-import com.rts.networking_old.packets.game.EntityCreationPacket;
+import com.rts.networking.mutual.packets.EntityCreation;
 
 /**
  * Created with IntelliJ IDEA.
@@ -21,8 +21,8 @@ public class TestEntity extends MovingUnit {
         abilities.add(new Build(this));
     }
 
-    public TestEntity(EntityCreationPacket packet) {
-        super(packet, EntityList.UNIT_TEST_1, Assets.getAssets().getTextureRegion("Units/worker_wood"), 4, 0.1f);
+    public TestEntity(EntityCreation entityCreation) {
+        super(entityCreation, EntityList.UNIT_TEST_1, Assets.getAssets().getTextureRegion("Units/worker_wood"), 4, 0.1f);
         abilities.add(new Blink(this));
         abilities.add(new Build(this));
     }

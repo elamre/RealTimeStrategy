@@ -33,21 +33,21 @@ public class Game implements Screen {
 		Cursor.create();
 
 		connectionBridge = new ConnectionBridge();
-		connectionBridge.connect(ip, Configuration.TCP_PORT, new ClientEventListener() {
-
-			@Override
-			public void hostNotFound(String ip, int port) {
-				Logger.getInstance().system("Could not find host: " + ip + ":" + port);
-			}
-
-			@Override
-			public void connected() {
-				Logger.getInstance().system("Connected");
-			}
-
-		}
-				); // TODO move this to a fancy menu
 		inGame = new InGame(connectionBridge);
+        connectionBridge.connect(ip, Configuration.TCP_PORT, new ClientEventListener() {
+
+            @Override
+            public void hostNotFound(String ip, int port) {
+                Logger.getInstance().system("Could not find host: " + ip + ":" + port);
+            }
+
+            @Override
+            public void connected() {
+                Logger.getInstance().system("Connected");
+            }
+
+        }
+        ); // TODO move this to a fancy menu
 		world.initTestMap();
 	}
 

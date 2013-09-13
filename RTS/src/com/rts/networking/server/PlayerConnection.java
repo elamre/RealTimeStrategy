@@ -1,4 +1,4 @@
-package com.rts.networking;
+package com.rts.networking.server;
 
 import com.esotericsoftware.kryonet.Connection;
 

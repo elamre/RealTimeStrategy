@@ -22,7 +22,6 @@ public class InGame {
         connectionBridge.setEntityManager(entityManager);
         player = new Player();
         player.create();
-
     }
 
     public void update(float deltaT) {

@@ -1,4 +1,4 @@
-package com.rts.networking.packets;
+package com.rts.networking.mutual.packets;
 
 /**
  * Created with IntelliJ IDEA.
@@ -9,6 +9,8 @@ package com.rts.networking.packets;
  */
 public class EntityCreation {
     public boolean building;
+    public int owner;
+    public int id;
     public int entityType;
     public int x, y;
 }

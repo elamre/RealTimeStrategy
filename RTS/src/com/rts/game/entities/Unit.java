@@ -3,7 +3,7 @@ package com.rts.game.entities;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.rts.game.abilities.Ability;
-import com.rts.networking_old.packets.game.EntityCreationPacket;
+import com.rts.networking.mutual.packets.EntityCreation;
 
 import java.util.ArrayList;
 
@@ -29,8 +29,8 @@ public abstract class Unit extends Entity {
         abilities = new ArrayList<Ability>(4);
     }
 
-    public Unit(EntityCreationPacket packet, int entityType, TextureRegion textureRegion) {
-        super(packet, entityType);
+    public Unit(EntityCreation entityCreation, int entityType, TextureRegion textureRegion) {
+        super(entityCreation, entityType);
         if (textureRegion != null)             //animation class will handle it itself. See MovingUnit
             setTextureRegion(textureRegion);
         abilities = new ArrayList<Ability>(4);

@@ -5,8 +5,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.rts.game.abilities.Walk;
 import com.rts.game.gameplay.World;
-import com.rts.networking_old.packets.game.EntityCreationPacket;
-import com.rts.networking_old.packets.game.MoveEntityPacket;
+import com.rts.networking.mutual.packets.EntityCreation;
+import com.rts.networking.mutual.packets.EntityPosChange;
 
 /**
  * Created with IntelliJ IDEA.
@@ -20,7 +20,7 @@ public abstract class MovingUnit extends SelectableUnit {
     public Walk walker;
     private Animation animation;
     private float stateTime = 0;
-    private MoveEntityPacket moveEntityPacket;
+    private EntityPosChange moveEntityPacket;
 
     protected MovingUnit(int x, int y, int entityType) {
         super(x, y, entityType);
@@ -34,14 +34,14 @@ public abstract class MovingUnit extends SelectableUnit {
         abilities.add(walker);
     }
 
-    public MovingUnit(EntityCreationPacket packet, int entityType, TextureRegion textureRegion) {
-        super(packet, entityType, textureRegion);
+    public MovingUnit(EntityCreation entityCreation, int entityType, TextureRegion textureRegion) {
+        super(entityCreation, entityType, textureRegion);
         walker = new Walk(this);
         abilities.add(walker);
     }
 
-    public MovingUnit(EntityCreationPacket packet, int entityType, TextureRegion textureRegion, int frames, float frameSpeed) {
-        super(packet, entityType, null);
+    public MovingUnit(EntityCreation entityCreation, int entityType, TextureRegion textureRegion, int frames, float frameSpeed) {
+        super(entityCreation, entityType, null);
         TextureRegion animationRegions[] = new TextureRegion[frames];
         for (int i = 0; i < frames; i++) {
             animationRegions[i] = textureRegion.split(textureRegion.getRegionWidth() / frames, textureRegion.getRegionHeight())[0][i];
@@ -84,17 +84,19 @@ public abstract class MovingUnit extends SelectableUnit {
 
     }
 
-    public void moveEntity(MoveEntityPacket moveEntityPacket) {
-        this.x = moveEntityPacket.getX();
-        this.y = moveEntityPacket.getY();
-        walker.nextNode = World.nodeAt(moveEntityPacket.getTargetX(), moveEntityPacket.getTargetY());
+
+
+    public void moveEntity(EntityPosChange entityPosChange) {
+        this.x = entityPosChange.x;
+        this.y = entityPosChange.y;
+        walker.nextNode = World.nodeAt(entityPosChange.tarX, entityPosChange.tarY);
     }
 
     @Override
-    public MoveEntityPacket getMovePacket() {
-        MoveEntityPacket tempPacket = moveEntityPacket;
+    public EntityPosChange getMovePacket() {
+        EntityPosChange tempChange = moveEntityPacket;
         moveEntityPacket = null;
-        return tempPacket;
+        return tempChange;
     }
 
     public abstract void implementDraw_3(SpriteBatch spriteBatch);

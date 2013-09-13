@@ -2,7 +2,7 @@ package com.rts.game.entities;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.rts.game.Assets;
-import com.rts.networking_old.packets.game.EntityCreationPacket;
+import com.rts.networking.mutual.packets.EntityCreation;
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,8 +16,8 @@ public class TestBuilding extends SelectableUnit {
         super(x, y, EntityList.BUILDING_TEST);
     }
 
-    public TestBuilding(EntityCreationPacket packet) {
-        super(packet, EntityList.BUILDING_TEST, Assets.getAssets().getTextureRegion("Buildings/building_house"));
+    public TestBuilding(EntityCreation entityCreation) {
+        super(entityCreation, EntityList.BUILDING_TEST, Assets.getAssets().getTextureRegion("Buildings/building_house"));
 
 
     }

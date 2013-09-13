@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.rts.game.Assets;
 import com.rts.game.RealTimeStrategy;
-import com.rts.networking_old.host.Server;
+import com.rts.networking.server.GlobalServer;
 
 /** TODO this is going to be the main menu */
 public class MainMenu implements Screen {
@@ -64,7 +64,7 @@ public class MainMenu implements Screen {
 					// ((com.badlogic.gdx.Game) Gdx.app.getApplicationListener()).setScreen(new Game(enterIp.getText())); // doesn't work with 0.9.8...
 					RealTimeStrategy.game.setScreen(new Game(enterIp.getText()));
 				} else if(event.getListenerActor() == hostButton) {
-					Server.main(new String[] {});
+					GlobalServer.main(new String[]{});      //TODO fix this
 					hostButton.setText("started!");
 				}
 			}

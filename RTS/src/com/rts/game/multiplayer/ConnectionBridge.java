@@ -1,10 +1,11 @@
 package com.rts.game.multiplayer;
 
+import com.esotericsoftware.kryonet.Listener;
 import com.rts.game.entities.*;
-import com.rts.networking_old.client.Client;
-import com.rts.networking_old.packets.Packet;
-import com.rts.networking_old.packets.game.EntityCreationPacket;
-import com.rts.networking_old.packets.game.MoveEntityPacket;
+import com.rts.networking.client.ClientHandler;
+import com.rts.networking.client.ClientListener;
+import com.rts.networking.mutual.packets.EntityPosChange;
+import com.rts.networking.mutual.packets.EntityRequest;
 import com.rts.util.Logger;
 
 import java.io.IOException;
@@ -17,39 +18,46 @@ import java.io.IOException;
  * To change this template use File | Settings | File Templates.
  */
 public class ConnectionBridge {
-    Client client;
-    private Packet packet;
+    ClientHandler client;
     private EntityManager entityManager;
 
     public ConnectionBridge() {
-        client = new Client();
     }
 
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
+        this.client = new ClientHandler(new ClientListener(entityManager));
     }
 
     public void addEntity(Entity entity) {
-        client.sendEntityRequest(entity);
+        EntityRequest entityRequest = new EntityRequest();
+        entityRequest.building = false;
+        entityRequest.x = (int) entity.getX();
+        entityRequest.y = (int) entity.getY();
+        entityRequest.owner = client.getId();
+        client.writeMessage(entityRequest);
     }
 
-    public void sendMovement(MoveEntityPacket moveEntityPacket) {
+    public void sendMovement(EntityPosChange entityPosChange) {
         Logger.getInstance().debug("Sending movement!");
-        client.writePacket((moveEntityPacket));
+        client.writeMessage((entityPosChange));
     }
 
     public void connect(String ip, int port, ClientEventListener clientEventListener) {
-        try {
+        if (client != null) {
             client.connect(ip, port);
-        } catch (IOException e) {
-            clientEventListener.hostNotFound(ip, port);
-            return;
+            if (client.getId() == 0) {
+                clientEventListener.hostNotFound(ip, port);
+                return;
+            }
+            clientEventListener.connected();
+        } else {
+            Logger.getInstance().warn("Client not initialized. ");
         }
-        clientEventListener.connected();
     }
 
     public void update() {
-        while ((packet = client.getPacket()) != null) {
+/*        while ((packet = client.getPacket()) != null) {
             if (packet instanceof EntityCreationPacket) {
                 Entity entity = null;
                 if (((EntityCreationPacket) packet).getEntityType() == EntityList.UNIT_TEST_1) {
@@ -65,7 +73,7 @@ public class ConnectionBridge {
                 Logger.getInstance().debug("Receiving movement!");
                 ((MovingUnit) entityManager.getEntity(((MoveEntityPacket) packet).getEntityId())).moveEntity((MoveEntityPacket) packet);
             }
-        }
+        }*/
     }
 }
 

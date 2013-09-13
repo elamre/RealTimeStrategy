@@ -1,4 +1,4 @@
-package com.rts.networking.packets;
+package com.rts.networking.mutual.packets;
 
 /**
  * Created with IntelliJ IDEA.
@@ -8,7 +8,7 @@ package com.rts.networking.packets;
  * To change this template use File | Settings | File Templates.
  */
 public class PlayerConnected {
-    int playerId;
-    String playerName;
-    boolean spectator;
+    public int playerId;
+    public String playerName;
+    public boolean spectator;
 }

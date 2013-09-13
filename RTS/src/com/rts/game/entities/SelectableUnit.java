@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.rts.game.Assets;
-import com.rts.networking_old.packets.game.EntityCreationPacket;
+import com.rts.networking.mutual.packets.EntityCreation;
 
 /**
  * Created with IntelliJ IDEA.
@@ -26,8 +26,8 @@ public abstract class SelectableUnit extends Unit {
         super(id, x, y, entityType, sprite);
     }
 
-    protected SelectableUnit(EntityCreationPacket packet, int entityType, TextureRegion region) {
-        super(packet, entityType, region);
+    protected SelectableUnit(EntityCreation entityCreation, int entityType, TextureRegion region) {
+        super(entityCreation, entityType, region);
         System.out.println("new unit has been made?");
     }
 
