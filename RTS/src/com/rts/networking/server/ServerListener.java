@@ -3,6 +3,7 @@ package com.rts.networking.server;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.rts.networking.mutual.packets.*;
+import com.rts.util.Logger;
 
 /**
  * Created with IntelliJ IDEA.
@@ -53,11 +54,14 @@ public class ServerListener extends Listener {
             serverHandler.sendAll(object, -1, false);
         } else if (object instanceof EntityRequest) {
             if (serverGame.canCreate(((EntityRequest) object).x, ((EntityRequest) object).y, ((EntityRequest) object).entityType)) {
+
                 EntityCreation entityCreation = new EntityCreation();
                 entityCreation.x = ((EntityRequest) object).x;
                 entityCreation.y = ((EntityRequest) object).y;
                 entityCreation.entityType = ((EntityRequest) object).entityType;
                 entityCreation.building = ((EntityRequest) object).building;
+                entityCreation.id = IdManager.getEntityId();
+                Logger.getInstance().debug("New entity of type: " + entityCreation.entityType + " was made at pos: " + entityCreation.x + ", " + entityCreation.y + " with id: " + entityCreation.id);
                 serverHandler.sendAll(entityCreation, -1, false);
             }
         } else if (object instanceof PlayerConnected) {
