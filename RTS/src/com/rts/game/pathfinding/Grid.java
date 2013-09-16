@@ -24,9 +24,47 @@ public class Grid {
         //Attempt to assign these points to entities so that each can make space for others
         //For example, assign points closer to the start of the valid array to entities closer to the group center
 
-        Node[] valid = new Node[amount];
+        int count = 0;
 
-        return null;
+        Node start = target;
+        if (start.isPass()) {
+            start = nearestValidPoint(start);
+        }
+
+
+        ArrayList<Node> valid = new ArrayList<Node>(32);
+        ArrayList<Node> used = new ArrayList<Node>(32);
+
+        valid.add(start);
+        count++;
+
+        outer:
+        while (count < amount) {
+            ArrayList<Node> newNearest = new ArrayList<Node>(32);
+            inner:
+            for (Node n : valid) {
+                if (count >= amount) {
+                    break inner;
+                }
+                if (!used.contains(n)) {
+                    used.add(n);
+                    for (int i = -1; i < 1; i++) {
+                        for (int b = -1; b < 1; b++) {
+                            Node test = getNode(n.x + i, n.y + b);
+                            if (test.isPass())
+                                if (!newNearest.contains(test) && !valid.contains(test)) {
+                                    newNearest.add(test);
+                                    count++;
+                                }
+                        }
+                    }
+                }
+            }
+            valid.addAll(newNearest);
+        }
+
+
+        return valid;
 
     }
 

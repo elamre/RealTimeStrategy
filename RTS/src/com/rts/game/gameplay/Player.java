@@ -13,7 +13,6 @@ import com.rts.game.entities.EntityManager;
 import com.rts.game.entities.SelectableUnit;
 import com.rts.game.hud.HUD;
 import com.rts.game.pathfinding.Node;
-import com.rts.game.pathfinding.PathfindingDebugger;
 
 import java.util.ArrayList;
 
@@ -25,7 +24,6 @@ import java.util.ArrayList;
  * To change this template use File | Settings | File Templates.
  */
 public class Player {
-    static boolean lastPressedT = false;
     public String name;
     Polygon polygon;
     boolean runningSelection = false;
@@ -76,6 +74,7 @@ public class Player {
                 preserveSelection = false;
             }
         }
+
         if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
             if (!rightPressed) {
                 moveSelection();
@@ -84,16 +83,6 @@ public class Player {
         } else {
             rightPressed = false;
         }
-
-
-        if (Gdx.input.isKeyPressed(Input.Keys.T) && !lastPressedT) {
-            PathfindingDebugger.set((int) Camera.getRealWorldX(), (int) Camera.getRealWorldY());
-            lastPressedT = true;
-        }
-        if (!Gdx.input.isKeyPressed(Input.Keys.T)) {
-            lastPressedT = false;
-        }
-
 
     }
 
@@ -116,13 +105,7 @@ public class Player {
     }
 
     private void moveSelection() {
-        /*
-        for (int i = 0, l = currentSelection.size(); i < l; i++) {
-            if (currentSelection.get(i) instanceof SelectableUnit) {
-                ((MovingUnit) currentSelection.get(i)).setDestination((int) Camera.getRealWorldX(), (int) Camera.getRealWorldY());
-            }
-        }
-        */
+        selection.massWalkTo((int) Camera.getRealWorldX(), (int) Camera.getRealWorldY());
     }
 
     public void draw() {

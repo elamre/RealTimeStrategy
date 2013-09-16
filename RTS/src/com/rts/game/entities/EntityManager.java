@@ -2,9 +2,10 @@ package com.rts.game.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.rts.game.multiplayer.ConnectionBridge;
 import com.rts.game.gameplay.Camera;
+import com.rts.game.multiplayer.ConnectionBridge;
 import com.rts.networking.mutual.packets.EntityPosChange;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,7 +38,7 @@ public class EntityManager {
     /**
      * The list containing all Entities to be added.
      */
-    private ArrayList<Entity> addList = new ArrayList<Entity>(16);
+    private static ArrayList<Entity> addList = new ArrayList<Entity>(16);
     /**
      * The network client to send data to
      */
@@ -116,7 +117,7 @@ public class EntityManager {
      */
     public static void addEntity(Entity e) {
         connectionBridge.addEntity(e);
-        // addList.add(e);
+        //addList.add(e);
     }
 
     public void draw() {

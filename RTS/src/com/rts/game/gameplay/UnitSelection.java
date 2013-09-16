@@ -1,7 +1,9 @@
 package com.rts.game.gameplay;
 
 import com.rts.game.entities.Entity;
+import com.rts.game.entities.MovingUnit;
 import com.rts.game.entities.SelectableUnit;
+import com.rts.game.pathfinding.Node;
 
 import java.util.ArrayList;
 
@@ -53,6 +55,15 @@ public class UnitSelection {
     }
 
     public void massWalkTo(int x, int y) {
+
+        ArrayList<Node> spots = World.jps.grid.validNearbyNodes(World.nodeAt(x, y), currentSelection.size());
+
+        for (int i = 0; i < spots.size(); i++) {
+            Entity e = currentSelection.get(i);
+            if (e instanceof MovingUnit) {
+                ((MovingUnit) e).walker.updatePath(spots.get(i).getX(), spots.get(i).getY());
+            }
+        }
 
 
     }

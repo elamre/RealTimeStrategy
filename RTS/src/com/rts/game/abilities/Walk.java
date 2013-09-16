@@ -68,8 +68,21 @@ public class Walk extends TargetedAbility {
         range = 9999999;
     }
 
-    private void updatePath() {
+    public void updatePath(int x, int y) {
 
+        path = World.getPath((int) owner.getX(), (int) owner.getY(), x, y);
+
+        if (path.size() > 1) {
+
+            nodePos = 1;
+            nextNode = path.get(1);
+            finalDest = path.get(path.size() - 1);
+
+            updateDeltaSpeed();
+
+        }
+
+        System.out.println("Set path to " + finalDest + ".");
     }
 
     @Override
@@ -77,26 +90,9 @@ public class Walk extends TargetedAbility {
 
         if (requestClick && Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
 
-            path = World.getPath((int) owner.getX(), (int) owner.getY(), (int) Camera.getRealWorldX(), (int) Camera.getRealWorldY());
+            updatePath((int) Camera.getRealWorldX(), (int) Camera.getRealWorldY());
+
             removeCursorUse();
-
-            System.out.println("Owner: " + owner.getX() + ", " + owner.getY());
-
-            for (Node n : path) {
-                n.debug();
-            }
-
-            if (path.size() > 1) {
-
-                nodePos = 1;
-                nextNode = path.get(1);
-                finalDest = path.get(path.size() - 1);
-
-                updateDeltaSpeed();
-
-            }
-
-            System.out.println("Set path to " + finalDest + ".");
 
         }
 
