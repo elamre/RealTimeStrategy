@@ -8,7 +8,5 @@ package com.rts.game.hud;
  * To change this template use File | Settings | File Templates.
  */
 public interface ButtonAble {
-    public void buttonPressed(Button button);
-    public void buttonReleased(Button button);
-    public void mouseOver(Button button);
+    public void action();
 }

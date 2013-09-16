@@ -17,10 +17,12 @@ import com.rts.game.screens.ShapeRenderer;
  * To change this template use File | Settings | File Templates.
  */
 public class BuildingButton extends Button {
+    BuildingHUD.View view;
     int id;
 
-    public BuildingButton(int x, int y, Sprite sprite, int id, String text) {
+    public BuildingButton(int x, int y, Sprite sprite, int id, String text, BuildingHUD.View view) {
         super(x, y, sprite, text, true);
+        this.view = view;
         this.id = id;
     }
 
@@ -56,5 +58,14 @@ public class BuildingButton extends Button {
     @Override
     public void buttonHold(Button button) {
         //TODO figure out something
+    }
+
+    public void update(BuildingHUD.View currentView) {
+        if (currentView == view) {
+            setEnabled(true);
+            update();
+        } else {
+            setEnabled(false);
+        }
     }
 }

@@ -21,6 +21,7 @@ public abstract class Button {
     Sprite sprite;
     String text;
     boolean mouseOver;
+    boolean enabled = true;
     boolean pressed = false;
     Rectangle hitBox;
 
@@ -31,36 +32,49 @@ public abstract class Button {
         this.x = x;
         this.y = y;
         sprite.setPosition(x, y);
+        sprite.flip(true,true);
         hitBox = new Rectangle(x, y, (int) sprite.getWidth(), (int) sprite.getHeight());
     }
 
     public void update() {
-        Rectangle mouseHitBox = new Rectangle((int) Cursor.x, (int) Cursor.y, 1, 1);
-        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-            if (mouseHitBox.intersects(hitBox)) {
-                buttonHold(this);
-                if (!pressed) {
-                    buttonPressed(this);
-                    Logger.getInstance().debug("Button hit");
-                    pressed = true;
-                }
-            } else {
-                if (pressed) {
-                    pressed = false;
-                    buttonReleased(this);
+        if (enabled) {
+            Rectangle mouseHitBox = new Rectangle((int) Cursor.x, (int) Cursor.y, 1, 1);
+            if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+                if (mouseHitBox.intersects(hitBox)) {
+                    buttonHold(this);
+                    if (!pressed) {
+                        buttonPressed(this);
+                        Logger.getInstance().debug("Button hit");
+                        pressed = true;
+                    }
+                } else {
+                    if (pressed) {
+                        pressed = false;
+                        buttonReleased(this);
+                    }
                 }
             }
         }
     }
 
     public void draw() {
-        if (mouseOver) {
-            Rectangle mouseHitBox = new Rectangle((int) Cursor.x, (int) Cursor.y, 1, 1);
-            if (mouseHitBox.intersects(hitBox)) {
-                mouseOver(this);
+        if (enabled) {
+            if (mouseOver) {
+                Rectangle mouseHitBox = new Rectangle((int) Cursor.x, (int) Cursor.y, 1, 1);
+                if (mouseHitBox.intersects(hitBox)) {
+                    mouseOver(this);
+                }
             }
+            sprite.draw(Camera.batch);
         }
-        sprite.draw(Camera.batch);
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     public abstract void mouseOver(Button button);
