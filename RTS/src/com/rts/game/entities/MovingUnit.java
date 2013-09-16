@@ -22,26 +22,28 @@ public abstract class MovingUnit extends SelectableUnit {
     private float stateTime = 0;
     private EntityPosChange moveEntityPacket;
 
-    protected MovingUnit(int x, int y, int entityType) {
-        super(x, y, entityType);
+    /**
+     * USE THIS ONLY FOR REGISTERING THE ENTITY! SHOULD NOT BE USED OTHERWISE!
+     */
+    protected MovingUnit() {
+        super();
+    }
+
+    protected MovingUnit(int x, int y) {
+        super(x, y);
+        // walker = new Walk(this);
+//        abilities.add(walker);
+    }
+
+
+    public MovingUnit(EntityCreation entityCreation, TextureRegion textureRegion) {
+        super(entityCreation, textureRegion);
         walker = new Walk(this);
         abilities.add(walker);
     }
 
-    public MovingUnit(int id, int x, int y, int entityType, TextureRegion textureRegion) {
-        super(id, x, y, entityType, textureRegion);
-        walker = new Walk(this);
-        abilities.add(walker);
-    }
-
-    public MovingUnit(EntityCreation entityCreation, int entityType, TextureRegion textureRegion) {
-        super(entityCreation, entityType, textureRegion);
-        walker = new Walk(this);
-        abilities.add(walker);
-    }
-
-    public MovingUnit(EntityCreation entityCreation, int entityType, TextureRegion textureRegion, int frames, float frameSpeed) {
-        super(entityCreation, entityType, null);
+    public MovingUnit(EntityCreation entityCreation, TextureRegion textureRegion, int frames, float frameSpeed) {
+        super(entityCreation, null);
         TextureRegion animationRegions[] = new TextureRegion[frames];
         for (int i = 0; i < frames; i++) {
             animationRegions[i] = textureRegion.split(textureRegion.getRegionWidth() / frames, textureRegion.getRegionHeight())[0][i];
@@ -83,8 +85,6 @@ public abstract class MovingUnit extends SelectableUnit {
         implementDraw_3(spriteBatch);
 
     }
-
-
 
     public void moveEntity(EntityPosChange entityPosChange) {
         this.x = entityPosChange.x;

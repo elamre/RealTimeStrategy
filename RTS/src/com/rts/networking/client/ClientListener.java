@@ -2,13 +2,13 @@ package com.rts.networking.client;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
-import com.rts.game.entities.EntityManager;
-import com.rts.game.entities.MovingUnit;
-import com.rts.game.entities.TestEntity;
+import com.rts.game.entities.*;
 import com.rts.networking.mutual.packets.EntityCreation;
 import com.rts.networking.mutual.packets.EntityPosChange;
 import com.rts.networking.mutual.packets.PlayerConnected;
 import com.rts.networking.server.PlayerConnection;
+
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * Created with IntelliJ IDEA.
@@ -59,11 +59,26 @@ public class ClientListener extends Listener {
     public void received(Connection connection, Object object) {
         super.received(connection, object);    //To change body of overridden methods use File | Settings | File Templates.
         if (object instanceof EntityCreation) {
-            switch (((EntityCreation) object).entityType) {
+
+            try {
+                Entity entity = null;
+                entity = EntityList.getEntity(((EntityCreation) object).entityType).getConstructor(EntityCreation.class).newInstance((EntityCreation)object);
+                entityManager.createEntity(entity);
+            } catch (InstantiationException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (InvocationTargetException e) {
+                System.out.println(e.getCause());
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+            /*switch (((EntityCreation) object).entityType) {
                 default:
                     entityManager.createEntity(new TestEntity((EntityCreation) object));
                     break;
-            }
+            }*/
         } else if (object instanceof EntityPosChange) {
             ((MovingUnit) entityManager.getEntity(((EntityPosChange) object).id)).moveEntity((EntityPosChange) object);
         } else if (object instanceof PlayerConnected) {

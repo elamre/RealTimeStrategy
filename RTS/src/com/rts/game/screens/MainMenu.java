@@ -12,6 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.rts.game.Assets;
 import com.rts.game.RealTimeStrategy;
+import com.rts.game.entities.TestEntity;
+import com.rts.networking.mutual.packets.EntityCreation;
 import com.rts.networking.server.GlobalServer;
 
 /** TODO this is going to be the main menu */
@@ -38,7 +40,6 @@ public class MainMenu implements Screen {
 	@Override
 	public void show() {
 		Gdx.gl.glClearColor(0, .25f, 0, 1);
-
 		Gdx.input.setInputProcessor(stage = new Stage());
 		skin = new Skin();
 		skin.addRegions(Assets.getAssets().getTextureAtlas());

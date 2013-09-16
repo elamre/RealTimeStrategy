@@ -1,6 +1,7 @@
 package com.rts.game.entities;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.rts.game.hud.BuildingGhost;
 import com.rts.util.Logger;
 
 import java.util.HashMap;
@@ -13,56 +14,48 @@ import java.util.HashMap;
  * To change this template use File | Settings | File Templates.
  */
 public class EntityList {
-    public static final int UNIT_TEST_1 = 1;
-    public static final int BUILDING_TEST = 2;
-    public static final int UNIT_TEST_3 = 3;
-
-    static {
-
-        //TODO add all the units here. Maybe load them from XML?
-    }
-
     /* The packet id to assign to packets. Will increment after each use */
     private static int entityType = 1;
     /* Simple hashMap to obtain an ID from a packet object */
-    private static HashMap<Class<? extends Entity>, Integer> typeToEntity = new HashMap<Class<? extends Entity>, Integer>();
+    private static HashMap<Class<? extends Entity>, Integer> entityToType = new HashMap<Class<? extends Entity>, Integer>();
     /* Simple hashMap to obtain an empty object from ID */
-    private static HashMap<Integer, Class<? extends Entity>> entityToType = new HashMap<Integer, Class<? extends Entity>>();
-    /* Hashmap representing the texture regions of every sprite */
-    private static HashMap<Integer, TextureRegion> idToTexture = new HashMap<Integer, TextureRegion>();
+    private static HashMap<Integer, Class<? extends Entity>> typeToEntity = new HashMap<Integer, Class<? extends Entity>>();
 
-    public static void registerEntity(Class<? extends Entity> entity, TextureRegion area) {
-        typeToEntity.put(entity, entityType);
-        entityToType.put(entityType, entity);
-        idToTexture.put(entityType, area);
-        Logger.getInstance().system("Registered entity: " + entityToType.get(entityType) + " id: " + entityType);
-        entityType++;
+    public static void register() {
+        registerEntity(new BuildingGhost());
+        registerEntity(new TestEntity());
+        registerEntity(new TestBuilding());
+        //TODO add all the units here. Maybe load them from XML?
+    }
+
+    public static void registerEntity(Entity entity) {
+        if (!entityToType.containsKey(entity)) {
+            Logger.getInstance().system("Registered entity: " + entity.getClass().toString() + " id: " + entityType);
+            typeToEntity.put(entityType, entity.getClass());
+            entityToType.put(entity.getClass(), entityType);
+            entityType++;
+        }
     }
 
     public static void empty() {
     }
 
     public static void removeEntity(int type) {
-        idToTexture.remove(type);
         typeToEntity.remove(entityToType.get(type));
         entityToType.remove(type);
     }
 
-    public static TextureRegion getTextureArea(int type) {
-        if (idToTexture.containsKey(type))
-            return idToTexture.get(type);
-        return null;
-    }
-
     public static int getEntityType(Entity entity) {
-        return typeToEntity.get(entity.getClass());
-    }
+        System.out.println(entity.getClass().toString());
+        if (!entityToType.containsKey(entity.getClass())) {
+            System.out.println("Entity isnt registered");
+            return 0;
+        }
 
-    public static int getEntityType(Class<? extends Entity> entity) {
-        return typeToEntity.get(entity);
+        return entityToType.get(entity.getClass());
     }
 
     public static Class<? extends Entity> getEntity(int type) {
-        return entityToType.get(type);
+        return typeToEntity.get(type);
     }
 }

@@ -18,17 +18,23 @@ public abstract class SelectableUnit extends Unit {
     private Sprite selectionSprite;
     private boolean selected;
 
-    protected SelectableUnit(int x, int y, int entityType) {
-        super(x, y, entityType);
+    /**
+     * USE THIS ONLY FOR REGISTERING THE ENTITY! SHOULD NOT BE USED OTHERWISE!
+     */
+    protected SelectableUnit() {
+        super();
     }
 
-    public SelectableUnit(int id, int x, int y, int entityType, TextureRegion sprite) {
-        super(id, x, y, entityType, sprite);
+    protected SelectableUnit(int x, int y) {
+        super(x, y);
     }
+/*
+    public SelectableUnit(int id, int x, int y, TextureRegion sprite) {
+        super(id, x, y, sprite);
+    }*/
 
-    protected SelectableUnit(EntityCreation entityCreation, int entityType, TextureRegion region) {
-        super(entityCreation, entityType, region);
-        System.out.println("new unit has been made?");
+    protected SelectableUnit(EntityCreation entityCreation, TextureRegion region) {
+        super(entityCreation, region);
     }
 
     public boolean isSelected() {

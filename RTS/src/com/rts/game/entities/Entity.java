@@ -17,8 +17,7 @@ import com.rts.util.Logger;
  * To change this template use File | Settings | File Templates.
  */
 public abstract class Entity {
-    private final int id;
-    private final int entityType;
+    /* The interval between debug messages */
     private final float debugThreshold = 1;
     protected float width = 0;
     protected float height = 0;
@@ -28,27 +27,31 @@ public abstract class Entity {
     protected float y;
     protected float angle;
     protected TextureRegion textureRegion;
-    private int owner = 0;
+    /* The id this particular entity goes by */
+    private int id;
+    /* The type of the entity */
+    private int entityType;
+    /* The debug timer which will get compared to the threshold */
     private float debugTimer = 0;
+    private int owner = 0;
+
+    /**
+     * USE THIS ONLY FOR REGISTERING THE ENTITY! SHOULD NOT BE USED OTHERWISE!
+     */
+    public Entity() {
+
+    }
 
     //USE THIS ONLY FOR SENDING NETWORK DETAILS!
-    public Entity(int x, int y, int entityType) {
-        this.entityType = entityType;
-        this.id = 0;
+    public Entity(int x, int y) {
+        this.entityType = EntityList.getEntityType(this);
+        this.id = -1;
         this.x = x;
         this.y = y;
     }
 
-    public Entity(int id, int x, int y, int entityType) {
-        this.entityType = entityType;
-        this.id = id;
-        this.x = x;
-        this.y = y;
-        onCreate();
-    }
-
-    public Entity(EntityCreation entityCreation, int entityType) {
-        this.entityType = entityType;
+    public Entity(EntityCreation entityCreation) {
+        this.entityType = entityCreation.entityType;
         this.id = entityCreation.id;
         this.x = entityCreation.x;
         this.y = entityCreation.y;
@@ -81,6 +84,8 @@ public abstract class Entity {
     }
 
     public int getEntityType() {
+        if (entityType == 0)
+            entityType = EntityList.getEntityType(this);
         return entityType;
     }
 

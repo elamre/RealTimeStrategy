@@ -14,15 +14,16 @@ import com.rts.networking.mutual.packets.EntityCreation;
  * To change this template use File | Settings | File Templates.
  */
 public class TestEntity extends MovingUnit {
+    public TestEntity() {
+        super();
+    }
 
     public TestEntity(int x, int y) {
-        super(x, y, EntityList.UNIT_TEST_1);
-        abilities.add(new Blink(this));
-        abilities.add(new Build(this));
+        super(x, y);
     }
 
     public TestEntity(EntityCreation entityCreation) {
-        super(entityCreation, EntityList.UNIT_TEST_1, Assets.getAssets().getTextureRegion("Units/worker_wood"), 4, 0.1f);
+        super(entityCreation, Assets.getAssets().getTextureRegion("Units/worker_wood"), 4, 0.1f);
         abilities.add(new Blink(this));
         abilities.add(new Build(this));
     }

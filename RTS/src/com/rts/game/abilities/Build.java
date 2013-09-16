@@ -32,7 +32,7 @@ public class Build extends TargetedAbility {
         super(owner);
         key = Input.Keys.M;
         ghost = new BuildingGhost(0, 0);
-        ghost.changeEntity(EntityList.getEntityType(TestBuilding.class));
+        ghost.changeEntity(EntityList.getEntityType(new TestBuilding()));
     }
 
     @Override

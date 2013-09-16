@@ -22,8 +22,7 @@ public class Game implements Screen {
 	String ip;
 
 	public Game(String ip) {
-        EntityList.empty();
-        EntityList.registerEntity(TestBuilding.class, Assets.getAssets().getTextureRegion("Buildings/house"));
+        //EntityList.empty();
 		this.ip = ip;
 	}
 

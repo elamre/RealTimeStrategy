@@ -18,19 +18,26 @@ public abstract class Unit extends Entity {
 
     public ArrayList<Ability> abilities;
 
-    protected Unit(int x, int y, int entityType) {
-        super(x, y, entityType);
-        abilities = new ArrayList<Ability>(4);
+    /**
+     * USE THIS ONLY FOR REGISTERING THE ENTITY! SHOULD NOT BE USED OTHERWISE!
+     */
+    public Unit() {
+        super();
     }
 
-    public Unit(int id, int x, int y, int entityType, TextureRegion textureRegion) {
-        super(id, x, y, entityType);
+    protected Unit(int x, int y) {
+        super(x, y);
+        //abilities = new ArrayList<Ability>(4);
+    }
+
+ /*   public Unit(int id, int x, int y, TextureRegion textureRegion) {
+        super(id, x, y);
         setTextureRegion(textureRegion);
         abilities = new ArrayList<Ability>(4);
-    }
+    }*/
 
-    public Unit(EntityCreation entityCreation, int entityType, TextureRegion textureRegion) {
-        super(entityCreation, entityType);
+    public Unit(EntityCreation entityCreation, TextureRegion textureRegion) {
+        super(entityCreation);
         if (textureRegion != null)             //animation class will handle it itself. See MovingUnit
             setTextureRegion(textureRegion);
         abilities = new ArrayList<Ability>(4);

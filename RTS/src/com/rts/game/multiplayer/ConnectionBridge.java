@@ -35,6 +35,7 @@ public class ConnectionBridge {
         entityRequest.x = (int) entity.getX();
         entityRequest.y = (int) entity.getY();
         entityRequest.owner = client.getId();
+        entityRequest.entityType = entity.getEntityType();
         client.writeMessage(entityRequest);
     }
 

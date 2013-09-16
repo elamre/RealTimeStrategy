@@ -5,6 +5,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.rts.game.entities.Entity;
 import com.rts.game.entities.EntityList;
 import com.rts.game.gameplay.Camera;
+import com.rts.networking.mutual.packets.EntityCreation;
+
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,8 +20,12 @@ public class BuildingGhost extends Entity {
 
     Sprite sprite;
 
+    public BuildingGhost() {
+        super();
+    }
+
     public BuildingGhost(int x, int y) {
-        super(x, y, 0);
+        super(x, y);
     }
 
     @Override
@@ -37,13 +44,25 @@ public class BuildingGhost extends Entity {
     }
 
     public void draw(SpriteBatch spriteBatch) {
-        spriteBatch.draw(sprite, x - width / 2, y - height / 2, width / 2, height / 2, width, height, 1, 1, angle);
+        //spriteBatch.draw(sprite, x - width / 2, y - height / 2, width / 2, height / 2, width, height, 1, 1, angle);
     }
 
     public void changeEntity(int newEntityId) {
+/*        Entity spriteEntity = null;
+        try {
+            spriteEntity = EntityList.getEntity(newEntityId).getConstructor(EntityCreation.class).newInstance(new EntityCreation());
+        } catch (InstantiationException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }*/
         height = 1;
-        width = 1;
-        sprite = new Sprite(EntityList.getTextureArea(newEntityId));
-        sprite.setColor(sprite.getColor().r, sprite.getColor().g, sprite.getColor().b, .3f);
+        width = 1;/*
+        sprite = new Sprite(spriteEntity.getTextureRegion());*/
+       // sprite.setColor(sprite.getColor().r, sprite.getColor().g, sprite.getColor().b, .3f);
     }
 }

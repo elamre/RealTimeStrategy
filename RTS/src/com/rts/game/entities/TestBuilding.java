@@ -12,12 +12,16 @@ import com.rts.networking.mutual.packets.EntityCreation;
  * To change this template use File | Settings | File Templates.
  */
 public class TestBuilding extends SelectableUnit {
+    public TestBuilding() {
+        super();
+    }
+
     public TestBuilding(int x, int y) {
-        super(x, y, EntityList.BUILDING_TEST);
+        super(x, y);
     }
 
     public TestBuilding(EntityCreation entityCreation) {
-        super(entityCreation, EntityList.BUILDING_TEST, Assets.getAssets().getTextureRegion("Buildings/building_house"));
+        super(entityCreation, Assets.getAssets().getTextureRegion("Buildings/building_house"));
 
 
     }

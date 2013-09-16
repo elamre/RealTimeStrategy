@@ -57,12 +57,12 @@ public class BuildingHUD {
                 currentView = View.GENERAL;
             }
         });
-        houseButton = new BuildingButton(10, 10 + (int) hudBuildBar.getY(), Assets.getAssets().getSprite("UI/house_button"), EntityList.getEntityType(TestBuilding.class), "HOUSE", View.BUILDINGS);
-        archeryButton = new BuildingButton(50, 10 + (int) hudBuildBar.getY(), Assets.getAssets().getSprite("UI/archery_button"), EntityList.getEntityType(TestBuilding.class), "HOUSE", View.BUILDINGS);
-        castleButton = new BuildingButton(90, 10 + (int) hudBuildBar.getY(), Assets.getAssets().getSprite("UI/castle_button"), EntityList.getEntityType(TestBuilding.class), "HOUSE", View.BUILDINGS);
-        towerButton = new BuildingButton(130, 10 + (int) hudBuildBar.getY(), Assets.getAssets().getSprite("UI/tower_button"), EntityList.getEntityType(TestBuilding.class), "HOUSE", View.BUILDINGS);
-        citycenterButton = new BuildingButton(170, 10 + (int) hudBuildBar.getY(), Assets.getAssets().getSprite("UI/citycenter_button"), EntityList.getEntityType(TestBuilding.class), "HOUSE", View.BUILDINGS);
-        sawmillButton = new BuildingButton(10, 50 + (int) hudBuildBar.getY(), Assets.getAssets().getSprite("UI/sawmill_button"), EntityList.getEntityType(TestBuilding.class), "HOUSE", View.BUILDINGS);
+        houseButton = new BuildingButton(10, 10 + (int) hudBuildBar.getY(), Assets.getAssets().getSprite("UI/house_button"), EntityList.getEntityType(new TestBuilding()), "HOUSE", View.BUILDINGS);
+        archeryButton = new BuildingButton(50, 10 + (int) hudBuildBar.getY(), Assets.getAssets().getSprite("UI/archery_button"), 0, "HOUSE", View.BUILDINGS);
+        castleButton = new BuildingButton(90, 10 + (int) hudBuildBar.getY(), Assets.getAssets().getSprite("UI/castle_button"), 0, "HOUSE", View.BUILDINGS);
+        towerButton = new BuildingButton(130, 10 + (int) hudBuildBar.getY(), Assets.getAssets().getSprite("UI/tower_button"), 0, "HOUSE", View.BUILDINGS);
+        citycenterButton = new BuildingButton(170, 10 + (int) hudBuildBar.getY(), Assets.getAssets().getSprite("UI/citycenter_button"), 0, "HOUSE", View.BUILDINGS);
+        sawmillButton = new BuildingButton(10, 50 + (int) hudBuildBar.getY(), Assets.getAssets().getSprite("UI/sawmill_button"), 0, "HOUSE", View.BUILDINGS);
     }
 
     private void switchView() {
