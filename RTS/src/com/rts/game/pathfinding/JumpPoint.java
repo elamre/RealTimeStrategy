@@ -67,6 +67,12 @@ public class JumpPoint {
                 long timeEnd = System.currentTimeMillis();
                 System.out.println("Time: " + (timeEnd - timeStart) + " ms");
 
+                for (Node n : trail) {
+                    n.debug();
+                }
+
+                System.out.println("----------------");
+
                 return trail;
             }
             Node[] possibleSuccess1 = identifySuccessors(cur);

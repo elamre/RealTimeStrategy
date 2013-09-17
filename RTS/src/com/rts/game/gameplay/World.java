@@ -21,6 +21,8 @@ public class World {
 
     Random rand = new Random();
 
+    static boolean useSmoothedPath = false;
+
     private Chunk[][] chunks = new Chunk[chunkAmount][chunkAmount];
 
     public static JumpPoint jps = new JumpPoint(128, 128);
@@ -101,8 +103,9 @@ public class World {
     }
 
     public static ArrayList<Node> getPath(int x, int y, int x2, int y2) {
-        return PathSmoother.smoothBasic(jps.search(x, y, x2, y2));
-        //return jps.search(x, y, x2, y2);
+        if (useSmoothedPath)
+            return PathSmoother.smoothBasic(jps.search(x, y, x2, y2));
+        return jps.search(x, y, x2, y2);
     }
 
     public static Node nodeAt(int x, int y) {

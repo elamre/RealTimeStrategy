@@ -12,6 +12,7 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
 public class ServerListener extends Listener {
+
     /**
      * Called when the remote end has been connected. This will be invoked before any objects are received by
      * {@link #received(com.esotericsoftware.kryonet.Connection, Object)}. This will be invoked on the same thread as {@link com.esotericsoftware.kryonet.Client#update(int)} and
@@ -48,4 +49,5 @@ public class ServerListener extends Listener {
     public void idle(Connection connection) {
         super.idle(connection);    //To change body of overridden methods use File | Settings | File Templates.
     }
+
 }

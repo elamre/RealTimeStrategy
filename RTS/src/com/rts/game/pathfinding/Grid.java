@@ -55,6 +55,9 @@ public class Grid {
                                 if (!newNearest.contains(test) && !valid.contains(test)) {
                                     newNearest.add(test);
                                     count++;
+                                    if (count >= amount) {
+                                        break inner;
+                                    }
                                 }
                         }
                     }
