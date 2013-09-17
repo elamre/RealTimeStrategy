@@ -151,9 +151,6 @@ public class EntityManager {
         for (int i = 0, l = addList.size(); i < l; i++) {
             entities.put(new Integer(addList.get(i).getId()), addList.get(i));
         }
-/*        for (Entity anAddList : addList) {
-            entities.put(new Integer(anAddList.getId()), anAddList);
-        }*/
         addList.clear();
     }
 

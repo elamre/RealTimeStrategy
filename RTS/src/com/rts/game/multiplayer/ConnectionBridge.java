@@ -46,8 +46,7 @@ public class ConnectionBridge {
 
     public void connect(String ip, int port, ClientEventListener clientEventListener) {
         if (client != null) {
-            client.connect(ip, port);
-            if (client.getId() == 0) {
+            if (!client.connect(ip, port)) {
                 clientEventListener.hostNotFound(ip, port);
                 return;
             }
@@ -58,23 +57,7 @@ public class ConnectionBridge {
     }
 
     public void update() {
-/*        while ((packet = client.getPacket()) != null) {
-            if (packet instanceof EntityCreationPacket) {
-                Entity entity = null;
-                if (((EntityCreationPacket) packet).getEntityType() == EntityList.UNIT_TEST_1) {
-                    entity = new TestEntity((EntityCreationPacket) packet);
-                } else if (((EntityCreationPacket) packet).getEntityType() == EntityList.BUILDING_TEST) {
-                    entity = new TestBuilding((EntityCreationPacket) packet);
-                }
-                if (entity != null)
-                    entityManager.createEntity(entity);
-                else
-                    Logger.getInstance().debug("Trying to add non existent unit");
-            } else if (packet instanceof MoveEntityPacket) {
-                Logger.getInstance().debug("Receiving movement!");
-                ((MovingUnit) entityManager.getEntity(((MoveEntityPacket) packet).getEntityId())).moveEntity((MoveEntityPacket) packet);
-            }
-        }*/
+
     }
 }
 

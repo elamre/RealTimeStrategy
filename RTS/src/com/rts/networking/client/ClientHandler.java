@@ -64,13 +64,14 @@ public class ClientHandler {
         return client.getID();
     }
 
-    public void connect(String host, int port) {
+    public boolean connect(String host, int port) {
         try {
             client.connect(200, host, port);
             client.getID();
         } catch (IOException e) {
-            e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
     public void writeMessage(Object object) {

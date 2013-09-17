@@ -27,14 +27,8 @@ public abstract class Unit extends Entity {
 
     protected Unit(int x, int y) {
         super(x, y);
-        //abilities = new ArrayList<Ability>(4);
-    }
-
- /*   public Unit(int id, int x, int y, TextureRegion textureRegion) {
-        super(id, x, y);
-        setTextureRegion(textureRegion);
         abilities = new ArrayList<Ability>(4);
-    }*/
+    }
 
     public Unit(EntityCreation entityCreation, TextureRegion textureRegion) {
         super(entityCreation);
@@ -48,9 +42,6 @@ public abstract class Unit extends Entity {
         for (int i = 0, l = abilities.size(); i < l; i++) {
             abilities.get(i).logic(deltaT);
         }
-/*        for (Ability a : abilities) {
-            a.logic(deltaT);
-        }*/
 
         implementUpdate_2(deltaT);
         //To change body of implemented methods use File | Settings | File Templates.

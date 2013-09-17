@@ -16,92 +16,76 @@ import com.rts.util.Logger;
 
 public class Game implements Screen {
 
-	ConnectionBridge connectionBridge;
-	World world = new World();
-	public InGame inGame;
-	String ip;
+    public InGame inGame;
+    ConnectionBridge connectionBridge;
+    World world = new World();
+    String ip;
 
-	public Game(String ip) {
-        //EntityList.empty();
-		this.ip = ip;
-	}
+    public Game(InGame inGame) {
+        this.inGame = inGame;
+    }
 
-	@Override
-	public void show() {
-		Camera.create();
-		Cursor.create();
+    @Override
+    public void show() {
+        Camera.create();
+        Cursor.create();
 
-		connectionBridge = new ConnectionBridge();
-		inGame = new InGame(connectionBridge);
-        connectionBridge.connect(ip, Configuration.TCP_PORT, new ClientEventListener() {
+        // TODO move this to a fancy menu
+        world.initTestMap();
+    }
 
-            @Override
-            public void hostNotFound(String ip, int port) {
-                Logger.getInstance().system("Could not find host: " + ip + ":" + port);
-            }
+    @Override
+    public void render(float delta) {
 
-            @Override
-            public void connected() {
-                Logger.getInstance().system("Connected");
-            }
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glCullFace(GL10.GL_BACK);
 
-        }
-        ); // TODO move this to a fancy menu
-		world.initTestMap();
-	}
+        Camera.update(delta);
 
-	@Override
-	public void render(float delta) {
+        world.draw();
 
-		Gdx.gl.glClearColor(0, 0, 0, 1);
-		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-		Gdx.gl.glCullFace(GL10.GL_BACK);
+        inGame.draw();
 
-		Camera.update(delta);
+        Camera.draw();
 
-		world.draw();
+        Cursor.draw();
 
-		inGame.draw();
+        Camera.finishBatches();
 
-		Camera.draw();
+        update(delta);
+    }
 
-		Cursor.draw();
+    @Override
+    public void dispose() {
 
-		Camera.finishBatches();
+    }
 
-		update(delta);
-	}
+    /**
+     * Master update function. This function should update all the objects there are
+     *
+     * @param deltaT the time that has passed since the previous update
+     */
+    public void update(float deltaT) {
+        Gdx.graphics.setTitle("FPS: " + Gdx.graphics.getFramesPerSecond());
+        Cursor.update(deltaT);
+        inGame.update(deltaT);
+        world.update();
+    }
 
-	@Override
-	public void dispose() {
+    @Override
+    public void resize(int width, int height) {
+    }
 
-	}
+    @Override
+    public void pause() {
+    }
 
-	/**
-	 * Master update function. This function should update all the objects there are
-	 *
-	 * @param deltaT the time that has passed since the previous update
-	 */
-	public void update(float deltaT) {
-		Gdx.graphics.setTitle("FPS: " + Gdx.graphics.getFramesPerSecond());
-		Cursor.update(deltaT);
-		inGame.update(deltaT);
-		world.update();
-	}
+    @Override
+    public void resume() {
+    }
 
-	@Override
-	public void resize(int width, int height) {
-	}
-
-	@Override
-	public void pause() {
-	}
-
-	@Override
-	public void resume() {
-	}
-
-	@Override
-	public void hide() {
-	}
+    @Override
+    public void hide() {
+    }
 }

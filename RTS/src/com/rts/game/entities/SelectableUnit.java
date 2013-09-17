@@ -28,10 +28,6 @@ public abstract class SelectableUnit extends Unit {
     protected SelectableUnit(int x, int y) {
         super(x, y);
     }
-/*
-    public SelectableUnit(int id, int x, int y, TextureRegion sprite) {
-        super(id, x, y, sprite);
-    }*/
 
     protected SelectableUnit(EntityCreation entityCreation, TextureRegion region) {
         super(entityCreation, region);
@@ -64,7 +60,7 @@ public abstract class SelectableUnit extends Unit {
 
     @Override
     public void implementDraw_2(SpriteBatch spriteBatch) {
-        selectionSprite.draw(spriteBatch);
+        //selectionSprite.draw(spriteBatch);
         implementDraw_3(spriteBatch);
     }
 

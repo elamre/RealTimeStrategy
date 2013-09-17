@@ -13,93 +13,119 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.rts.game.Assets;
 import com.rts.game.RealTimeStrategy;
 import com.rts.game.entities.TestEntity;
+import com.rts.game.multiplayer.ClientEventListener;
+import com.rts.game.multiplayer.ConnectionBridge;
 import com.rts.networking.mutual.packets.EntityCreation;
 import com.rts.networking.server.GlobalServer;
+import com.rts.util.Configuration;
+import com.rts.util.Logger;
 
-/** TODO this is going to be the main menu */
+/**
+ * TODO this is going to be the main menu
+ */
 public class MainMenu implements Screen {
+    InGame inGame;
+    ConnectionBridge connectionBridge = null;
+    private Skin skin;
+    private Stage stage;
+    private Table table;
 
-	private Skin skin;
-	private Stage stage;
-	private Table table;
+    public MainMenu() {
+        connectionBridge = new ConnectionBridge();
+        inGame = new InGame(connectionBridge);
+    }
 
-	@Override
-	public void render(float delta) {
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+    @Override
+    public void render(float delta) {
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		stage.act(delta);
-		stage.draw();
-	}
+        stage.act(delta);
+        stage.draw();
+    }
 
-	@Override
-	public void resize(int width, int height) {
-		stage.setViewport(width, height, false);
-		table.invalidateHierarchy();
-	}
+    @Override
+    public void resize(int width, int height) {
+        stage.setViewport(width, height, false);
+        table.invalidateHierarchy();
+    }
 
-	@Override
-	public void show() {
-		Gdx.gl.glClearColor(0, .25f, 0, 1);
-		Gdx.input.setInputProcessor(stage = new Stage());
-		skin = new Skin();
-		skin.addRegions(Assets.getAssets().getTextureAtlas());
-		skin.load(Gdx.files.internal("ui/menuSkin.json"));
+    @Override
+    public void show() {
+        Gdx.gl.glClearColor(0, .25f, 0, 1);
+        Gdx.input.setInputProcessor(stage = new Stage());
+        skin = new Skin();
+        skin.addRegions(Assets.getAssets().getTextureAtlas());
+        skin.load(Gdx.files.internal("ui/menuSkin.json"));
 
-		table = new Table(skin);
-		table.setFillParent(true);
-		table.add("RealTimeStrategy", "large").row();
+        table = new Table(skin);
+        table.setFillParent(true);
+        table.add("RealTimeStrategy", "large").row();
 
-		final TextField enterIp = new TextField("127.0.0.1", skin, "large");
+        final TextField enterIp = new TextField("127.0.0.1", skin, "large");
 
-		final TextButton connectButton = new TextButton("connect", skin);
-		connectButton.pad(10);
+        final TextButton connectButton = new TextButton("connect", skin);
+        connectButton.pad(10);
 
-		final TextButton hostButton = new TextButton("host game", skin);
-		hostButton.pad(10);
+        final TextButton hostButton = new TextButton("host game", skin);
+        hostButton.pad(10);
 
-		ClickListener buttonHandler = new ClickListener() {
+        ClickListener buttonHandler = new ClickListener() {
 
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				if(event.getListenerActor() == connectButton) {
-					// ((com.badlogic.gdx.Game) Gdx.app.getApplicationListener()).setScreen(new Game(enterIp.getText())); // doesn't work with 0.9.8...
-					RealTimeStrategy.game.setScreen(new Game(enterIp.getText()));
-				} else if(event.getListenerActor() == hostButton) {
-					GlobalServer.main(new String[]{});      //TODO fix this
-					hostButton.setText("started!");
-				}
-			}
-		};
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (event.getListenerActor() == connectButton) {
+                    connectionBridge.connect(enterIp.getText(), Configuration.TCP_PORT, new ClientEventListener() {
 
-		connectButton.addListener(buttonHandler);
-		hostButton.addListener(buttonHandler);
+                        @Override
+                        public void hostNotFound(String ip, int port) {
+                            Logger.getInstance().system("Could not find host: " + ip + ":" + port);
+                        }
 
-		Table dialog = new Table(skin);
-		dialog.add(enterIp).width(enterIp.getStyle().font.getBounds(enterIp.getText()).width).colspan(2).row();
-		dialog.add(connectButton);
-		dialog.add(hostButton);
+                        @Override
+                        public void connected() {
+                            Logger.getInstance().system("Connected");
+                            RealTimeStrategy.game.setScreen(new Game(inGame));
+                        }
 
-		table.add(dialog).expandY();
+                    }
+                    );
+                    // ((com.badlogic.gdx.Game) Gdx.app.getApplicationListener()).setScreen(new Game(enterIp.getText())); // doesn't work with 0.9.8...
+                } else if (event.getListenerActor() == hostButton) {
+                    GlobalServer.main(new String[]{});      //TODO fix this
+                    hostButton.setText("started!");
+                }
+            }
+        };
 
-		stage.addActor(table);
-	}
+        connectButton.addListener(buttonHandler);
+        hostButton.addListener(buttonHandler);
 
-	@Override
-	public void hide() {
-	}
+        Table dialog = new Table(skin);
+        dialog.add(enterIp).width(enterIp.getStyle().font.getBounds(enterIp.getText()).width).colspan(2).row();
+        dialog.add(connectButton);
+        dialog.add(hostButton);
 
-	@Override
-	public void pause() {
-	}
+        table.add(dialog).expandY();
 
-	@Override
-	public void resume() {
-	}
+        stage.addActor(table);
+    }
 
-	@Override
-	public void dispose() {
-		stage.dispose();
-		skin.dispose();
-	}
+    @Override
+    public void hide() {
+    }
+
+    @Override
+    public void pause() {
+    }
+
+    @Override
+    public void resume() {
+    }
+
+    @Override
+    public void dispose() {
+        stage.dispose();
+        skin.dispose();
+    }
 
 }

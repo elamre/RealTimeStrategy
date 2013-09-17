@@ -59,10 +59,9 @@ public class ClientListener extends Listener {
     public void received(Connection connection, Object object) {
         super.received(connection, object);    //To change body of overridden methods use File | Settings | File Templates.
         if (object instanceof EntityCreation) {
-
-            try {
-                Entity entity = null;
-                entity = EntityList.getEntity(((EntityCreation) object).entityType).getConstructor(EntityCreation.class).newInstance((EntityCreation)object);
+            Entity entity;
+/*            try {
+                entity = EntityList.getEntity(((EntityCreation) object).entityType).getConstructor(EntityCreation.class).newInstance((EntityCreation) object);
                 entityManager.createEntity(entity);
             } catch (InstantiationException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -73,12 +72,18 @@ public class ClientListener extends Listener {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             } catch (NoSuchMethodException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-            }
-            /*switch (((EntityCreation) object).entityType) {
-                default:
-                    entityManager.createEntity(new TestEntity((EntityCreation) object));
-                    break;
             }*/
+            if (((EntityCreation) object).entityType == EntityList.getEntityType(new TestEntity())) {
+                entity = new TestEntity((EntityCreation) object);
+            } else if (((EntityCreation) object).entityType == EntityList.getEntityType(new TestEntity())) {
+                entity = new TestBuilding((EntityCreation) object);
+            } else {
+                entity = new TestEntity((EntityCreation) object);
+            }
+            if (entity != null) {
+                entityManager.createEntity(entity);
+            }
+
         } else if (object instanceof EntityPosChange) {
             ((MovingUnit) entityManager.getEntity(((EntityPosChange) object).id)).moveEntity((EntityPosChange) object);
         } else if (object instanceof PlayerConnected) {

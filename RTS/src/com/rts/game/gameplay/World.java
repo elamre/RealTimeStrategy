@@ -1,6 +1,8 @@
 package com.rts.game.gameplay;
 
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.rts.game.pathfinding.JumpPoint;
 import com.rts.game.pathfinding.Node;
@@ -19,20 +21,30 @@ import java.util.Random;
  */
 public class World {
 
-    Random rand = new Random();
-
-    static boolean useSmoothedPath = false;
-
-    private Chunk[][] chunks = new Chunk[chunkAmount][chunkAmount];
-
+    private static final int chunkSize = 16;
+    private static final int chunkAmount = 16 * 16;
     public static JumpPoint jps = new JumpPoint(128, 128);
+    static boolean useSmoothedPath = false;
+    Random rand = new Random();
+    private Chunk[][] chunks = new Chunk[chunkAmount][chunkAmount];
 
     public static int getChunkSize() {
         return chunkSize;
     }
 
-    private static final int chunkSize = 16;
-    private static final int chunkAmount = 16 * 16;
+    public static ArrayList<Node> getPath(int x, int y, int x2, int y2) {
+        if (useSmoothedPath)
+            return PathSmoother.smoothBasic(jps.search(x, y, x2, y2));
+        return jps.search(x, y, x2, y2);
+    }
+
+    public static Node nodeAt(int x, int y) {
+        return jps.grid.getNode(x, y);
+    }
+
+    public static Node nodeAt(float x, float y) {
+        return jps.grid.getNode((int) x, (int) y);
+    }
 
     public void update() {
 
@@ -55,7 +67,8 @@ public class World {
         for (int x = 0; x < jps.grid.grid.length; x++) {
             for (int y = 0; y < jps.grid.grid[0].length; y++) {
                 if (!jps.grid.getNode(x, y).isPass()) {
-                    ShapeRenderer.drawRectangle(x, y, 1, 1, true);
+                    if (!Gdx.input.isKeyPressed(Input.Keys.R))
+                        ShapeRenderer.drawRectangle(x, y, 1, 1, true);
                     // box.filledRect(x, y, 1, 1);
                 }
             }
@@ -100,20 +113,6 @@ public class World {
                 }
             }
         }
-    }
-
-    public static ArrayList<Node> getPath(int x, int y, int x2, int y2) {
-        if (useSmoothedPath)
-            return PathSmoother.smoothBasic(jps.search(x, y, x2, y2));
-        return jps.search(x, y, x2, y2);
-    }
-
-    public static Node nodeAt(int x, int y) {
-        return jps.grid.getNode(x, y);
-    }
-
-    public static Node nodeAt(float x, float y) {
-        return jps.grid.getNode((int) x, (int) y);
     }
 
 }
