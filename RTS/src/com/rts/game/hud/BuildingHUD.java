@@ -15,17 +15,18 @@ import com.rts.game.gameplay.Camera;
  * To change this template use File | Settings | File Templates.
  */
 public class BuildingHUD {
-    BuildingHUDButton build;
-    BuildingHUDButton cancel;
-    BuildingHUDButton deselect;
-    BuildingHUDButton move;
-    View currentView = View.GENERAL;
-    BuildingButton houseButton;
-    BuildingButton archeryButton;
-    BuildingButton castleButton;
-    BuildingButton towerButton;
-    BuildingButton sawmillButton;
-    BuildingButton citycenterButton;
+    public static ButtonSet buttonSet;
+    private BuildingHUDButton build;
+    private BuildingHUDButton cancel;
+    private BuildingHUDButton deselect;
+    private BuildingHUDButton move;
+    private View currentView = View.GENERAL;
+    private BuildingButton houseButton;
+    private BuildingButton archeryButton;
+    private BuildingButton castleButton;
+    private BuildingButton towerButton;
+    private BuildingButton sawmillButton;
+    private BuildingButton citycenterButton;
     private Sprite hudBuildBar;
 
     BuildingHUD() {
@@ -70,33 +71,47 @@ public class BuildingHUD {
     }
 
     public void update() {
-        build.update(currentView);
-        houseButton.update(currentView);
-        move.update(currentView);
-        deselect.update(currentView);
-        cancel.update(currentView);
-        archeryButton.update(currentView);
-        castleButton.update(currentView);
-        towerButton.update(currentView);
-        citycenterButton.update(currentView);
-        sawmillButton.update(currentView);
+        if (buttonSet == ButtonSet.WORKER) {
+            build.update(currentView);
+            houseButton.update(currentView);
+            move.update(currentView);
+            deselect.update(currentView);
+            cancel.update(currentView);
+            archeryButton.update(currentView);
+            castleButton.update(currentView);
+            towerButton.update(currentView);
+            citycenterButton.update(currentView);
+            sawmillButton.update(currentView);
+        } else if (buttonSet == ButtonSet.SOLDIER) {
+            move.draw();
+            deselect.draw();
+        }
     }
 
     public void draw() {
         hudBuildBar.draw(Camera.batch);
-        houseButton.draw();
-        archeryButton.draw();
-        castleButton.draw();
-        towerButton.draw();
-        citycenterButton.draw();
-        sawmillButton.draw();
-        build.draw();
-        move.draw();
-        deselect.draw();
-        cancel.draw();
+        if (buttonSet == ButtonSet.WORKER) {
+            houseButton.draw();
+            archeryButton.draw();
+            castleButton.draw();
+            towerButton.draw();
+            citycenterButton.draw();
+            sawmillButton.draw();
+            build.draw();
+            move.draw();
+            deselect.draw();
+            cancel.draw();
+        } else if (buttonSet == ButtonSet.SOLDIER) {
+            move.draw();
+            deselect.draw();
+        }
     }
 
     static enum View {
         NOTHING, GENERAL, BUILDINGS;
+    }
+
+    public static enum ButtonSet {
+        WORKER, SOLDIER, NONE;
     }
 }

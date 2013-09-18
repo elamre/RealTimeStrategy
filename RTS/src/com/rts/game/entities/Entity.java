@@ -117,11 +117,11 @@ public abstract class Entity {
         if (Camera.isInFocus(x, y, width, height)) {
             implementDraw_1(spriteBatch);
             if (debug) {
-                drawDebug(spriteBatch);
+                drawDebug();
             }
             if (textureRegion != null) {
-                //spriteBatch.draw(textureRegion, x + (1 - width), y + (1 - height), width / 2, height / 2, width, height, 1, 1, angle);
-                spriteBatch.draw(textureRegion, x - (1 - width) * 2, y - (1 - height) * 2, width / 2, height / 2, width, height, 1, 1, angle);
+                spriteBatch.draw(textureRegion, x + (1 - width), y + (1 - height), width / 2, height / 2, width, height, 1, 1, angle);
+                //spriteBatch.draw(textureRegion, x - (1 - width) * 2, y - (1 - height) * 2, width / 2, height / 2, width, height, 1, 1, angle);
             } else {
                 Logger.getInstance().debug("Sprite region is null");
             }
@@ -130,7 +130,7 @@ public abstract class Entity {
 
     public abstract void implementDraw_1(SpriteBatch spriteBatch);
 
-    protected void drawDebug(SpriteBatch spriteBatch) {
+    protected void drawDebug() {
         ShapeRenderer.drawRectangle((int) x, (int) y, (int) width, (int) height, false);
     }
 

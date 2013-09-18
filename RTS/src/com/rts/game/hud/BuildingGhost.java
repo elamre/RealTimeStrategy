@@ -44,11 +44,11 @@ public class BuildingGhost extends Entity {
     }
 
     public void draw(SpriteBatch spriteBatch) {
-        //spriteBatch.draw(sprite, x - width / 2, y - height / 2, width / 2, height / 2, width, height, 1, 1, angle);
+        spriteBatch.draw(sprite, x - width / 2, y - height / 2, width / 2, height / 2, width, height, 1, 1, angle);
     }
 
     public void changeEntity(int newEntityId) {
-/*        Entity spriteEntity = null;
+        Entity spriteEntity = null;
         try {
             spriteEntity = EntityList.getEntity(newEntityId).getConstructor(EntityCreation.class).newInstance(new EntityCreation());
         } catch (InstantiationException e) {
@@ -59,10 +59,18 @@ public class BuildingGhost extends Entity {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         } catch (NoSuchMethodException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }*/
+        }
         height = 1;
-        width = 1;/*
-        sprite = new Sprite(spriteEntity.getTextureRegion());*/
-       // sprite.setColor(sprite.getColor().r, sprite.getColor().g, sprite.getColor().b, .3f);
+        width = 1;
+        sprite = new Sprite(spriteEntity.getTextureRegion());
+        sprite.setColor(sprite.getColor().r, sprite.getColor().g, sprite.getColor().b, .3f);
+    }
+
+    public void setUnable() {
+        sprite.setColor(1f, 0.5f, 0.5f, 0.3f);
+    }
+
+    public void setPossible() {
+        sprite.setColor(1f, 1f, 1f, 0.3f);
     }
 }

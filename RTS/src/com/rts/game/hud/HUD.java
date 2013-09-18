@@ -22,6 +22,10 @@ public class HUD {
         buildingHUD.update();
     }
 
+    public void setSelection(BuildingHUD.ButtonSet selection) {
+        BuildingHUD.buttonSet = selection;
+    }
+
     public void draw() {
         Camera.makeHUDBatch();
         resources.draw();

@@ -59,8 +59,8 @@ public class ClientListener extends Listener {
     public void received(Connection connection, Object object) {
         super.received(connection, object);    //To change body of overridden methods use File | Settings | File Templates.
         if (object instanceof EntityCreation) {
-            Entity entity;
-/*            try {
+            Entity entity = null;
+            try {
                 entity = EntityList.getEntity(((EntityCreation) object).entityType).getConstructor(EntityCreation.class).newInstance((EntityCreation) object);
                 entityManager.createEntity(entity);
             } catch (InstantiationException e) {
@@ -72,14 +72,15 @@ public class ClientListener extends Listener {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             } catch (NoSuchMethodException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-            }*/
-            if (((EntityCreation) object).entityType == EntityList.getEntityType(new TestEntity())) {
+            }
+/*            if (((EntityCreation) object).entityType == EntityList.getEntityType(new TestEntity())) {
                 entity = new TestEntity((EntityCreation) object);
-            } else if (((EntityCreation) object).entityType == EntityList.getEntityType(new TestEntity())) {
+            } else if (((EntityCreation) object).entityType == EntityList.getEntityType(new TestBuilding())) {
                 entity = new TestBuilding((EntityCreation) object);
             } else {
                 entity = new TestEntity((EntityCreation) object);
-            }
+            }*/
+            System.out.println("New: " + entity.getClass().toString());
             if (entity != null) {
                 entityManager.createEntity(entity);
             }

@@ -19,12 +19,14 @@ public abstract class Ability {
     protected Unit owner;
     public boolean disabled;
     int key;
+    int type;
 
     public abstract void logic(float delta);
 
     public abstract void draw();
 
     public Ability(Unit owner) {
+        type = 0;
         this.owner = owner;
     }
 

@@ -19,13 +19,12 @@ import com.rts.game.hud.BuildingGhost;
 public class Build extends TargetedAbility {
 
     BuildingGhost ghost;
-
     boolean[][] spacearray = new boolean[][]{
 
-            {false, true, true, false},
-            {true, true, true, true},
-            {true, true, true, true},
-            {false, true, true, false}
+            {false, false, false, false},
+            {true, true, true, false},
+            {true, true, true, false},
+            {false, false, false, false}
     };
 
     public Build(Unit owner) {
@@ -37,24 +36,36 @@ public class Build extends TargetedAbility {
 
     @Override
     public void update_1(float delta) {
+        ghost.update(delta);
+        ghost.setWidth(spacearray.length);
+        ghost.setHeight(spacearray[0].length);
+        TestBuilding test = new TestBuilding((int) ghost.getX(), (int) ghost.getY());
+        BuildingSpace bspace = new BuildingSpace(test);
+        bspace.loadSpace(spacearray);
+        if (bspace.isCreatable()) {
+            ghost.setPossible();
+        } else {
+            ghost.setUnable();
+        }
 
         if (requestClick || waitForNextClick) {
-            ghost.update(delta);
-            ghost.setWidth(spacearray.length);
-            ghost.setHeight(spacearray[0].length);
+            //ghost.update(delta);
+            //ghost.setWidth(spacearray.length);
+            //ghost.setHeight(spacearray[0].length);
             if (Gdx.input.isButtonPressed(Input.Buttons.LEFT) && requestClick) {
                 removeCursorUse();
 
                 System.out.println("Attempting building place");
 
-                TestBuilding test = new TestBuilding((int) ghost.getX(), (int) ghost.getY());
-                BuildingSpace bspace = new BuildingSpace(test);
+
                 bspace.loadSpace(spacearray);
                 if (bspace.isCreatable()) {
                     bspace.create();
                     test.abilities.add(bspace);
                     EntityManager.addEntity(test);
                     //TODO: Make this be added to the entity list somehow
+                } else {
+
                 }
             }
 

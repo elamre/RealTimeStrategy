@@ -11,6 +11,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.rts.game.Assets;
 import com.rts.game.entities.EntityManager;
 import com.rts.game.entities.SelectableUnit;
+import com.rts.game.entities.TestEntity;
+import com.rts.game.hud.BuildingHUD;
 import com.rts.game.hud.HUD;
 import com.rts.game.pathfinding.Node;
 
@@ -24,30 +26,20 @@ import java.util.ArrayList;
  * To change this template use File | Settings | File Templates.
  */
 public class Player {
+    //Temporarily disables the selection for one click
+    public static boolean preserveSelection;
     public String name;
-    Polygon polygon;
+    public UnitSelection selection;
     boolean runningSelection = false;
-    BuildingButtons buildingButtons;
     private HUD hud;
-    private Sprite hudBuildBar;
     private boolean rightPressed = false;
     private Vector2 selectionStart;
     private Vector2 selectionEnd;
-
-    public UnitSelection selection;
-
-    //Temporarily disables the selection for one click
-    public static boolean preserveSelection;
 
     public void create() {
         hud = new HUD();
         selectionStart = new Vector2(0, 0);
         selectionEnd = new Vector2(0, 0);
-        hudBuildBar = Assets.getAssets().getSprite("UI/build_hud");
-        hudBuildBar.flip(false, true);
-
-        hudBuildBar.setPosition(0, Gdx.graphics.getHeight() - hudBuildBar.getHeight());
-        buildingButtons = new BuildingButtons(0, (int) (Gdx.graphics.getHeight() - hudBuildBar.getHeight()));
 
         selection = new UnitSelection();
 
@@ -93,6 +85,9 @@ public class Player {
                 if (n != null) {
                     n.debug();
                     if (n.standing != null && !selection.contains(n.standing)) {
+                        if (n.standing instanceof TestEntity) {
+                            hud.setSelection(BuildingHUD.ButtonSet.WORKER);
+                        }
                         selection.add(n.standing);
                         ((SelectableUnit) n.standing).setSelected(true);
                     }
@@ -148,62 +143,6 @@ public class Player {
     }
 
     private void drawHUD() {
-
-        Camera.makeHUDBatch();
-        //hudBuildBar.draw(Camera.batch);
-        //buildingButtons.draw(Camera.batch);
-        Camera.makeWorldBatch();
         hud.draw();
-    }
-
-    class Resources {
-        int food, wood, gold, stone;
-
-        public void draw(SpriteBatch spriteBatch) {
-
-        }
-    }
-
-    class BuildingButtons {
-        private ArrayList<BuildingButton> buildingButtons = new ArrayList<BuildingButton>();
-
-        /**
-         * Constructor for the buildingbuttons initialisation. Position should be relative to that of the build bar
-         *
-         * @param x the x the buildbar is positioned at
-         * @param y the y the buildbar is positioned at
-         */
-        BuildingButtons(int x, int y) {
-            buildingButtons.add(new BuildingButton(1, Assets.getAssets().getSprite("UI/house_button"), x + 10, y + 10, "House"));
-        }
-
-        public void draw(SpriteBatch spriteBatch) {
-            for (int i = 0, l = buildingButtons.size(); i < l; i++) {
-                buildingButtons.get(i).draw(spriteBatch);
-            }
-        }
-
-        public int getEntityType(int x, int y) {
-            //if can build
-            return -1;
-        }
-
-        class BuildingButton {
-            int entityType = 0;
-            Sprite sprite;
-            String name;
-
-            BuildingButton(int entityType, Sprite sprite, int x, int y, String name) {
-                this.entityType = entityType;
-                this.sprite = sprite;
-                sprite.flip(false, true);
-                this.name = name;
-                sprite.setPosition(x, y);
-            }
-
-            public void draw(SpriteBatch spriteBatch) {
-                sprite.draw(spriteBatch);
-            }
-        }
     }
 }

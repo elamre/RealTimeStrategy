@@ -21,9 +21,10 @@ public class TestBuilding extends SelectableUnit {
     }
 
     public TestBuilding(EntityCreation entityCreation) {
-       // super(entityCreation, Assets.getAssets().getTextureRegion("Buildings/building_house"), 1, 0.1f);
-        super(entityCreation, Assets.getAssets().getTextureRegion("Buildings/building_house"));
-
+        // super(entityCreation, Assets.getAssets().getTextureRegion("Buildings/building_house"), 1, 0.1f);
+        super(entityCreation, Assets.getAssets().getTextureRegion("Buildings/house"));
+        setWidth(2f);
+        setHeight(2f);
 
     }
 
