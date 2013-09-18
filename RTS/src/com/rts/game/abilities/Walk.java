@@ -45,27 +45,25 @@ public class Walk extends TargetedAbility {
     public Node nextNode;
     //The square currently being attempted to be occupied
     public Node currentSquare;
-    /* The angle the entity is walking in */
-    float angle = 0f;
-
-    boolean persist;
-
     public float dx;
     public float dy;
+    /* The angle the entity is walking in */
+    float angle = 0f;
+    boolean persist;
 
     //TODO: Make walk follow friendly units
     //TODO: Change JPS so that it will return the path that leads to the closest valid point if target is invalid
     //TODO: Make current square considered to be filled to other units pathfinding
 
-    @Override
-    public void draw() {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
     public Walk(Unit owner) {
         super(owner);
         key = Input.Keys.Z;
         range = 9999999;
+    }
+
+    @Override
+    public void draw() {
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 
     public void updatePath(int x, int y) {
@@ -104,12 +102,12 @@ public class Walk extends TargetedAbility {
                     + Math.abs(dx * deltaT * ((MovingUnit) owner).speed) + Math.abs(dy * deltaT * ((MovingUnit) owner).speed)
                     >= getDistance(nextNode.getCenterX(), nextNode.getCenterY(), path.get(nodePos - 1).getCenterX(), path.get(nodePos - 1).getCenterY())) {
 
+                owner.setX(nextNode.getCenterX());
+                owner.setY(nextNode.getCenterY());
 
                 if (nodePos < path.size() - 1) {
                     nodePos++;
 
-                    owner.setX(nextNode.getCenterX());
-                    owner.setY(nextNode.getCenterY());
 
                     nextNode = path.get(nodePos);
                     updateDeltaSpeed();
@@ -121,18 +119,76 @@ public class Walk extends TargetedAbility {
                     finalDest = null;
                     path = null;
 
-                    owner.setX(nextNode.getCenterX());
-                    owner.setY(nextNode.getCenterY());
-
-
                 }
             }
 
-            setCurrentSquare();
+            if (finalDest != null) {
 
-            owner.setX(owner.getX() + dx * deltaT);
-            owner.setY(owner.getY() + dy * deltaT);
+
+                Node nextTick = World.nodeAt(owner.getX() + dx * deltaT, owner.getY() + dy * deltaT);
+                boolean isValid = false;
+                boolean isFindNewPath = false;
+
+                System.out.println("-------------------------------");
+
+                System.out.println("Next tick entity: " + nextTick.standing);
+                System.out.println("This: " + currentSquare.standing);
+                System.out.println("This node: " + currentSquare);
+                System.out.println("Next Tick Node: " + nextTick);
+
+                System.out.println("-------------------------------");
+
+
+                System.out.println(finalDest);
+
+                //If isValid is true, move.
+                //If isValid is false, but isFindNewPath is also false, wait until the other unit moves.
+                //If isFindNewPath is true, the current path is not working. Find a new one.
+
+                if (currentSquare != nextTick) {
+
+                    if (!nextTick.isPass()) {
+                        //If the next node is impassible, find a new path and set to invalid.
+                        isValid = false;
+                        isFindNewPath = true;
+                    } else if (nextTick.standing == null) {
+                        //If the next node has no standing
+                        isValid = true;
+                    } else {
+                        if (nextTick.standing instanceof MovingUnit) {
+                            //If the next node has a movingUnit
+                            if (((MovingUnit) nextTick.standing).walker.dx != 0 &&
+                                    ((MovingUnit) nextTick.standing).walker.dy != 0) {
+                                //And the unit has a non-zero movement pattern
+                                isValid = true;
+                            } else {
+                                //Else if the unit has a zero movement pattern, find a new path
+                                isFindNewPath = true;
+                                isValid = false;
+                            }
+                        }
+                    }
+                } else {
+                    isValid = true;
+                }
+
+
+                if (isValid) {
+                    owner.setX(owner.getX() + dx * deltaT);
+                    owner.setY(owner.getY() + dy * deltaT);
+
+                } else if (isFindNewPath) {
+                    updatePath(finalDest.getX(), finalDest.getY());
+                }
+
+
+            }
         }
+
+
+        setCurrentSquare();
+
+
     }
 
     public void setCurrentSquare() {
