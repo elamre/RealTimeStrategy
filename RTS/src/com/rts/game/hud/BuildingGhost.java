@@ -1,5 +1,6 @@
 package com.rts.game.hud;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.rts.game.entities.Entity;
@@ -16,38 +17,31 @@ import java.lang.reflect.InvocationTargetException;
  * Time: 8:28 PM
  * To change this template use File | Settings | File Templates.
  */
-public class BuildingGhost extends Entity {
-
+public class BuildingGhost {
+    public EntityCreation position;
     Sprite sprite;
+    Color color;
+    private int width, height;
 
     public BuildingGhost() {
-        super();
+        color = new Color();
+        position = new EntityCreation();
     }
 
-    public BuildingGhost(int x, int y) {
-        super(x, y);
-    }
-
-    @Override
-    public void onCreate() {
-    }
-
-    @Override
-    public void implementUpdate_1(float deltaT) {
-        x = (int) Camera.getRealWorldX();
-        y = (int) Camera.getRealWorldY();
-    }
-
-    @Override
-    public void implementDraw_1(SpriteBatch spriteBatch) {
-
+    public void update(float deltaT) {
+        position.x = (int) Camera.getRealWorldX();
+        position.y = (int) Camera.getRealWorldY();
+        sprite.setPosition(position.x, position.y);
     }
 
     public void draw(SpriteBatch spriteBatch) {
-        spriteBatch.draw(sprite, x - width / 2, y - height / 2, width / 2, height / 2, width, height, 1, 1, angle);
+        spriteBatch.setColor(color);
+        spriteBatch.draw(sprite, position.x - width / 2, position.y - height / 2, width / 2, height / 2, width, height, 1, 1, 0);
+        spriteBatch.setColor(1, 1, 1, 1);
     }
 
     public void changeEntity(int newEntityId) {
+        position.entityType = newEntityId;
         Entity spriteEntity = null;
         try {
             spriteEntity = EntityList.getEntity(newEntityId).getConstructor(EntityCreation.class).newInstance(new EntityCreation());
@@ -60,17 +54,33 @@ public class BuildingGhost extends Entity {
         } catch (NoSuchMethodException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
-        height = 1;
-        width = 1;
         sprite = new Sprite(spriteEntity.getTextureRegion());
-        sprite.setColor(sprite.getColor().r, sprite.getColor().g, sprite.getColor().b, .3f);
+        sprite.setColor(1f, 1f, .5f, .3f);
     }
 
     public void setUnable() {
-        sprite.setColor(1f, 0.5f, 0.5f, 0.3f);
+        color.set(1f, 0.5f, 0.5f, 0.8f);
     }
 
     public void setPossible() {
-        sprite.setColor(1f, 1f, 1f, 0.3f);
+        color.set(1f, 1f, 1f, 0.8f);
+    }
+
+    public void setWidth(int width) {
+        sprite.setScale(width, sprite.getScaleY());
+        this.width = width;
+    }
+
+    public void setHeight(int height) {
+        sprite.setScale(sprite.getScaleX(), height);
+        this.height = height;
+    }
+
+    public void setScale(int width, int height) {
+        sprite.setScale(0.08f);
+        sprite.setOrigin(width / 2, height / 2);
+        this.width = width;
+        this.height = height;
+
     }
 }

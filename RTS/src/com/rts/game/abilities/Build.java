@@ -8,6 +8,7 @@ import com.rts.game.entities.TestBuilding;
 import com.rts.game.entities.Unit;
 import com.rts.game.gameplay.Camera;
 import com.rts.game.hud.BuildingGhost;
+import com.rts.networking.mutual.packets.EntityCreation;
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,29 +18,29 @@ import com.rts.game.hud.BuildingGhost;
  * To change this template use File | Settings | File Templates.
  */
 public class Build extends TargetedAbility {
-
     BuildingGhost ghost;
     boolean[][] spacearray = new boolean[][]{
-
-            {false, false, false, false},
-            {true, true, true, false},
-            {true, true, true, false},
-            {false, false, false, false}
+            {true, true},
+            {true, true}
     };
 
     public Build(Unit owner) {
         super(owner);
+        //System.out.println("Building with owner id: " + owner.getId());
         key = Input.Keys.M;
-        ghost = new BuildingGhost(0, 0);
+        ghost = new BuildingGhost();
         ghost.changeEntity(EntityList.getEntityType(new TestBuilding()));
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 
     @Override
     public void update_1(float delta) {
         ghost.update(delta);
-        ghost.setWidth(spacearray.length);
-        ghost.setHeight(spacearray[0].length);
-        TestBuilding test = new TestBuilding((int) ghost.getX(), (int) ghost.getY());
+        ghost.setScale(spacearray.length, spacearray[0].length);
+        TestBuilding test = new TestBuilding(ghost.position);
         BuildingSpace bspace = new BuildingSpace(test);
         bspace.loadSpace(spacearray);
         if (bspace.isCreatable()) {
@@ -47,23 +48,13 @@ public class Build extends TargetedAbility {
         } else {
             ghost.setUnable();
         }
-
         if (requestClick || waitForNextClick) {
-            //ghost.update(delta);
-            //ghost.setWidth(spacearray.length);
-            //ghost.setHeight(spacearray[0].length);
             if (Gdx.input.isButtonPressed(Input.Buttons.LEFT) && requestClick) {
                 removeCursorUse();
-
-                System.out.println("Attempting building place");
-
-
-                bspace.loadSpace(spacearray);
                 if (bspace.isCreatable()) {
                     bspace.create();
                     test.abilities.add(bspace);
                     EntityManager.addEntity(test);
-                    //TODO: Make this be added to the entity list somehow
                 } else {
 
                 }

@@ -44,6 +44,7 @@ public abstract class Entity {
 
     //USE THIS ONLY FOR SENDING NETWORK DETAILS!
     public Entity(int x, int y) {
+        System.out.println("Sending something");
         this.entityType = EntityList.getEntityType(this);
         this.id = -1;
         this.x = x;
@@ -84,8 +85,10 @@ public abstract class Entity {
     }
 
     public int getEntityType() {
-        if (entityType == 0)
+        if (entityType == 0) {
             entityType = EntityList.getEntityType(this);
+            System.out.println("entityType = 0");
+        }
         return entityType;
     }
 
@@ -121,9 +124,9 @@ public abstract class Entity {
             }
             if (textureRegion != null) {
                 spriteBatch.draw(textureRegion, x + (1 - width), y + (1 - height), width / 2, height / 2, width, height, 1, 1, angle);
-                //spriteBatch.draw(textureRegion, x - (1 - width) * 2, y - (1 - height) * 2, width / 2, height / 2, width, height, 1, 1, angle);
-            } else {
-                Logger.getInstance().debug("Sprite region is null");
+                spriteBatch.setColor(.5f, .5f, .5f, .5f);
+                spriteBatch.draw(textureRegion, x - (1 - width) * 2, y - (1 - height) * 2, width / 2, height / 2, width, height, 1, 1, angle);
+                spriteBatch.setColor(1, 1, 1, 1);
             }
         }
     }
@@ -172,8 +175,6 @@ public abstract class Entity {
 
     protected void setTextureRegion(TextureRegion textureRegion) {
         this.textureRegion = textureRegion;
-        //this.width = textureRegion.getRegionWidth();
-        //this.height = textureRegion.getRegionHeight();
         this.width = 0.8f;
         this.height = 0.8f;
     }

@@ -22,7 +22,6 @@ public class EntityList {
     private static HashMap<Integer, Class<? extends Entity>> typeToEntity = new HashMap<Integer, Class<? extends Entity>>();
 
     public static void register() {
-        registerEntity(new BuildingGhost());
         registerEntity(new TestEntity());
         registerEntity(new TestBuilding());
         //TODO add all the units here. Maybe load them from XML?
@@ -46,7 +45,7 @@ public class EntityList {
     }
 
     public static int getEntityType(Entity entity) {
-        System.out.println(entity.getClass().toString());
+        System.out.println("Retrieving id for class: " + entity.getClass().toString());
         if (!entityToType.containsKey(entity.getClass())) {
             System.out.println("Entity isnt registered");
             return 0;
