@@ -66,7 +66,8 @@ public class BuildingSpace extends Ability {
 
             for (int y = 0; y < width; y++) {
                 int y2 = (int) owner.getY() - width / 2 + y;
-
+                if (x2 < 0 || y2 < 0)
+                    return false;
                 if (space[x][y] == true) {
                     if (World.jps.grid.grid[x2][y2].standing != null || !World.jps.grid.grid[x2][y2].isPass()) {
                         canCreate = false;

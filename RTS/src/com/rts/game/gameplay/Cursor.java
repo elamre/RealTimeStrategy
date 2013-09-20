@@ -20,14 +20,14 @@ public class Cursor {
     public static Ability abilityRequesting = null;
 
     public static void create() {
-        sprite = new Sprite(Assets.getAssets().getTextureRegion("Special/mouse"));
+        sprite = new Sprite(Assets.getAssets().getTextureRegion("mouse"));
         sprite.setSize(World.getChunkSize(), World.getChunkSize());
         sprite.setOrigin(0, 0);
         sprite.flip(false, true);
 
 
         spriteAbilityUse = new Sprite();
-        spriteAbilityUse = new Sprite(Assets.getAssets().getTextureRegion("UI/button"));
+        spriteAbilityUse = new Sprite(Assets.getAssets().getTextureRegion("button"));
         spriteAbilityUse.setSize(World.getChunkSize(), World.getChunkSize());
         spriteAbilityUse.setOrigin(0, 0);
         spriteAbilityUse.flip(false, true);

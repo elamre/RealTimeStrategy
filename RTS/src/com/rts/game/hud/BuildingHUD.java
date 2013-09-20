@@ -30,40 +30,40 @@ public class BuildingHUD {
     private Sprite hudBuildBar;
 
     BuildingHUD() {
-        hudBuildBar = Assets.getAssets().getSprite("UI/build_hud");
+        hudBuildBar = Assets.getAssets().getSprite("HUD");
         hudBuildBar.flip(false, true);
 
         hudBuildBar.setPosition(0, Gdx.graphics.getHeight() - hudBuildBar.getHeight());
-        build = new BuildingHUDButton(10, 10 + (int) hudBuildBar.getY(), Assets.getAssets().getSprite("UI/build_button"), "Build", true, View.GENERAL, new ButtonAble() {
+        build = new BuildingHUDButton(10, 12 + (int) hudBuildBar.getY(), Assets.getAssets().getSprite("build_button"), "Build", true, View.GENERAL, new ButtonAble() {
             @Override
             public void action() {
                 currentView = View.BUILDINGS;
             }
         });
-        move = new BuildingHUDButton(50, 10 + (int) hudBuildBar.getY(), Assets.getAssets().getSprite("UI/move_button"), "Move", true, View.GENERAL, new ButtonAble() {
+        move = new BuildingHUDButton(52, 12 + (int) hudBuildBar.getY(), Assets.getAssets().getSprite("move_button"), "Move", true, View.GENERAL, new ButtonAble() {
             @Override
             public void action() {
                 //move
             }
         });
-        deselect = new BuildingHUDButton(90, 10 + (int) hudBuildBar.getY(), Assets.getAssets().getSprite("UI/cancel_button"), "Deselect", true, View.GENERAL, new ButtonAble() {
+        deselect = new BuildingHUDButton(94, 12 + (int) hudBuildBar.getY(), Assets.getAssets().getSprite("cancel_button"), "Deselect", true, View.GENERAL, new ButtonAble() {
             @Override
             public void action() {
                 //move
             }
         });
-        cancel = new BuildingHUDButton(170, 80 + (int) hudBuildBar.getY(), Assets.getAssets().getSprite("UI/cancel_button"), "Move", true, View.BUILDINGS, new ButtonAble() {
+        cancel = new BuildingHUDButton(178, 96 + (int) hudBuildBar.getY(), Assets.getAssets().getSprite("cancel_button"), "Move", true, View.BUILDINGS, new ButtonAble() {
             @Override
             public void action() {
                 currentView = View.GENERAL;
             }
         });
-        houseButton = new BuildingButton(10, 10 + (int) hudBuildBar.getY(), Assets.getAssets().getSprite("UI/house_button"), EntityList.getEntityType(new TestBuilding()), "HOUSE", View.BUILDINGS);
-        archeryButton = new BuildingButton(50, 10 + (int) hudBuildBar.getY(), Assets.getAssets().getSprite("UI/archery_button"), 0, "HOUSE", View.BUILDINGS);
-        castleButton = new BuildingButton(90, 10 + (int) hudBuildBar.getY(), Assets.getAssets().getSprite("UI/castle_button"), 0, "HOUSE", View.BUILDINGS);
-        towerButton = new BuildingButton(130, 10 + (int) hudBuildBar.getY(), Assets.getAssets().getSprite("UI/tower_button"), 0, "HOUSE", View.BUILDINGS);
-        citycenterButton = new BuildingButton(170, 10 + (int) hudBuildBar.getY(), Assets.getAssets().getSprite("UI/citycenter_button"), 0, "HOUSE", View.BUILDINGS);
-        sawmillButton = new BuildingButton(10, 50 + (int) hudBuildBar.getY(), Assets.getAssets().getSprite("UI/sawmill_button"), 0, "HOUSE", View.BUILDINGS);
+        houseButton = new BuildingButton(10, 12 + (int) hudBuildBar.getY(), Assets.getAssets().getSprite("house_button"), EntityList.getEntityType(new TestBuilding()), "HOUSE", View.BUILDINGS);
+        archeryButton = new BuildingButton(52, 12 + (int) hudBuildBar.getY(), Assets.getAssets().getSprite("archery_button"), 0, "HOUSE", View.BUILDINGS);
+        castleButton = new BuildingButton(94, 12 + (int) hudBuildBar.getY(), Assets.getAssets().getSprite("castle_button"), 0, "HOUSE", View.BUILDINGS);
+        towerButton = new BuildingButton(136, 12 + (int) hudBuildBar.getY(), Assets.getAssets().getSprite("tower_button"), 0, "HOUSE", View.BUILDINGS);
+        citycenterButton = new BuildingButton(178, 12 + (int) hudBuildBar.getY(), Assets.getAssets().getSprite("citycenter_button"), 0, "HOUSE", View.BUILDINGS);
+        sawmillButton = new BuildingButton(10, 54 + (int) hudBuildBar.getY(), Assets.getAssets().getSprite("sawmill_button"), 0, "HOUSE", View.BUILDINGS);
     }
 
     private void switchView() {

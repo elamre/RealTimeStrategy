@@ -43,9 +43,9 @@ public abstract class SelectableUnit extends Unit {
 
     @Override
     public void onCreate() {
-        selectionSprite = Assets.getAssets().getSprite("Special/selection");
-        selectionSprite.setColor(1f, 0f, 0f, 1f);
+        selectionSprite = Assets.getAssets().getSprite("selection");
         selectionSprite.setPosition(x, y);
+        selectionSprite.setScale(0.8f, 0.8f);
         onCreate_1();
     }
 
@@ -60,7 +60,7 @@ public abstract class SelectableUnit extends Unit {
 
     @Override
     public void implementDraw_2(SpriteBatch spriteBatch) {
-        //selectionSprite.draw(spriteBatch);
+        selectionSprite.draw(spriteBatch);
         implementDraw_3(spriteBatch);
     }
 

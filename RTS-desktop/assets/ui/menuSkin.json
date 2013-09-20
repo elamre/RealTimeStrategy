@@ -20,9 +20,9 @@
 		large:   { font: white64 }
 	},
 	com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
-		default: { font: white32, up: UI/button, pressedOffsetX: 1, pressedOffsetY: -1 },
-		small:   { font: white16, up: UI/button, pressedOffsetX: 1, pressedOffsetY: -1 },
-		large:   { font: white64, up: UI/button, pressedOffsetX: 1, pressedOffsetY: -1 }
+		default: { font: white32, up: button, pressedOffsetX: 1, pressedOffsetY: -1 },
+		small:   { font: white16, up: button, pressedOffsetX: 1, pressedOffsetY: -1 },
+		large:   { font: white64, up: button, pressedOffsetX: 1, pressedOffsetY: -1 }
 	},
 	com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
 		default: { font: white32, fontColor: white, messageFontColor: yellow },

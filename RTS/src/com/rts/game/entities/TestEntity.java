@@ -23,7 +23,7 @@ public class TestEntity extends MovingUnit {
     }
 
     public TestEntity(EntityCreation entityCreation) {
-        super(entityCreation, Assets.getAssets().getTextureRegion("Units/worker_wood"), 4, 0.1f);
+        super(entityCreation, Assets.getAssets().getTextureRegion("worker_wood"), 4, 0.1f);
         abilities.add(new Blink(this));
         abilities.add(new Build(this));
     }

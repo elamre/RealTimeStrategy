@@ -32,7 +32,7 @@ public class Chunk {
 /*
         sprite = new Sprite();
 */
-        texture = Assets.getAssets().getTextureRegion("Map/grass");
+        texture = Assets.getAssets().getTextureRegion("grass");
 /*
         texture = "Images/Environment/Grass.png";
         Texture tex = new Texture(Gdx.files.internal(texture));
@@ -42,7 +42,7 @@ public class Chunk {
         TextureRegion region = new TextureRegion(tex, 0, 0, 256, 256);
 */
 
-/*        sprite = new Sprite(Assets.getAssets().getSprite("Map/grass"));
+/*        sprite = new Sprite(Assets.getAssets().getSprite("/grass"));
         sprite.setOrigin(0, 0);
         sprite.setPosition(x, y);*/
     }

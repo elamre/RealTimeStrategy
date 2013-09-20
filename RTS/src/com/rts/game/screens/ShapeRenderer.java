@@ -17,7 +17,7 @@ public class ShapeRenderer {
     private static Color color;
 
     static {
-        rectangle = Assets.getAssets().getSprite("UI/button");
+        rectangle = Assets.getAssets().getSprite("button");
         setColor(Color.BLACK);
     }
 

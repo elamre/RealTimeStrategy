@@ -183,6 +183,7 @@ public abstract class Entity {
         return "id: " + this.id + " [" + (int) getX() + "," + (int) getY() + "] size: [" + width + "," + height + "]";
     }
 
+
     public EntityPosChange getMovePacket() {
         return null;
     }

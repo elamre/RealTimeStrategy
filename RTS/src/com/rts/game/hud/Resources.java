@@ -25,7 +25,7 @@ public class Resources {
     private ArrayList<Resource> resources = new ArrayList<Resource>();
 
     Resources() {
-        resourceBar = Assets.getAssets().getSprite("UI/resources_hud");
+        resourceBar = Assets.getAssets().getSprite("resources_hud");
         resourceBar.flip(false, true);
         bitmapFont = new BitmapFont(true);
         wood = new Resource("Wood", 70, 10, 100);

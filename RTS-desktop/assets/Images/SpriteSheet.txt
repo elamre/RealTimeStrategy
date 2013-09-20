@@ -2,310 +2,317 @@ SpriteSheet.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-UI/archery_button
+archery_button
   rotate: false
-  xy: 340, 2
+  xy: 562, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-Special/mouse
+mouse
   rotate: false
-  xy: 661, 124
+  xy: 890, 144
   size: 17, 17
   orig: 17, 17
   offset: 0, 0
   index: -1
-Map/Tileset
+Tileset
   rotate: false
-  xy: 2, 2
+  xy: 224, 2
   size: 144, 64
   orig: 144, 64
   offset: 0, 0
   index: -1
-UI/castle_button
+castle_button
   rotate: false
-  xy: 984, 2
+  xy: 197, 144
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-UI/citycenter_button
+citycenter_button
   rotate: false
-  xy: 269, 124
+  xy: 498, 144
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-UI/sawmill_button
+sawmill_button
   rotate: false
-  xy: 738, 244
+  xy: 738, 264
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-Map/bush
+bush
   rotate: false
-  xy: 770, 2
+  xy: 992, 2
   size: 17, 18
   orig: 17, 18
   offset: 0, 0
   index: -1
-UI/tower_button
+tower_button
   rotate: false
-  xy: 938, 244
+  xy: 938, 264
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-UI/house_button
+house_button
   rotate: false
-  xy: 539, 124
+  xy: 768, 144
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-Special/arrow
+arrow
   rotate: false
-  xy: 476, 2
+  xy: 698, 2
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
-Shadows/citycenter_shadow
+citycenter_shadow
   rotate: false
-  xy: 303, 124
+  xy: 532, 144
   size: 112, 80
   orig: 112, 80
   offset: 0, 0
   index: -1
-Shadows/archery_shadow
+archery_shadow
   rotate: false
-  xy: 374, 2
+  xy: 596, 2
   size: 100, 72
   orig: 100, 72
   offset: 0, 0
   index: -1
-Buildings/tower
+tower
   rotate: false
-  xy: 904, 244
+  xy: 904, 264
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-UI/build_button
+build_button
   rotate: false
-  xy: 494, 2
+  xy: 716, 2
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-Special/selection
+selection
   rotate: false
-  xy: 856, 244
+  xy: 856, 264
   size: 24, 24
   orig: 24, 24
   offset: 0, 0
   index: -1
-Buildings/sawmill
+sawmill
   rotate: false
-  xy: 644, 244
+  xy: 644, 264
   size: 92, 64
   orig: 92, 64
   offset: 0, 0
   index: -1
-Units/worker_wood
+worker_wood
   rotate: false
-  xy: 448, 310
+  xy: 448, 330
   size: 96, 24
   orig: 96, 24
   offset: 0, 0
   index: -1
-UI/move_button
+move_button
   rotate: false
-  xy: 680, 124
+  xy: 909, 144
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-Special/iron
+iron
   rotate: false
-  xy: 639, 124
+  xy: 868, 144
   size: 20, 20
   orig: 20, 20
   offset: 0, 0
   index: -1
-Special/wood
+wood
   rotate: false
-  xy: 206, 310
+  xy: 206, 330
   size: 20, 20
   orig: 20, 20
   offset: 0, 0
   index: -1
-Buildings/citycenter
+citycenter
   rotate: false
-  xy: 171, 124
+  xy: 400, 144
   size: 96, 64
   orig: 96, 64
   offset: 0, 0
   index: -1
-Shadows/tower_shadow
+tower_shadow
   rotate: false
-  xy: 2, 310
+  xy: 2, 330
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-Units/worker_food
+worker_food
   rotate: false
-  xy: 350, 310
+  xy: 350, 330
   size: 96, 24
   orig: 96, 24
   offset: 0, 0
   index: -1
-Shadows/sawmill_shadow
+sawmill_shadow
   rotate: false
-  xy: 772, 244
+  xy: 772, 264
   size: 82, 64
   orig: 82, 64
   offset: 0, 0
   index: -1
-Special/stone
+stone
   rotate: false
-  xy: 882, 244
+  xy: 882, 264
   size: 20, 20
   orig: 20, 20
   offset: 0, 0
   index: -1
-Special/food
+food
   rotate: false
-  xy: 417, 124
+  xy: 646, 144
   size: 20, 20
   orig: 20, 20
   offset: 0, 0
   index: -1
-Shadows/tree_shadow
+tree_shadow
   rotate: false
-  xy: 112, 310
+  xy: 112, 330
   size: 66, 67
   orig: 66, 67
   offset: 0, 0
   index: -1
-Shadows/unit_shadow
+unit_shadow
   rotate: false
-  xy: 180, 310
+  xy: 180, 330
   size: 24, 24
   orig: 24, 24
   offset: 0, 0
   index: -1
-UI/build_hud
+HUD
   rotate: false
-  xy: 528, 2
+  xy: 2, 2
+  size: 220, 140
+  orig: 220, 140
+  offset: 0, 0
+  index: -1
+build_hud
+  rotate: false
+  xy: 750, 2
   size: 240, 120
   orig: 240, 120
   offset: 0, 0
   index: -1
-Shadows/castle_shadow
+castle_shadow
   rotate: false
-  xy: 2, 124
+  xy: 231, 144
   size: 141, 118
   orig: 141, 118
   offset: 0, 0
   index: -1
-UI/resources_hud
+resources_hud
   rotate: false
-  xy: 2, 244
+  xy: 2, 264
   size: 640, 32
   orig: 640, 32
   offset: 0, 0
   index: -1
-Buildings/house
+house
   rotate: false
-  xy: 495, 124
+  xy: 724, 144
   size: 42, 42
   orig: 42, 42
   offset: 0, 0
   index: -1
-UI/cancel_button
+cancel_button
   rotate: false
-  xy: 848, 2
+  xy: 61, 144
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-Units/archer_shooting
+archer_shooting
   rotate: false
-  xy: 148, 2
+  xy: 370, 2
   size: 96, 24
   orig: 96, 24
   offset: 0, 0
   index: -1
-Units/worker_empty
+worker_empty
   rotate: false
-  xy: 228, 310
+  xy: 228, 330
   size: 120, 24
   orig: 120, 24
   offset: 0, 0
   index: -1
-UI/button
+button
   rotate: false
-  xy: 814, 2
+  xy: 27, 144
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-Buildings/archery
+archery
   rotate: false
-  xy: 246, 2
+  xy: 468, 2
   size: 92, 64
   orig: 92, 64
   offset: 0, 0
   index: -1
-Buildings/castle
+castle
   rotate: false
-  xy: 882, 2
+  xy: 95, 144
   size: 100, 80
   orig: 100, 80
   offset: 0, 0
   index: -1
-Map/grass
+grass
   rotate: false
-  xy: 461, 124
+  xy: 690, 144
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-Units/cavalry
+cavalry
   rotate: false
-  xy: 145, 124
+  xy: 374, 144
   size: 24, 42
   orig: 24, 42
   offset: 0, 0
   index: -1
-Shadows/bush_shadow
+bush_shadow
   rotate: false
-  xy: 789, 2
+  xy: 2, 144
   size: 23, 23
   orig: 23, 23
   offset: 0, 0
   index: -1
-Shadows/house_shadow
+house_shadow
   rotate: false
-  xy: 573, 124
+  xy: 802, 144
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
-Map/tree
+tree
   rotate: false
-  xy: 68, 310
+  xy: 68, 330
   size: 42, 42
   orig: 42, 42
   offset: 0, 0
   index: -1
-Special/gold
+gold
   rotate: false
-  xy: 439, 124
+  xy: 668, 144
   size: 20, 20
   orig: 20, 20
   offset: 0, 0
