@@ -1,7 +1,6 @@
 package com.rts.game.pathfinding;
 
 import com.rts.game.entities.Entity;
-import com.rts.game.entities.MovingUnit;
 
 public class Node {
     int x;
@@ -45,11 +44,8 @@ public class Node {
 
     public boolean isPass() {
         if (treatInactiveEntitiesAsBlocked) {
-            if (standing instanceof MovingUnit) {
-                if (((MovingUnit) standing).walker.dx == 0 &&
-                        ((MovingUnit) standing).walker.dy == 0) {
-                    return false;
-                }
+            if (standing != null) {
+                return false;
             }
         }
 

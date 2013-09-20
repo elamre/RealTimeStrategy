@@ -70,10 +70,10 @@ public class Walk extends TargetedAbility {
 
         path = World.getPath((int) owner.getX(), (int) owner.getY(), x, y);
 
-        if (path.size() > 1) {
+        if (path.size() > 0) {
 
-            nodePos = 1;
-            nextNode = path.get(1);
+            nodePos = 0;
+            nextNode = path.get(0);
             finalDest = path.get(path.size() - 1);
 
             updateDeltaSpeed();
@@ -81,6 +81,27 @@ public class Walk extends TargetedAbility {
         }
 
         System.out.println("Set path to " + finalDest + ".");
+    }
+
+    private void updateNodes() {
+        owner.setX(nextNode.getCenterX());
+        owner.setY(nextNode.getCenterY());
+
+        if (nodePos < path.size() - 1) {
+            nodePos++;
+
+
+            nextNode = path.get(nodePos);
+            updateDeltaSpeed();
+
+        } else {
+            dx = 0;
+            dy = 0;
+
+            finalDest = null;
+            path = null;
+
+        }
     }
 
     @Override
@@ -98,29 +119,26 @@ public class Walk extends TargetedAbility {
 
             //If the distance from the owner to the last node plus their current movement speed is greater than the
             //Distance from the last node to the next node
-            if (getDistance(owner.getX(), owner.getY(), path.get(nodePos - 1).getCenterX(), path.get(nodePos - 1).getCenterY())
-                    + Math.abs(dx * deltaT * ((MovingUnit) owner).speed) + Math.abs(dy * deltaT * ((MovingUnit) owner).speed)
-                    >= getDistance(nextNode.getCenterX(), nextNode.getCenterY(), path.get(nodePos - 1).getCenterX(), path.get(nodePos - 1).getCenterY())) {
+            if (nodePos > 0) {
+                if (getDistance(owner.getX(), owner.getY(), path.get(nodePos - 1).getCenterX(), path.get(nodePos - 1).getCenterY())
+                        //+ Math.abs(dx * deltaT * ((MovingUnit) owner).speed) + Math.abs(dy * deltaT * ((MovingUnit) owner).speed)
+                        + (deltaT * ((MovingUnit) owner).speed)
+                        >= getDistance(nextNode.getCenterX(), nextNode.getCenterY(), path.get(nodePos - 1).getCenterX(), path.get(nodePos - 1).getCenterY())) {
 
-                owner.setX(nextNode.getCenterX());
-                owner.setY(nextNode.getCenterY());
-
-                if (nodePos < path.size() - 1) {
-                    nodePos++;
-
-
-                    nextNode = path.get(nodePos);
-                    updateDeltaSpeed();
-
-                } else {
-                    dx = 0;
-                    dy = 0;
-
-                    finalDest = null;
-                    path = null;
+                    updateNodes();
 
                 }
+
+            } else {
+
+                if (getDistance(owner.getX(), owner.getY(), path.get(nodePos).getCenterX(), path.get(nodePos).getCenterY()) <=
+                        2 * deltaT * ((MovingUnit) owner).speed) {
+
+                    updateNodes();
+                }
+
             }
+
 
             if (finalDest != null) {
 
@@ -128,18 +146,6 @@ public class Walk extends TargetedAbility {
                 Node nextTick = World.nodeAt(owner.getX() + dx * deltaT, owner.getY() + dy * deltaT);
                 boolean isValid = false;
                 boolean isFindNewPath = false;
-
-                System.out.println("-------------------------------");
-
-                System.out.println("Next tick entity: " + nextTick.standing);
-                System.out.println("This: " + currentSquare.standing);
-                System.out.println("This node: " + currentSquare);
-                System.out.println("Next Tick Node: " + nextTick);
-
-                System.out.println("-------------------------------");
-
-
-                System.out.println(finalDest);
 
                 //If isValid is true, move.
                 //If isValid is false, but isFindNewPath is also false, wait until the other unit moves.
@@ -178,6 +184,20 @@ public class Walk extends TargetedAbility {
                     owner.setY(owner.getY() + dy * deltaT);
 
                 } else if (isFindNewPath) {
+
+
+                    System.out.println("-------------------------------");
+
+                    System.out.println("Next tick entity: " + nextTick.standing);
+                    System.out.println("This: " + currentSquare.standing);
+                    System.out.println("This node: " + currentSquare);
+                    System.out.println("Next Tick Node: " + nextTick);
+
+                    System.out.println("-------------------------------");
+
+
+                    System.out.println(finalDest);
+
                     updatePath(finalDest.getX(), finalDest.getY());
                 }
 
