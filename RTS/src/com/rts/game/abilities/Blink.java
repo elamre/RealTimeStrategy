@@ -17,7 +17,6 @@ public class Blink extends TargetedAbility {
 
     @Override
     public void draw() {
-        //To change body of implemented methods use File | Settings | File Templates.
     }
 
     public Blink(Unit owner) {

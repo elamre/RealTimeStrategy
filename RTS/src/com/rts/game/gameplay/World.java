@@ -4,6 +4,8 @@ package com.rts.game.gameplay;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
+import com.rts.game.entities.EntityManager;
+import com.rts.game.entities.Tree;
 import com.rts.game.pathfinding.JumpPoint;
 import com.rts.game.pathfinding.Node;
 import com.rts.game.pathfinding.PathSmoother;
@@ -106,9 +108,10 @@ public class World {
 
         for (int x = 0; x < jps.grid.grid.length; x++) {
             for (int y = 0; y < jps.grid.grid[0].length; y++) {
-                if (rand.nextInt(10) == 0)
-                    jps.grid.grid[x][y].setPassable(false);
-                else {
+                if (rand.nextInt(10) == 0) {
+                    EntityManager.addEntity(new Tree(x, y));
+                } else {
+
                     jps.grid.grid[x][y].setPassable(true);
                 }
             }

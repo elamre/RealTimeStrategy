@@ -1,7 +1,5 @@
 package com.rts.game.entities;
 
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.rts.game.hud.BuildingGhost;
 import com.rts.util.Logger;
 
 import java.util.HashMap;
@@ -24,6 +22,7 @@ public class EntityList {
     public static void register() {
         registerEntity(new TestEntity());
         registerEntity(new TestBuilding());
+        registerEntity(new Tree());
         //TODO add all the units here. Maybe load them from XML?
     }
 

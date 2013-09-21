@@ -5,8 +5,6 @@ import com.rts.game.entities.Entity;
 public class Node {
     int x;
 
-    public static boolean treatInactiveEntitiesAsBlocked = true;
-
     public Entity standing;
 
     public int getY() {
@@ -43,10 +41,8 @@ public class Node {
     }
 
     public boolean isPass() {
-        if (treatInactiveEntitiesAsBlocked) {
-            if (standing != null) {
-                return false;
-            }
+        if (standing != null) {
+            return false;
         }
 
 
@@ -60,7 +56,7 @@ public class Node {
     int y;
     float g;
     float f;  //g = from start; f = distance from start and end
-    boolean pass;
+    private boolean pass;
     Node parent;
 
     public Node(int x, int y) {

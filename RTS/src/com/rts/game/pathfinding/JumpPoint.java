@@ -18,6 +18,7 @@ public class JumpPoint {
 
     //TODO: Fix bug where using the same X or Y in the start or end will miss a path
     //TODO: Improve paths returned on a failed tile
+    //TODO: Determine if node data reset is necessary
 
     /**
      * Initializer; sets up variables, creates reference grid and actual grid, gets start and end points, initiates search
@@ -47,6 +48,8 @@ public class JumpPoint {
             System.out.println("Target node invalid, using node at " + endX + ", " + endY);
         }
 
+        ArrayList<Node> toRest = new ArrayList<Node>(128);
+
         long timeStart = System.currentTimeMillis();
 
         Node backup = grid.getNode(startX, startY);
@@ -60,6 +63,7 @@ public class JumpPoint {
         grid.heapAdd(grid.getNode(startX, startY));  //Start node is added to the heap
         while (true) {
             Node cur = grid.heapPopNode();
+            toRest.add(cur);
             if (cur.x == endX && cur.y == endY) {        //if the end node is found
                 System.out.println("Path Found!");  //print "Path Found!"
                 ArrayList<Node> trail = grid.reversePath(cur, startX, startY);
@@ -73,12 +77,15 @@ public class JumpPoint {
 
                 System.out.println("----------------");
 
+                resetOldNodes(toRest);
+
                 return trail;
             }
             Node[] possibleSuccess1 = identifySuccessors(cur);
             for (Node possibleSuccess : possibleSuccess1) {     //for each one of them
                 if (possibleSuccess != null) {                //if it is not null
                     grid.heapAdd(possibleSuccess);        //add it to the heap for later use (a possible future cur)
+                    toRest.add(possibleSuccess);
                 }
             }
 
@@ -94,14 +101,25 @@ public class JumpPoint {
                     break;                                        //loop is done
                 else {
                     //Return backup if needed
+
+                    resetOldNodes(toRest);
+
                     return grid.reversePath(backup, startX, startY);
                 }
             }
         }
 
+        resetOldNodes(toRest);
+
 
         return null;
 
+    }
+
+    public void resetOldNodes(ArrayList<Node> toRest) {
+        for (Node n : toRest) {
+            n.update(0, 0, null);
+        }
     }
 
     protected float getDistance(float x, float y, float x2, float y2) {
@@ -120,9 +138,14 @@ public class JumpPoint {
         for (int i = 0; i < neighbors.length; i++) { //for each of these neighbors
             int[] tmpXY = jump(neighbors[i][0], neighbors[i][1], node.x, node.y);
             if (tmpXY[0] != -1) {                                //if that point is not null( {-1,-1} )
+
+
                 int x = tmpXY[0];
                 int y = tmpXY[1];
+
                 float ng = Heuristic.get(Math.abs(x - node.x), Math.abs(y - node.y)) + node.g;
+
+
                 if (grid.getNode(x, y).f <= 0 || grid.getNode(x, y).g > ng) {  //if this node is not already found, or we have a shorter distance from the current node
                     grid.getNode(x, y).update(ng, Heuristic.get(Math.abs(x - endX), Math.abs(y - endY)), node); //then update the rest of it
                     successors[i] = grid.getNode(x, y);  //add this node to the successors list to be returned

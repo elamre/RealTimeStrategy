@@ -188,7 +188,7 @@ public class Grid {
      */
     public boolean walkable(int x, int y) {
         try {
-            return getNode(x, y).pass;
+            return getNode(x, y).isPass();
         } catch (Exception e) {
             return false;
         }

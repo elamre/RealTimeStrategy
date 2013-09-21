@@ -3,20 +3,14 @@ package com.rts.game.gameplay;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
-import com.rts.game.Assets;
 import com.rts.game.entities.EntityManager;
 import com.rts.game.entities.SelectableUnit;
 import com.rts.game.entities.TestEntity;
 import com.rts.game.hud.BuildingHUD;
 import com.rts.game.hud.HUD;
 import com.rts.game.pathfinding.Node;
-
-import java.util.ArrayList;
 
 /**
  * Created with IntelliJ IDEA.
@@ -83,19 +77,24 @@ public class Player {
             for (int y = (int) selectionStart.y; y <= (int) selectionEnd.y; y++) {
                 Node n = World.nodeAt(x, y);
                 if (n != null) {
-                    n.debug();
-                    if (n.standing != null && !selection.contains(n.standing)) {
-                        if (n.standing instanceof TestEntity) {
-                            hud.setSelection(BuildingHUD.ButtonSet.WORKER);
+                    if (n.standing instanceof SelectableUnit)
+                        if (n.standing != null && !selection.contains(n.standing)) {
+                            if (n.standing instanceof TestEntity) {
+                                hud.setSelection(BuildingHUD.ButtonSet.WORKER);
+                            }
+                            selection.add(n.standing);
+                            ((SelectableUnit) n.standing).setSelected(true);
                         }
-                        selection.add(n.standing);
-                        ((SelectableUnit) n.standing).setSelected(true);
-                    }
                 }
             }
         }
 
         System.out.println(selection.currentSelection.size());
+
+        if (selectionStart.x == selectionEnd.x && selectionStart.y == selectionEnd.y) {
+            System.out.println("Unit at this spot is " + World.nodeAt(selectionEnd.x, selectionEnd.y).standing);
+        }
+
 
     }
 
