@@ -2,9 +2,7 @@ package com.rts.game;
 
 import com.badlogic.gdx.Game;
 import com.rts.game.entities.EntityList;
-import com.rts.game.entities.TestEntity;
 import com.rts.game.screens.MainMenu;
-import com.rts.networking.mutual.packets.EntityCreation;
 
 public class RealTimeStrategy extends Game {
 
