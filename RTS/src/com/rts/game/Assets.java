@@ -1,6 +1,7 @@
 package com.rts.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -15,9 +16,19 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class Assets {
     private static Assets assets;
     private TextureAtlas textureAtlas;
+    
+    public enum FileHandles {
+    	MenuSkin(Gdx.files.internal("ui/menuSkin.json")), TextureAtlas(Gdx.files.internal("Images/SpriteSheet.txt"));
+    	
+    	public final FileHandle fileHandle;
+    	
+    	private FileHandles(FileHandle path) {
+    		this.fileHandle = path;
+    	}
+    }
 
     public Assets() {
-        textureAtlas = new TextureAtlas(Gdx.files.internal("Images/SpriteSheet.txt"));
+        textureAtlas = new TextureAtlas(FileHandles.TextureAtlas.fileHandle);
     }
 
     public static Assets getAssets() {

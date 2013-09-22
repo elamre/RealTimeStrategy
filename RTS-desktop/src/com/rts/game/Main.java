@@ -8,8 +8,8 @@ public class Main {
         LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
         cfg.title = "RTS";
         cfg.useGL20 = true;
-        cfg.width = 640;
-        cfg.height = 480;
+        cfg.width = 1280;
+        cfg.height = 720;
         cfg.vSyncEnabled = true;
         new LwjglApplication(new RealTimeStrategy(), cfg);
     }

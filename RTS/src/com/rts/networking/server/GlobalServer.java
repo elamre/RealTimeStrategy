@@ -10,23 +10,24 @@ import com.rts.util.Configuration;
  * To change this template use File | Settings | File Templates.
  */
 public class GlobalServer {
-    ServerListener serverListener;
-    ServerGame serverGame;
-    ServerHandler serverHandler;
 
-    public GlobalServer() {
-        serverGame = new ServerGame();
-        serverHandler = new ServerHandler();
-        serverListener = new ServerListener(serverHandler, serverGame);
-        serverHandler.setListener(serverListener);
-    }
+	ServerListener serverListener;
+	ServerGame serverGame;
+	ServerHandler serverHandler;
 
-    public static void main(String[] args) {
-        GlobalServer globalServer = new GlobalServer();
-        globalServer.startListening(Configuration.TCP_PORT);
-    }
+	public GlobalServer() {
+		serverGame = new ServerGame();
+		serverHandler = new ServerHandler();
+		serverListener = new ServerListener(serverHandler, serverGame);
+		serverHandler.setListener(serverListener);
+	}
 
-    public void startListening(int port) {
-        serverHandler.host(port);
-    }
+	public static void main(String[] args) {
+		GlobalServer globalServer = new GlobalServer();
+		globalServer.startListening(Configuration.TCP_PORT);
+	}
+
+	public void startListening(int port) {
+		serverHandler.host(port);
+	}
 }
