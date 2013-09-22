@@ -91,8 +91,9 @@ public class MainMenu implements Screen {
 	public void render(float delta) {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		stage.act(delta);
+		// act before draw throws java access violation exception since a java version between 1.7.0_07 (works) and 1.7.0_25 (doesn't work) because dispose is called when the screen changes (it's in hide) in act  
 		stage.draw();
+		stage.act(delta);
 	}
 
 	@Override
@@ -104,6 +105,7 @@ public class MainMenu implements Screen {
 	@Override
 	public void dispose() {
 		stage.dispose();
+		skin.dispose();
 	}
 
 	@Override
