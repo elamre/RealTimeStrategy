@@ -18,9 +18,6 @@ import com.rts.networking.server.GlobalServer;
 import com.rts.util.Configuration;
 import com.rts.util.Logger;
 
-/**
- * TODO this is going to be the main menu
- */
 public class MultiplayerMenu implements Screen {
 
 	InGame inGame;
