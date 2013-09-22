@@ -1,32 +1,32 @@
 {
-	com.badlogic.gdx.graphics.Color: {
-		white:  { r: 1, g: 1, b: 1, a: 1 },
-		black:  { r: 0, g: 0, b: 0, a: 1 },
-		red:    { r: 1, g: 0, b: 0, a: 1 },
-		green:  { r: 0, g: 1, b: 0, a: 1 },
-		blue:   { r: 0, g: 0, b: 1, a: 1 },
-		yellow: { r: 1, g: 1, b: 0, a: 1 },
-		cyan:   { r: 0, g: 1, b: 1, a: 1 },
-		pink:   { r: 1, g: 0, b: 1, a: 1 }
+	"com.badlogic.gdx.graphics.Color": {
+		"white":  { "r": 1, "g": 1, "b": 1, "a": 1 },
+		"black":  { "r": 0, "g": 0, "b": 0, "a": 1 },
+		"red":    { "r": 1, "g": 0, "b": 0, "a": 1 },
+		"green":  { "r": 0, "g": 1, "b": 0, "a": 1 },
+		"blue":   { "r": 0, "g": 0, "b": 1, "a": 1 },
+		"yellow": { "r": 1, "g": 1, "b": 0, "a": 1 },
+		"cyan":   { "r": 0, "g": 1, "b": 1, "a": 1 },
+		"pink":   { "r": 1, "g": 0, "b": 1, "a": 1 }
 	},
-	com.badlogic.gdx.graphics.g2d.BitmapFont: {
-		white64: { file: fonts/white64.fnt },
-		white32: { file: fonts/white32.fnt },
-		white16: { file: fonts/white16.fnt }
+	"com.badlogic.gdx.graphics.g2d.BitmapFont": {
+		"white64": { "file": "fonts/white64.fnt" },
+		"white32": { "file": "fonts/white32.fnt" },
+		"white16": { "file": "fonts/white16.fnt" }
 	},
-	com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
-		default: { font: white32 },
-		small:   { font: white16 },
-		large:   { font: white64 }
+	"com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {
+		"default": { "font": "white32" },
+		"small":   { "font": "white16" },
+		"large":   { "font": "white64" }
 	},
-	com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
-		default: { font: white32, up: button, pressedOffsetX: 1, pressedOffsetY: -1 },
-		small:   { font: white16, up: button, pressedOffsetX: 1, pressedOffsetY: -1 },
-		large:   { font: white64, up: button, pressedOffsetX: 1, pressedOffsetY: -1 }
+	"com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": {
+		"default": { "font": white32, "up": "button", "pressedOffsetX": 1, "pressedOffsetY": -1 },
+		"small":   { "font": white16, "up": "button", "pressedOffsetX": 1, "pressedOffsetY": -1 },
+		"large":   { "font": white64, "up": "button", "pressedOffsetX": 1, "pressedOffsetY": -1 }
 	},
-	com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
-		default: { font: white32, fontColor: white, messageFontColor: yellow },
-		small:   { font: white16, fontColor: white, messageFontColor: yellow },
-		large:   { font: white64, fontColor: white, messageFontColor: yellow },
+	"com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle": {
+		"default": { "font": white32, "fontColor": white, "messageFontColor": yellow },
+		"small":   { "font": white16, "fontColor": white, "messageFontColor": yellow },
+		"large":   { "font": white64, "fontColor": white, "messageFontColor": yellow },
 	}
 }

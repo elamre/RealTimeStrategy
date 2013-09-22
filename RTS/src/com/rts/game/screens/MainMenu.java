@@ -5,127 +5,118 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.rts.game.Assets;
 import com.rts.game.RealTimeStrategy;
-import com.rts.game.entities.TestEntity;
-import com.rts.game.multiplayer.ClientEventListener;
-import com.rts.game.multiplayer.ConnectionBridge;
-import com.rts.networking.mutual.packets.EntityCreation;
-import com.rts.networking.server.GlobalServer;
-import com.rts.util.Configuration;
-import com.rts.util.Logger;
 
-/**
- * TODO this is going to be the main menu
- */
 public class MainMenu implements Screen {
-    InGame inGame;
-    ConnectionBridge connectionBridge = null;
-    private Skin skin;
-    private Stage stage;
-    private Table table;
 
-    public MainMenu() {
-        connectionBridge = new ConnectionBridge();
-        inGame = new InGame(connectionBridge);
-    }
+	private static final float BUTTON_PADDING = 8;
+	private Stage stage;
+	private Skin skin;
+	private Table table;
 
-    @Override
-    public void render(float delta) {
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+	@Override
+	public void show() {
+		Gdx.gl.glClearColor(0, .25f, 0, 1);
 
-        stage.act(delta);
-        stage.draw();
-    }
+		Gdx.input.setInputProcessor(stage = new Stage());
+		skin = new Skin();
+		skin.addRegions(Assets.getAssets().getTextureAtlas());
+		skin.load(Assets.FileHandles.MenuSkin.fileHandle);
+		table = new Table(skin);
+		table.setFillParent(true);
 
-    @Override
-    public void resize(int width, int height) {
-        stage.setViewport(width, height, false);
-        table.invalidateHierarchy();
-    }
+		final TextButton singleplayerButton = new TextButton("Single Player", skin);
+		final TextButton multiplayerButton = new TextButton("Multi Player", skin);
+		final TextButton optionsButton = new TextButton("Options", skin);
+		final TextButton quitButton = new TextButton("Quit", skin);
 
-    @Override
-    public void show() {
-        Gdx.gl.glClearColor(0, .25f, 0, 1);
-        Gdx.input.setInputProcessor(stage = new Stage());
-        skin = new Skin();
-        skin.addRegions(Assets.getAssets().getTextureAtlas());
-        skin.load(Gdx.files.internal("ui/menuSkin.json"));
+		singleplayerButton.pad(BUTTON_PADDING);
+		multiplayerButton.pad(BUTTON_PADDING);
+		optionsButton.pad(BUTTON_PADDING);
+		quitButton.pad(BUTTON_PADDING);
 
-        table = new Table(skin);
-        table.setFillParent(true);
-        table.add("RealTimeStrategy", "large").row();
+		ClickListener buttonHandler = new ClickListener() {
 
-        final TextField enterIp = new TextField("127.0.0.1", skin, "large");
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				if(event.getListenerActor() == singleplayerButton)
+					singleplayerButton.setText("not implemented yet");
+				else if(event.getListenerActor() == multiplayerButton) {
+					stage.addAction(Actions.moveBy(0, -stage.getHeight() / 10, .5f));
+					stage.addAction(Actions.sequence(Actions.fadeOut(.5f), Actions.run(new Runnable() {
 
-        final TextButton connectButton = new TextButton("connect", skin);
-        connectButton.pad(10);
+						public void run() {
+							RealTimeStrategy.game.setScreen(new MultiplayerMenu());
+						}
 
-        final TextButton hostButton = new TextButton("host game", skin);
-        hostButton.pad(10);
+					})));
+				} else if(event.getListenerActor() == optionsButton)
+					optionsButton.setText("not implemented yet");
+				else if(event.getListenerActor() == quitButton) {
+					stage.addAction(Actions.moveBy(0, -stage.getHeight() / 10, .5f));
+					stage.addAction(Actions.sequence(Actions.fadeOut(.5f), Actions.run(new Runnable() {
 
-        ClickListener buttonHandler = new ClickListener() {
+						@Override
+						public void run() {
+							Gdx.app.exit();
+						}
 
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                if (event.getListenerActor() == connectButton) {
-                    connectionBridge.connect(enterIp.getText(), Configuration.TCP_PORT, new ClientEventListener() {
+					})));
+				}
+			}
 
-                        @Override
-                        public void hostNotFound(String ip, int port) {
-                            Logger.getInstance().system("Could not find host: " + ip + ":" + port);
-                        }
+		};
 
-                        @Override
-                        public void connected() {
-                            Logger.getInstance().system("Connected");
-                            RealTimeStrategy.game.setScreen(new Game(inGame));
-                        }
+		singleplayerButton.addListener(buttonHandler);
+		multiplayerButton.addListener(buttonHandler);
+		optionsButton.addListener(buttonHandler);
+		quitButton.addListener(buttonHandler);
 
-                    }
-                    );
-                    // ((com.badlogic.gdx.Game) Gdx.app.getApplicationListener()).setScreen(new Game(enterIp.getText())); // doesn't work with 0.9.8...
-                } else if (event.getListenerActor() == hostButton) {
-                    GlobalServer.main(new String[]{});      //TODO fix this
-                    hostButton.setText("started!");
-                }
-            }
-        };
+		table.add(RealTimeStrategy.class.getSimpleName(), "large").padTop(25).spaceBottom(125).row();
+		table.add(singleplayerButton).pad(BUTTON_PADDING / 2).row();
+		table.add(multiplayerButton).pad(BUTTON_PADDING / 2).row();
+		table.add(optionsButton).pad(BUTTON_PADDING / 2).row();
+		table.add(quitButton).pad(BUTTON_PADDING / 2).row();
 
-        connectButton.addListener(buttonHandler);
-        hostButton.addListener(buttonHandler);
+		stage.addActor(table);
+	}
 
-        Table dialog = new Table(skin);
-        dialog.add(enterIp).width(enterIp.getStyle().font.getBounds(enterIp.getText()).width).colspan(2).row();
-        dialog.add(connectButton);
-        dialog.add(hostButton);
+	@Override
+	public void render(float delta) {
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        table.add(dialog).expandY();
+		stage.act(delta);
+		stage.draw();
+	}
 
-        stage.addActor(table);
-    }
+	@Override
+	public void resize(int width, int height) {
+		stage.setViewport(width, height, false);
+		table.invalidateHierarchy();
+	}
 
-    @Override
-    public void hide() {
-    }
+	@Override
+	public void dispose() {
+		stage.dispose();
+	}
 
-    @Override
-    public void pause() {
-    }
+	@Override
+	public void hide() {
+		dispose();
+	}
 
-    @Override
-    public void resume() {
-    }
+	@Override
+	public void pause() {
+	}
 
-    @Override
-    public void dispose() {
-        stage.dispose();
-        skin.dispose();
-    }
+	@Override
+	public void resume() {
+	}
 
 }
