@@ -5,6 +5,7 @@ import com.rts.game.Assets;
 import com.rts.game.abilities.Blink;
 import com.rts.game.abilities.Build;
 import com.rts.networking.mutual.packets.EntityCreation;
+import com.rts.util.Logger;
 
 /**
  * Created with IntelliJ IDEA.
@@ -24,13 +25,13 @@ public class TestEntity extends MovingUnit {
 
     public TestEntity(EntityCreation entityCreation) {
         super(entityCreation, Assets.getAssets().getTextureRegion("worker_wood"), 4, 0.1f);
-        abilities.add(new Blink(this));
+        abilities.add(new Blink(this, null));
         abilities.add(new Build(this));
     }
 
     @Override
     public void onCreate_1() {
-        //To change body of implemented methods use File | Settings | File Templates.
+
     }
 
     @Override

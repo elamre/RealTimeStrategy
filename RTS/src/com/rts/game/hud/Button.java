@@ -32,8 +32,18 @@ public abstract class Button {
         this.x = x;
         this.y = y;
         sprite.setPosition(x, y);
-        sprite.flip(true,true);
+        sprite.flip(true, false);
         hitBox = new Rectangle(x, y, (int) sprite.getWidth(), (int) sprite.getHeight());
+    }
+
+    public void setPosition(int x, int y) {
+        sprite.setPosition(x, y);
+        sprite.flip(true, true);
+        if (sprite != null) {
+            hitBox.setBounds(x, y, (int) sprite.getWidth(), (int) sprite.getHeight());
+        } else {
+            hitBox.setBounds(x, y, 24, 24);
+        }
     }
 
     public void update() {
@@ -67,6 +77,16 @@ public abstract class Button {
             }
             sprite.draw(Camera.batch);
         }
+    }
+
+    public boolean isPressed() {
+        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+            Rectangle mouseHitBox = new Rectangle((int) Cursor.x, (int) Cursor.y, 1, 1);
+            if (mouseHitBox.intersects(hitBox)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean isEnabled() {

@@ -2,116 +2,198 @@ package com.rts.game.hud;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.rts.game.Assets;
-import com.rts.game.entities.EntityList;
-import com.rts.game.entities.TestBuilding;
 import com.rts.game.gameplay.Camera;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created with IntelliJ IDEA.
  * User: Elmar
- * Date: 9/8/13
- * Time: 11:11 AM
+ * Date: 9/20/13
+ * Time: 5:43 PM
  * To change this template use File | Settings | File Templates.
  */
 public class BuildingHUD {
-    public static ButtonSet buttonSet;
-    private BuildingHUDButton build;
-    private BuildingHUDButton cancel;
-    private BuildingHUDButton deselect;
-    private BuildingHUDButton move;
-    private View currentView = View.GENERAL;
-    private BuildingButton houseButton;
-    private BuildingButton archeryButton;
-    private BuildingButton castleButton;
-    private BuildingButton towerButton;
-    private BuildingButton sawmillButton;
-    private BuildingButton citycenterButton;
-    private Sprite hudBuildBar;
+    /** List containing all the buttons displayed */
+    private ArrayList<BuildingHUDGrid> gridButtons = new ArrayList<BuildingHUDGrid>(15);
+    /** An array containing all the possible id's */
+    private int[] possibleIds = new int[15];
+    /** The hud all the abilities will be drawn upon */
+    private Sprite abilityHUD;
 
-    BuildingHUD() {
-        hudBuildBar = Assets.getAssets().getSprite("HUD");
-        hudBuildBar.flip(false, true);
-
-        hudBuildBar.setPosition(0, Gdx.graphics.getHeight() - hudBuildBar.getHeight());
-        build = new BuildingHUDButton(10, 12 + (int) hudBuildBar.getY(), Assets.getAssets().getSprite("build_button"), "Build", true, View.GENERAL, new ButtonAble() {
-            @Override
-            public void action() {
-                currentView = View.BUILDINGS;
+    /** This is the default constructor. It will initialize all the buttons and set up the id's for them */
+    public BuildingHUD() {
+        abilityHUD = Assets.getAssets().getSprite("HUD");
+        abilityHUD.flip(false, true);
+        abilityHUD.setPosition(0, Gdx.graphics.getHeight() - abilityHUD.getHeight());
+        int id = 0;
+        for (int y = 0; y < 3; y++) {
+            for (int x = 0; x < 5; x++) {
+                possibleIds[id] = id;
+                gridButtons.add(new BuildingHUDGrid(id, 10 + x * 42, (int) abilityHUD.getY() + 12 + y * 42));
+                id++;
             }
-        });
-        move = new BuildingHUDButton(52, 12 + (int) hudBuildBar.getY(), Assets.getAssets().getSprite("move_button"), "Move", true, View.GENERAL, new ButtonAble() {
-            @Override
-            public void action() {
-                //move
-            }
-        });
-        deselect = new BuildingHUDButton(94, 12 + (int) hudBuildBar.getY(), Assets.getAssets().getSprite("cancel_button"), "Deselect", true, View.GENERAL, new ButtonAble() {
-            @Override
-            public void action() {
-                //move
-            }
-        });
-        cancel = new BuildingHUDButton(178, 96 + (int) hudBuildBar.getY(), Assets.getAssets().getSprite("cancel_button"), "Move", true, View.BUILDINGS, new ButtonAble() {
-            @Override
-            public void action() {
-                currentView = View.GENERAL;
-            }
-        });
-        houseButton = new BuildingButton(10, 12 + (int) hudBuildBar.getY(), Assets.getAssets().getSprite("house_button"), EntityList.getEntityType(new TestBuilding()), "HOUSE", View.BUILDINGS);
-        archeryButton = new BuildingButton(52, 12 + (int) hudBuildBar.getY(), Assets.getAssets().getSprite("archery_button"), 0, "HOUSE", View.BUILDINGS);
-        castleButton = new BuildingButton(94, 12 + (int) hudBuildBar.getY(), Assets.getAssets().getSprite("castle_button"), 0, "HOUSE", View.BUILDINGS);
-        towerButton = new BuildingButton(136, 12 + (int) hudBuildBar.getY(), Assets.getAssets().getSprite("tower_button"), 0, "HOUSE", View.BUILDINGS);
-        citycenterButton = new BuildingButton(178, 12 + (int) hudBuildBar.getY(), Assets.getAssets().getSprite("citycenter_button"), 0, "HOUSE", View.BUILDINGS);
-        sawmillButton = new BuildingButton(10, 54 + (int) hudBuildBar.getY(), Assets.getAssets().getSprite("sawmill_button"), 0, "HOUSE", View.BUILDINGS);
+        }
     }
 
-    private void switchView() {
-
+    /**
+     * This function will check if the hud contains a certain point. Useful to check if a point is on the HUD.
+     *
+     * @param x the x vector of the point
+     * @param y the y vector of the point
+     * @return true if the hud contains the point. false otherwise
+     */
+    public boolean contains(int x, int y) {
+        boolean contains = false;
+        if (x < abilityHUD.getWidth() && y > abilityHUD.getY())
+            contains = true;
+        System.out.println("X: " + x + " Y: " + y + " - " + contains);
+        return contains;
     }
 
+    /**
+     * Use this function to register an ability onto the ability hud
+     *
+     * @param abilityButton the button to register
+     * @param preferred     the preferred place, -1 if don't care
+     * @return the id this button has been registered to
+     */
+    public int registerAbilityButton(AbilityButton abilityButton, int preferred) {
+        if (abilityButton == null)
+            return -1;
+        int tempId = 0;
+        int tries = -1;
+        if (preferred > -1) {
+            for (int i = 0; i < possibleIds.length; i++) {
+                if (possibleIds[i] == preferred) {
+                    possibleIds[i] = -1;
+                    Arrays.sort(possibleIds);
+                    tempId = preferred;
+                }
+            }
+        }
+        while (tempId == -1) {
+            tries++;
+            tempId = possibleIds[tries];
+            if (tries > 14)
+                return -1;
+        }
+        if (tries > 0 && tries < 16)
+            possibleIds[tries] = -1;
+        Arrays.sort(possibleIds);
+        for (int b = 0, l = gridButtons.size(); b < l; b++) {
+            if (gridButtons.get(b).getId() == tempId) {
+                gridButtons.get(b).setButton(abilityButton);
+                break;
+            }
+        }
+        return tempId;
+    }
+
+    /**
+     * this function should update the mouseover and more,
+     * Not sure what to do with this function. TODO figure out
+     */
     public void update() {
-        if (buttonSet == ButtonSet.WORKER) {
-            build.update(currentView);
-            houseButton.update(currentView);
-            move.update(currentView);
-            deselect.update(currentView);
-            cancel.update(currentView);
-            archeryButton.update(currentView);
-            castleButton.update(currentView);
-            towerButton.update(currentView);
-            citycenterButton.update(currentView);
-            sawmillButton.update(currentView);
-        } else if (buttonSet == ButtonSet.SOLDIER) {
-            move.draw();
-            deselect.draw();
+        for (int i = 0, l = gridButtons.size(); i < l; i++) {
+            if (!gridButtons.get(i).isFree())
+                gridButtons.get(i).update();
         }
     }
 
+    /** This function will draw the hud itself, and all the buttons on it */
     public void draw() {
-        hudBuildBar.draw(Camera.batch);
-        if (buttonSet == ButtonSet.WORKER) {
-            houseButton.draw();
-            archeryButton.draw();
-            castleButton.draw();
-            towerButton.draw();
-            citycenterButton.draw();
-            sawmillButton.draw();
-            build.draw();
-            move.draw();
-            deselect.draw();
-            cancel.draw();
-        } else if (buttonSet == ButtonSet.SOLDIER) {
-            move.draw();
-            deselect.draw();
+        abilityHUD.draw(Camera.batch);
+        for (int i = 0, l = gridButtons.size(); i < l; i++) {
+            if (!gridButtons.get(i).isFree())
+                gridButtons.get(i).draw();
         }
     }
 
-    static enum View {
-        NOTHING, GENERAL, BUILDINGS;
+    /**
+     * This function will remove one button from the bar
+     *
+     * @param id the id on which the button is registered
+     * @return true if successful, false if there was no button with the id
+     */
+    public boolean removeAbilityButton(int id) {
+        int i = -1;
+        while (possibleIds[i++] != -1 || i > 15) ;
+        possibleIds[i] = id;
+        Arrays.sort(possibleIds);
+        for (int i2 = 0; i2 < gridButtons.size(); i2++) {
+            if (gridButtons.get(i2).getId() == id) {
+                gridButtons.get(i2).releaseButton();
+                return true;
+            }
+        }
+        return false;
     }
 
-    public static enum ButtonSet {
-        WORKER, SOLDIER, NONE;
+    /** This function will remove all the buttons in the list and reset the id's as well */
+    public void removeAllAbilityButtons() {
+        gridButtons.clear();
+        int id = 0;
+        for (int y = 0; y < 3; y++) {
+            for (int x = 0; x < 5; x++) {
+                possibleIds[id] = id;
+                gridButtons.add(new BuildingHUDGrid(id, 10 + x * 42, (int) abilityHUD.getY() + 12 + y * 42));
+                id++;
+            }
+        }
+    }
+
+    /** This class is for all the ability buttons */
+    class BuildingHUDGrid {
+        /** If the spot is free, or if there is a button on the spot */
+        private boolean free = true;
+        /** The position of the button */
+        private int x, y;
+        /** The id of the button */
+        private int id;
+        /** The button attached to this slot */
+        private Button button;
+
+        public BuildingHUDGrid(int id, int x, int y) {
+            this.id = id;
+            this.x = x;
+            this.y = y;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public boolean isFree() {
+            return free;
+        }
+
+        public void setButton(Button button) {
+            if (button != null) {
+                free = false;
+                this.button = button;
+                this.button.setPosition(x, y);
+                this.button.setEnabled(true);
+            } else {
+                System.out.println("button is null");
+            }
+        }
+
+        public void releaseButton() {
+            free = true;
+            this.button = null;
+        }
+
+        public void update() {
+            button.update();
+        }
+
+        public void draw() {
+            button.draw();
+        }
     }
 }

@@ -60,7 +60,7 @@ public abstract class SelectableUnit extends Unit {
 
     @Override
     public void implementDraw_2(SpriteBatch spriteBatch) {
-        selectionSprite.draw(spriteBatch);
+        //selectionSprite.draw(spriteBatch);
         implementDraw_3(spriteBatch);
     }
 

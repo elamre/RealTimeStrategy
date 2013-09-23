@@ -11,13 +11,15 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
  */
 public class BuildingHUDButton extends Button {
     ButtonAble buttonAble;
-    BuildingHUD.View view;
+    BuildingHUDOld.View view;
 
-    public BuildingHUDButton(int x, int y, Sprite sprite, String text, boolean mouseOver, BuildingHUD.View view, ButtonAble buttonAble) {
+    public BuildingHUDButton(int x, int y, Sprite sprite, String text, boolean mouseOver, BuildingHUDOld.View view, ButtonAble buttonAble) {
         super(x, y, sprite, text, mouseOver);
         this.buttonAble = buttonAble;
         this.view = view;
     }
+
+
 
     @Override
     public void mouseOver(Button button) {
@@ -37,7 +39,7 @@ public class BuildingHUDButton extends Button {
     public void buttonHold(Button button) {
     }
 
-    public void update(BuildingHUD.View currentView) {
+    public void update(BuildingHUDOld.View currentView) {
         if (view == currentView) {
             setEnabled(true);
             update();

@@ -22,8 +22,8 @@ public class HUD {
         buildingHUD.update();
     }
 
-    public void setSelection(BuildingHUD.ButtonSet selection) {
-        BuildingHUD.buttonSet = selection;
+    public BuildingHUD getBuildingHUD() {
+        return buildingHUD;
     }
 
     public void draw() {
@@ -31,5 +31,9 @@ public class HUD {
         resources.draw();
         buildingHUD.draw();
         Camera.makeWorldBatch();
+    }
+
+    public boolean isOnHud(int x, int y) {
+        return buildingHUD.contains(x, y);
     }
 }

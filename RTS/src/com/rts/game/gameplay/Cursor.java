@@ -4,20 +4,18 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.rts.game.Assets;
-import com.rts.game.abilities.Ability;
+import com.rts.game.abilities.TargetedAbility;
+import com.rts.util.Logger;
 
-/**
- * A virtual cursor to use
- */
+/** A virtual cursor to use */
 public class Cursor {
 
     public static float x = Gdx.graphics.getWidth() / 2;
     public static float y = Gdx.graphics.getHeight() / 2;
+    public static boolean abilityRequested = false;
+    public static TargetedAbility abilityRequesting = null;
     static Sprite sprite;
     static Sprite spriteAbilityUse;
-
-    public static boolean abilityRequested = false;
-    public static Ability abilityRequesting = null;
 
     public static void create() {
         sprite = new Sprite(Assets.getAssets().getTextureRegion("mouse"));
@@ -36,7 +34,7 @@ public class Cursor {
     public static void draw() {
         Camera.makeHUDBatch();
 
-        if (!abilityRequested) {
+        if (abilityRequesting == null) {
             sprite.setPosition(x, y);
             sprite.draw(Camera.batch);
         } else {
@@ -46,11 +44,14 @@ public class Cursor {
     }
 
     public static void update(float delta) {
-
-        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT))
+        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+            if (abilityRequesting != null) {
+                abilityRequesting.fireAction(Camera.getRealWorldX(), Camera.getRealWorldY());
+            }
             Gdx.input.setCursorCatched(true);
-        else if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE))
+        } else if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             Gdx.input.setCursorCatched(false);
+        }
 
         if (Gdx.input.isCursorCatched()) {
             Gdx.input.setCursorPosition(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);

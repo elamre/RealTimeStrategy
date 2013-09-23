@@ -26,10 +26,16 @@ public class TestBuilding extends SelectableUnit {
         setWidth(2f);
         setHeight(2f);
 
+        if (getId() != 0) {
+            System.out.println("Building creating shadow");
+            EntityManager.addShadow(new ShadowEntity(Assets.getAssets().getTextureRegion("house_shadow"), getId()));
+        }
+
     }
 
     @Override
     public void onCreate_1() {
+
         //To change body of implemented methods use File | Settings | File Templates.
     }
 

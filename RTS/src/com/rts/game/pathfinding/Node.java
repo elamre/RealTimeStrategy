@@ -3,9 +3,20 @@ package com.rts.game.pathfinding;
 import com.rts.game.entities.Entity;
 
 public class Node {
-    int x;
-
     public Entity standing;
+    int x;
+    int y;
+    float g;
+    float f;  //g = from start; f = distance from start and end
+    Node parent;
+    private boolean pass;
+
+
+    public Node(int x, int y) {
+        this.x = x;
+        this.y = y;
+        this.pass = true;
+    }
 
     public int getY() {
         return y;
@@ -19,17 +30,16 @@ public class Node {
         return x;
     }
 
+    public void setX(int x) {
+        this.x = x;
+    }
+
     public float getCenterX() {
         return x + 0.5f;
     }
 
     public float getCenterY() {
         return y + 0.5f;
-    }
-
-
-    public void setX(int x) {
-        this.x = x;
     }
 
     public Node getParent() {
@@ -53,18 +63,6 @@ public class Node {
         this.pass = pass;
     }
 
-    int y;
-    float g;
-    float f;  //g = from start; f = distance from start and end
-    private boolean pass;
-    Node parent;
-
-    public Node(int x, int y) {
-        this.x = x;
-        this.y = y;
-        this.pass = true;
-    }
-
     public void update(float g, float h, Node parent) {
         this.parent = parent;
         this.g = g;
@@ -75,4 +73,16 @@ public class Node {
         System.out.println("Node: " + x + ", " + y + ", " + (pass ? "Walkable" : "Not Walkable") + ", " + standing);
     }
 
+    @Override
+    public String toString() {
+        return "Node{" +
+                "standing=" + standing +
+                ", x=" + x +
+                ", y=" + y +
+                ", g=" + g +
+                ", f=" + f +
+                ", parent=" + parent +
+                ", pass=" + pass +
+                '}';
+    }
 }

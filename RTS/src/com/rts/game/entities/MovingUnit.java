@@ -22,9 +22,7 @@ public abstract class MovingUnit extends SelectableUnit {
     private float stateTime = 0;
     private EntityPosChange moveEntityPacket;
 
-    /**
-     * USE THIS ONLY FOR REGISTERING THE ENTITY! SHOULD NOT BE USED OTHERWISE!
-     */
+    /** USE THIS ONLY FOR REGISTERING THE ENTITY! SHOULD NOT BE USED OTHERWISE! */
     protected MovingUnit() {
         super();
     }
@@ -74,7 +72,7 @@ public abstract class MovingUnit extends SelectableUnit {
         }
 
         //System.out.println("dx,dy: " + walker.dx + ", " + walker.dy);
-        setAngle((float) Math.toDegrees(walker.getNextAngle()));
+        setAngle((float) Math.toDegrees(walker.getAngle()));
         implementUpdate_4(deltaT);
     }
 

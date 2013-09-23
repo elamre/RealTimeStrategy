@@ -18,9 +18,7 @@ public abstract class Unit extends Entity {
 
     public ArrayList<Ability> abilities;
 
-    /**
-     * USE THIS ONLY FOR REGISTERING THE ENTITY! SHOULD NOT BE USED OTHERWISE!
-     */
+    /** USE THIS ONLY FOR REGISTERING THE ENTITY! SHOULD NOT BE USED OTHERWISE! */
     public Unit() {
         super();
     }
@@ -37,10 +35,14 @@ public abstract class Unit extends Entity {
         abilities = new ArrayList<Ability>(4);
     }
 
+    public ArrayList<Ability> getAbilities() {
+        return abilities;
+    }
+
     @Override
     public void implementUpdate_1(float deltaT) {
         for (int i = 0, l = abilities.size(); i < l; i++) {
-            abilities.get(i).logic(deltaT);
+            abilities.get(i).update(deltaT);
         }
 
         implementUpdate_2(deltaT);
@@ -65,7 +67,7 @@ public abstract class Unit extends Entity {
     public void implementDraw_1(SpriteBatch spriteBatch) {
         implementDraw_2(spriteBatch);
         for (Ability a : abilities) {
-            a.draw();
+            a.draw(spriteBatch);
         }
     }
 

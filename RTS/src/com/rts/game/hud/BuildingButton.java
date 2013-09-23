@@ -17,14 +17,16 @@ import com.rts.game.screens.ShapeRenderer;
  * To change this template use File | Settings | File Templates.
  */
 public class BuildingButton extends Button {
-    BuildingHUD.View view;
+    BuildingHUDOld.View view;
     int id;
 
-    public BuildingButton(int x, int y, Sprite sprite, int id, String text, BuildingHUD.View view) {
+    public BuildingButton(int x, int y, Sprite sprite, int id, String text, BuildingHUDOld.View view) {
         super(x, y, sprite, text, true);
         this.view = view;
         this.id = id;
     }
+
+
 
     @Override
     public void mouseOver(Button button) {
@@ -43,7 +45,7 @@ public class BuildingButton extends Button {
         for (Entity e : InGame.player.selection.currentSelection) {
             for (Ability a : ((Unit) e).abilities) {
                 if (a instanceof Build) {
-                    ((Build) a).requestCursorUse(true);
+                    //((Build) a).requestCursorUse(true);
                     break outer;
                 }
             }
@@ -60,7 +62,7 @@ public class BuildingButton extends Button {
         //TODO figure out something
     }
 
-    public void update(BuildingHUD.View currentView) {
+    public void update(BuildingHUDOld.View currentView) {
         if (currentView == view) {
             setEnabled(true);
             update();

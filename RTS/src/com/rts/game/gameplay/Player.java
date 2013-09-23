@@ -5,12 +5,14 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.rts.game.entities.EntityManager;
-import com.rts.game.entities.SelectableUnit;
-import com.rts.game.entities.TestEntity;
+import com.rts.game.abilities.Ability;
+import com.rts.game.entities.*;
 import com.rts.game.hud.BuildingHUD;
+import com.rts.game.hud.BuildingHUDOld;
 import com.rts.game.hud.HUD;
 import com.rts.game.pathfinding.Node;
+
+import java.util.ArrayList;
 
 /**
  * Created with IntelliJ IDEA.
@@ -42,12 +44,14 @@ public class Player {
     public void update(float deltaT, EntityManager entityManager) {
         hud.update();
         if (Gdx.input.isButtonPressed(Input.Buttons.LEFT) && !runningSelection && !Cursor.abilityRequested) {
-            if (!preserveSelection) {
-                selection.disableCurrent();
-                selection.clear();
-                selectionStart.set(Camera.getRealWorldX(), Camera.getRealWorldY());
+            if (!hud.isOnHud((int) Cursor.x, (int) Cursor.y)) {
+                if (!preserveSelection) {
+                    selection.disableCurrent();
+                    selection.clear();
+                    selectionStart.set(Camera.getRealWorldX(), Camera.getRealWorldY());
+                }
+                runningSelection = true;
             }
-            runningSelection = true;
         }
         if (runningSelection) {
             selectionEnd.set(Camera.getRealWorldX(), Camera.getRealWorldY());
@@ -73,17 +77,27 @@ public class Player {
     }
 
     private void checkSelection(EntityManager entityManager) {
+        hud.getBuildingHUD().removeAllAbilityButtons();
         for (int x = (int) selectionStart.x; x <= (int) selectionEnd.x; x++) {
             for (int y = (int) selectionStart.y; y <= (int) selectionEnd.y; y++) {
                 Node n = World.nodeAt(x, y);
                 if (n != null) {
-                    if (n.standing instanceof SelectableUnit)
-                        if (n.standing != null && !selection.contains(n.standing)) {
-                            if (n.standing instanceof TestEntity) {
-                                hud.setSelection(BuildingHUD.ButtonSet.WORKER);
+                    Entity entity = n.standing;
+                    if (entity instanceof SelectableUnit)
+                        if (entity != null && !selection.contains(entity)) {
+                            if (entity instanceof Unit) {
+                                ArrayList<Ability> abilities;
+                                abilities = ((Unit) entity).getAbilities();
+                                if (abilities != null) {
+                                    for (int i = 0; i < abilities.size(); i++) {
+                                        if (abilities.get(i).getAbilityButton() != null)
+                                            hud.getBuildingHUD().registerAbilityButton(abilities.get(i).getAbilityButton(), abilities.get(i).getAbilityButton().getPreferredPlace());
+                                        //hud.getBuildingHUD().registerAbilityButton(abilities.get(i).getAbilityButton(), abilities.get(i).getAbilityButton().getPreferredPlace());
+                                    }
+                                }
+                                ((SelectableUnit) entity).setSelected(true);
                             }
-                            selection.add(n.standing);
-                            ((SelectableUnit) n.standing).setSelected(true);
+                            selection.add(entity);
                         }
                 }
             }

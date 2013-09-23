@@ -19,6 +19,18 @@ import java.util.Map;
  */
 public class EntityManager {
     /**
+     * The list containing all Entities to be added.
+     */
+    private static ArrayList<Entity> addList = new ArrayList<Entity>(16);
+    /**
+     * The network client to send data to
+     */
+    private static ConnectionBridge connectionBridge;
+    /**
+     * The list containing all the shadows of the entities.
+     */
+    private static ArrayList<ShadowEntity> shadowList = new ArrayList<ShadowEntity>(16);
+    /**
      * The entity map to be used for all standard Entities in-game.
      */
     public HashMap<Integer, Entity> entities = new HashMap<Integer, Entity>(256);
@@ -35,22 +47,28 @@ public class EntityManager {
      * The list containing all ID values of Entities to be removed.
      */
     private ArrayList<Integer> removeListIds = new ArrayList<Integer>(16);
-    /**
-     * The list containing all Entities to be added.
-     */
-    private static ArrayList<Entity> addList = new ArrayList<Entity>(16);
-    /**
-     * The network client to send data to
-     */
-    private static ConnectionBridge connectionBridge;
 
     public EntityManager(ConnectionBridge connectionBridge) {
         this.connectionBridge = connectionBridge;
     }
 
-    public void createEntity(Entity entity) {
+    public static void addShadow(ShadowEntity shadowEntity) {
+        shadowList.add(shadowEntity);
+    }
+
+    public static void createEntity(Entity entity) {
         entity.setDebug(false);
         addList.add(entity);
+    }
+
+    /**
+     * Adds an Entity to the world when possible.
+     *
+     * @param e The Entity to be added.
+     */
+    public static void addEntity(Entity e) {
+        connectionBridge.addEntity(e);
+        //addList.add(e);
     }
 
     /**
@@ -75,6 +93,13 @@ public class EntityManager {
             entity.update(delta);
             if ((entityPosChange = entity.getMovePacket()) != null) {
                 connectionBridge.sendMovement(entityPosChange);
+            }
+        }
+        for (int i = 0, l = shadowList.size(); i < l; i++) {
+            if (shadowList.get(i).getId() == 0) {
+
+            } else {
+                shadowList.get(i).changeCoordinates(entities.get(shadowList.get(i).getId()));
             }
         }
     }
@@ -110,17 +135,10 @@ public class EntityManager {
         removeListIds.add(id);
     }
 
-    /**
-     * Adds an Entity to the world when possible.
-     *
-     * @param e The Entity to be added.
-     */
-    public static void addEntity(Entity e) {
-        connectionBridge.addEntity(e);
-        //addList.add(e);
-    }
-
     public void draw() {
+        for (int i = 0, l = shadowList.size(); i < l; i++) {
+            shadowList.get(i).draw(Camera.batch);
+        }
         for (Map.Entry<Integer, Entity> entry : entities.entrySet()) {
             entry.getValue().draw(Camera.batch);
         }
