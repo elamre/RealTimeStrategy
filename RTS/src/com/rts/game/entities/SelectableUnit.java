@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.rts.game.Assets;
+import com.rts.game.abilities.Deselect;
+import com.rts.game.hud.AbilityButton;
 import com.rts.networking.mutual.packets.EntityCreation;
 
 /**
@@ -18,9 +20,7 @@ public abstract class SelectableUnit extends Unit {
     private Sprite selectionSprite;
     private boolean selected;
 
-    /**
-     * USE THIS ONLY FOR REGISTERING THE ENTITY! SHOULD NOT BE USED OTHERWISE!
-     */
+    /** USE THIS ONLY FOR REGISTERING THE ENTITY! SHOULD NOT BE USED OTHERWISE! */
     protected SelectableUnit() {
         super();
     }
@@ -31,6 +31,7 @@ public abstract class SelectableUnit extends Unit {
 
     protected SelectableUnit(EntityCreation entityCreation, TextureRegion region) {
         super(entityCreation, region);
+        abilities.add(new Deselect(this, new AbilityButton(Assets.getAssets().getSprite("cancel_button"), 14)));
     }
 
     public boolean isSelected() {

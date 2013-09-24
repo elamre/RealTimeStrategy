@@ -2,8 +2,6 @@ package com.rts.game.hud;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import com.rts.game.Assets;
 import com.rts.game.gameplay.Camera;
 
@@ -51,7 +49,6 @@ public class BuildingHUD {
         boolean contains = false;
         if (x < abilityHUD.getWidth() && y > abilityHUD.getY())
             contains = true;
-        System.out.println("X: " + x + " Y: " + y + " - " + contains);
         return contains;
     }
 
@@ -65,7 +62,7 @@ public class BuildingHUD {
     public int registerAbilityButton(AbilityButton abilityButton, int preferred) {
         if (abilityButton == null)
             return -1;
-        int tempId = 0;
+        int tempId = -1;
         int tries = -1;
         if (preferred > -1) {
             for (int i = 0; i < possibleIds.length; i++) {
@@ -79,14 +76,20 @@ public class BuildingHUD {
         while (tempId == -1) {
             tries++;
             tempId = possibleIds[tries];
-            if (tries > 14)
+            System.out.println("TempId: " + tempId);
+            if (tries > 15) {
+                System.out.println("Not enough space to place button");
                 return -1;
+            }
         }
-        if (tries > 0 && tries < 16)
+        if (tries > -1 && tries < 16) {
+            System.out.println("Setting index: " + tries + " to -1");
             possibleIds[tries] = -1;
+        }
         Arrays.sort(possibleIds);
         for (int b = 0, l = gridButtons.size(); b < l; b++) {
             if (gridButtons.get(b).getId() == tempId) {
+                System.out.println("Button set at tempId: " + tempId);
                 gridButtons.get(b).setButton(abilityButton);
                 break;
             }

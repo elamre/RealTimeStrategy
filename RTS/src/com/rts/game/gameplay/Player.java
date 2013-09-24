@@ -24,13 +24,18 @@ import java.util.ArrayList;
 public class Player {
     //Temporarily disables the selection for one click
     public static boolean preserveSelection;
-    public String name;
+    public static String name;
     public UnitSelection selection;
-    boolean runningSelection = false;
     private HUD hud;
+    private boolean runningSelection = false;
     private boolean rightPressed = false;
     private Vector2 selectionStart;
     private Vector2 selectionEnd;
+
+    public void cancel() {
+        hud.getBuildingHUD().removeAllAbilityButtons();
+        selection.clear();
+    }
 
     public void create() {
         hud = new HUD();
@@ -90,9 +95,9 @@ public class Player {
                                 abilities = ((Unit) entity).getAbilities();
                                 if (abilities != null) {
                                     for (int i = 0; i < abilities.size(); i++) {
-                                        if (abilities.get(i).getAbilityButton() != null)
+                                        if (abilities.get(i).getAbilityButton() != null) {
                                             hud.getBuildingHUD().registerAbilityButton(abilities.get(i).getAbilityButton(), abilities.get(i).getAbilityButton().getPreferredPlace());
-                                        //hud.getBuildingHUD().registerAbilityButton(abilities.get(i).getAbilityButton(), abilities.get(i).getAbilityButton().getPreferredPlace());
+                                        }
                                     }
                                 }
                                 ((SelectableUnit) entity).setSelected(true);
@@ -102,14 +107,11 @@ public class Player {
                 }
             }
         }
-
-        System.out.println(selection.currentSelection.size());
+        System.out.println("selected amount: " + selection.currentSelection.size());
 
         if (selectionStart.x == selectionEnd.x && selectionStart.y == selectionEnd.y) {
             System.out.println("Unit at this spot is " + World.nodeAt(selectionEnd.x, selectionEnd.y).standing);
         }
-
-
     }
 
     private void moveSelection() {

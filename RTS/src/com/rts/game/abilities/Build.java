@@ -44,7 +44,7 @@ public class Build extends TargetedAbility {
      * @param owner the owner of the ability
      */
     public Build(Unit owner) {
-        super(owner, Input.Keys.B, new AbilityButton(Assets.getAssets().getSprite("build_button"), 1));
+        super(owner, Input.Keys.B, new AbilityButton(Assets.getAssets().getSprite("build_button"), -1));
         ghost = new BuildingGhost();
         ghost.changeEntity(EntityList.getEntityType(new TestBuilding()));
         temporaryUnit = new TestBuilding(ghost.position);

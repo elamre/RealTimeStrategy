@@ -2,8 +2,12 @@ package com.rts.game.abilities;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.rts.game.entities.SelectableUnit;
 import com.rts.game.entities.Unit;
+import com.rts.game.gameplay.Cursor;
+import com.rts.game.gameplay.Player;
 import com.rts.game.hud.AbilityButton;
+import com.rts.game.screens.InGame;
 
 /**
  * Created with IntelliJ IDEA.
@@ -27,7 +31,11 @@ public class Deselect extends Ability {
     /** the action to be executed for the ability */
     @Override
     public void action() {
-        //owner.setSelected(false);
+        if (owner instanceof SelectableUnit) {
+            ((SelectableUnit) owner).setSelected(false);
+        }
+        Cursor.abilityRequesting = null;
+        InGame.player.cancel();
     }
 
     /**

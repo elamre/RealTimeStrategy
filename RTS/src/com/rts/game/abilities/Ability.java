@@ -2,6 +2,7 @@ package com.rts.game.abilities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.rts.game.entities.SelectableUnit;
 import com.rts.game.entities.Unit;
 import com.rts.game.hud.AbilityButton;
 import com.rts.util.Logger;
@@ -52,10 +53,14 @@ public abstract class Ability {
      */
     public void update(float deltaT) {
         boolean tempButton = false;
+        boolean tempSelected = true;
+        if(owner instanceof SelectableUnit){
+            tempSelected = ((SelectableUnit) owner).isSelected();
+        }
         if (abilityButton != null) {
             tempButton = abilityButton.isPressed();
         }
-        if ((Gdx.input.isKeyPressed(hotKey) || tempButton) && !trigger && enabled) {
+        if ((Gdx.input.isKeyPressed(hotKey) || tempButton) && !trigger && enabled && tempSelected) {
             trigger = true;
             action();
             logger.debug("Ability action!");
