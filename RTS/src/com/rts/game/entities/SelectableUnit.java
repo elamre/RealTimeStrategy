@@ -17,7 +17,7 @@ import com.rts.networking.mutual.packets.EntityCreation;
  */
 public abstract class SelectableUnit extends Unit {
     private boolean netEntity = false;
-    private Sprite selectionSprite;
+    private TextureRegion selectionRegion;
     private boolean selected;
 
     /** USE THIS ONLY FOR REGISTERING THE ENTITY! SHOULD NOT BE USED OTHERWISE! */
@@ -31,7 +31,7 @@ public abstract class SelectableUnit extends Unit {
 
     protected SelectableUnit(EntityCreation entityCreation, TextureRegion region) {
         super(entityCreation, region);
-        abilities.add(new Deselect(this, new AbilityButton(Assets.getAssets().getSprite("cancel_button"), 14)));
+        abilities.add(new Deselect(this));
     }
 
     public boolean isSelected() {
@@ -44,9 +44,7 @@ public abstract class SelectableUnit extends Unit {
 
     @Override
     public void onCreate() {
-        selectionSprite = Assets.getAssets().getSprite("selection");
-        selectionSprite.setPosition(x, y);
-        selectionSprite.setScale(0.8f, 0.8f);
+        selectionRegion = Assets.getAssets().getTextureRegion("selection");
         onCreate_1();
     }
 
@@ -54,15 +52,19 @@ public abstract class SelectableUnit extends Unit {
 
     public void implementUpdate_2(float deltaT) {
         implementUpdate_3(deltaT);
-        selectionSprite.setPosition(x, y);
     }
 
     public abstract void implementUpdate_3(float deltaT);
 
     @Override
     public void implementDraw_2(SpriteBatch spriteBatch) {
-        //selectionSprite.draw(spriteBatch);
         implementDraw_3(spriteBatch);
+        if (selected) {
+            spriteBatch.draw(selectionRegion, x + (1 - width), y + (1 - height), width / 2, height / 2, width, height, 1, 1, 0);
+            spriteBatch.setColor(.7f, .7f, .7f, .7f);
+            spriteBatch.draw(selectionRegion, x - (1 - width) * 2, y - (1 - height) * 2, width / 2, height / 2, width, height, 1, 1, 0);
+            spriteBatch.setColor(1, 1, 1, 1);
+        }
     }
 
     public abstract void implementDraw_3(SpriteBatch spriteBatch);

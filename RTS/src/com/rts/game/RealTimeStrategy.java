@@ -1,6 +1,8 @@
 package com.rts.game;
 
 import com.badlogic.gdx.Game;
+import com.rts.game.abilities.Ability;
+import com.rts.game.abilities.AbilityList;
 import com.rts.game.entities.EntityList;
 import com.rts.game.screens.MainMenu;
 
@@ -15,6 +17,7 @@ public class RealTimeStrategy extends Game {
     @Override
     public void create() {
         EntityList.register();
+        AbilityList.register();
         setScreen(new MainMenu());
     }
 

@@ -78,12 +78,6 @@ public abstract class MovingUnit extends SelectableUnit {
 
     public abstract void implementUpdate_4(float deltaT);
 
-    @Override
-    public void implementDraw_2(SpriteBatch spriteBatch) {
-        implementDraw_3(spriteBatch);
-
-    }
-
     public void moveEntity(EntityPosChange entityPosChange) {
         this.x = entityPosChange.x;
         this.y = entityPosChange.y;
@@ -96,7 +90,5 @@ public abstract class MovingUnit extends SelectableUnit {
         moveEntityPacket = null;
         return tempChange;
     }
-
-    public abstract void implementDraw_3(SpriteBatch spriteBatch);
 
 }

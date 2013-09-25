@@ -2,6 +2,7 @@ package com.rts.game.abilities;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.rts.game.Assets;
 import com.rts.game.entities.SelectableUnit;
 import com.rts.game.entities.Unit;
 import com.rts.game.gameplay.Cursor;
@@ -21,11 +22,10 @@ public class Deselect extends Ability {
     /**
      * Constructor
      *
-     * @param owner         the owner of the ability
-     * @param abilityButton the button related to the ability
+     * @param owner the owner of the ability
      */
-    public Deselect(Unit owner, AbilityButton abilityButton) {
-        super(owner, Input.Keys.P, abilityButton);
+    public Deselect(Unit owner) {
+        super(owner, Input.Keys.P, new AbilityButton(Assets.getAssets().getSprite("cancel_button"), 14));
     }
 
     /** the action to be executed for the ability */

@@ -26,7 +26,7 @@ import java.lang.reflect.InvocationTargetException;
 public class Build extends TargetedAbility {
     /** If the building ghost has to be displayed or not (should only be displayed when ability active ) */
     private boolean showGhost = false;
-    /** The buildinghost for the building. TODO make static (would be a waste if we draw this > 1 time */
+    /** The building host for the building. TODO make static (would be a waste if we draw this > 1 time */
     private BuildingGhost ghost;
     /** The area which this building occupies TODO load from a list */
     private boolean[][] requiredSpace = new boolean[][]{

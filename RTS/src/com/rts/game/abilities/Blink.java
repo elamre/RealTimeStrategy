@@ -17,8 +17,8 @@ import com.rts.game.hud.AbilityButton;
  */
 public class Blink extends TargetedAbility {
 
-    public Blink(Unit owner, AbilityButton abilityButton) {
-        super(owner, Input.Keys.B, abilityButton);
+    public Blink(Unit owner) {
+        super(owner, Input.Keys.B, null);     //TODO Make this ability a little bit fancier
     }
 
     @Override

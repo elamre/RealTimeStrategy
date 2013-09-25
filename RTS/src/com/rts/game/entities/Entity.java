@@ -35,9 +35,7 @@ public abstract class Entity {
     private float debugTimer = 0;
     private int owner = 0;
 
-    /**
-     * USE THIS ONLY FOR REGISTERING THE ENTITY! SHOULD NOT BE USED OTHERWISE!
-     */
+    /** USE THIS ONLY FOR REGISTERING THE ENTITY! SHOULD NOT BE USED OTHERWISE! */
     public Entity() {
 
     }
@@ -124,7 +122,7 @@ public abstract class Entity {
             }
             if (textureRegion != null) {
                 spriteBatch.draw(textureRegion, x + (1 - width), y + (1 - height), width / 2, height / 2, width, height, 1, 1, angle);
-                spriteBatch.setColor(.5f, .5f, .5f, .5f);
+                spriteBatch.setColor(.7f, .7f, .7f, .7f);
                 spriteBatch.draw(textureRegion, x - (1 - width) * 2, y - (1 - height) * 2, width / 2, height / 2, width, height, 1, 1, angle);
                 spriteBatch.setColor(1, 1, 1, 1);
             }
@@ -182,7 +180,6 @@ public abstract class Entity {
     public String toString() {
         return "id: " + this.id + " [" + (int) getX() + "," + (int) getY() + "] size: [" + width + "," + height + "]";
     }
-
 
     public EntityPosChange getMovePacket() {
         return null;

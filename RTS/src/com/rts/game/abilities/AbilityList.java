@@ -20,7 +20,11 @@ public class AbilityList {
     private static HashMap<Integer, Class<? extends Ability>> typeToAbility = new HashMap<Integer, Class<? extends Ability>>();
 
     public static void register() {
-        //TODO add all the units here. Maybe load them from XML?
+        registerAbility(new Walk(null));
+        registerAbility(new Build(null));
+        registerAbility(new Blink(null));
+        registerAbility(new Deselect(null));
+        //TODO add all the abilities here. Maybe load them from XML?
     }
 
     public static void registerAbility(Ability ability) {
@@ -43,7 +47,7 @@ public class AbilityList {
     public static int getAbilityType(Ability ability) {
         System.out.println("Retrieving id for class: " + ability.getClass().toString());
         if (!abilityToType.containsKey(ability.getClass())) {
-            System.out.println("Entity isnt registered");
+            System.out.println("Ability isn't registered");
             return 0;
         }
 

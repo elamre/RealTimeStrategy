@@ -7,10 +7,9 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.rts.game.abilities.Ability;
 import com.rts.game.entities.*;
-import com.rts.game.hud.BuildingHUD;
-import com.rts.game.hud.BuildingHUDOld;
 import com.rts.game.hud.HUD;
 import com.rts.game.pathfinding.Node;
+import com.rts.util.Logger;
 
 import java.util.ArrayList;
 
@@ -25,7 +24,8 @@ public class Player {
     //Temporarily disables the selection for one click
     public static boolean preserveSelection;
     public static String name;
-    public UnitSelection selection;
+    //  public UnitSelection selection;
+    private SelectionManager selectionManager;
     private HUD hud;
     private boolean runningSelection = false;
     private boolean rightPressed = false;
@@ -34,27 +34,26 @@ public class Player {
 
     public void cancel() {
         hud.getBuildingHUD().removeAllAbilityButtons();
-        selection.clear();
+        selectionManager.clearCurrentSelection();
+        //selection.clear();
     }
 
     public void create() {
         hud = new HUD();
         selectionStart = new Vector2(0, 0);
         selectionEnd = new Vector2(0, 0);
-
-        selection = new UnitSelection();
-
+        // selection = new UnitSelection();
+        selectionManager = new SelectionManager();
     }
 
     public void update(float deltaT, EntityManager entityManager) {
         hud.update();
         if (Gdx.input.isButtonPressed(Input.Buttons.LEFT) && !runningSelection && !Cursor.abilityRequested) {
             if (!hud.isOnHud((int) Cursor.x, (int) Cursor.y)) {
-                if (!preserveSelection) {
-                    selection.disableCurrent();
-                    selection.clear();
-                    selectionStart.set(Camera.getRealWorldX(), Camera.getRealWorldY());
-                }
+                //   selection.disableCurrent();
+                //  selection.clear();
+                cancel();
+                selectionStart.set(Camera.getRealWorldX(), Camera.getRealWorldY());
                 runningSelection = true;
             }
         }
@@ -78,7 +77,21 @@ public class Player {
         } else {
             rightPressed = false;
         }
-
+        if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)) {
+            for (int i = 0; i < 10; i++) {
+                if (Gdx.input.isKeyPressed(i + Input.Keys.NUM_0)) {
+                    Logger.getInstance().debug("new group with: " + selectionManager.getCurrentSelection().size() + " entities.");
+                    selectionManager.registerGroup(i + Input.Keys.NUM_0, selectionManager.getCurrentSelection());
+                }
+            }
+        } else if (!Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)) {
+            for (int i = 0; i < 10; i++) {
+                if (Gdx.input.isKeyPressed(i + Input.Keys.NUM_0)) {
+                    cancel();
+                    selectionManager.setCurrentSelection(selectionManager.getGroup(i + Input.Keys.NUM_0));
+                }
+            }
+        }
     }
 
     private void checkSelection(EntityManager entityManager) {
@@ -88,8 +101,9 @@ public class Player {
                 Node n = World.nodeAt(x, y);
                 if (n != null) {
                     Entity entity = n.standing;
-                    if (entity instanceof SelectableUnit)
-                        if (entity != null && !selection.contains(entity)) {
+                    if (entity instanceof SelectableUnit) {
+                        if (!selectionManager.currentSelectionContains(entity)) {
+                            selectionManager.addCurrentSelection(entity);
                             if (entity instanceof Unit) {
                                 ArrayList<Ability> abilities;
                                 abilities = ((Unit) entity).getAbilities();
@@ -97,25 +111,26 @@ public class Player {
                                     for (int i = 0; i < abilities.size(); i++) {
                                         if (abilities.get(i).getAbilityButton() != null) {
                                             hud.getBuildingHUD().registerAbilityButton(abilities.get(i).getAbilityButton(), abilities.get(i).getAbilityButton().getPreferredPlace());
+                                            System.out.println("Ability type: " + abilities.get(i).getAbilityType());
                                         }
                                     }
                                 }
                                 ((SelectableUnit) entity).setSelected(true);
                             }
-                            selection.add(entity);
                         }
+                    }
+                }
+//                System.out.println("selected amount: " + selection.getCurrentSelection().size());
+
+                if (selectionStart.x == selectionEnd.x && selectionStart.y == selectionEnd.y) {
+                    System.out.println("Unit at this spot is " + World.nodeAt(selectionEnd.x, selectionEnd.y).standing);
                 }
             }
-        }
-        System.out.println("selected amount: " + selection.currentSelection.size());
-
-        if (selectionStart.x == selectionEnd.x && selectionStart.y == selectionEnd.y) {
-            System.out.println("Unit at this spot is " + World.nodeAt(selectionEnd.x, selectionEnd.y).standing);
         }
     }
 
     private void moveSelection() {
-        selection.massWalkTo((int) Camera.getRealWorldX(), (int) Camera.getRealWorldY());
+        //TODO selection.massWalkTo((int) Camera.getRealWorldX(), (int) Camera.getRealWorldY());
     }
 
     public void draw() {

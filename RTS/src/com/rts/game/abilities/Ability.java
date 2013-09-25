@@ -38,6 +38,9 @@ public abstract class Ability {
      * @param abilityButton the button related to the ability
      */
     public Ability(Unit owner, int hotKey, AbilityButton abilityButton) {
+        if (owner != null) {
+            abilityType = AbilityList.getAbilityType(this);
+        }
         this.abilityButton = abilityButton;
         this.hotKey = hotKey;
         this.owner = owner;
@@ -54,7 +57,7 @@ public abstract class Ability {
     public void update(float deltaT) {
         boolean tempButton = false;
         boolean tempSelected = true;
-        if(owner instanceof SelectableUnit){
+        if (owner instanceof SelectableUnit) {
             tempSelected = ((SelectableUnit) owner).isSelected();
         }
         if (abilityButton != null) {

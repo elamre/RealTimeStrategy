@@ -76,20 +76,17 @@ public class BuildingHUD {
         while (tempId == -1) {
             tries++;
             tempId = possibleIds[tries];
-            System.out.println("TempId: " + tempId);
             if (tries > 15) {
                 System.out.println("Not enough space to place button");
                 return -1;
             }
         }
         if (tries > -1 && tries < 16) {
-            System.out.println("Setting index: " + tries + " to -1");
             possibleIds[tries] = -1;
         }
         Arrays.sort(possibleIds);
         for (int b = 0, l = gridButtons.size(); b < l; b++) {
             if (gridButtons.get(b).getId() == tempId) {
-                System.out.println("Button set at tempId: " + tempId);
                 gridButtons.get(b).setButton(abilityButton);
                 break;
             }
