@@ -91,25 +91,4 @@ public class UnitSelection {
     public boolean contains(Entity e) {
         return currentSelection.contains(e);
     }
-
-    /**
-     * sends the move command to all the selected units
-     *
-     * @param x the x vector of the position to move to
-     * @param y the y vector of the position to move to
-     */
-    public void massWalkTo(int x, int y) {
-
-        ArrayList<Node> spots = World.jps.grid.validNearbyNodes(World.nodeAt(x, y), currentSelection.size());
-
-        System.out.println("Spots available: " + spots.size());
-
-        for (int i = 0; i < currentSelection.size(); i++) {
-            Entity e = currentSelection.get(i);
-            if (e instanceof MovingUnit) {
-                ((MovingUnit) e).walker.updatePath(spots.get(i).getX(), spots.get(i).getY());
-            }
-        }
-    }
-
 }

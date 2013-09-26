@@ -13,7 +13,6 @@ import com.rts.game.gameplay.Camera;
  * To change this template use File | Settings | File Templates.
  */
 public class AbilityButton extends Button {
-    private TextureRegion textureRegion;
     private int preferredPlace = -1;
 
     public AbilityButton(Sprite sprite, int preferredPlace) {

@@ -1,8 +1,10 @@
 package com.rts.game.gameplay;
 
 import com.rts.game.entities.Entity;
+import com.rts.game.entities.MovingUnit;
 import com.rts.game.entities.SelectableUnit;
 import com.rts.game.entities.Unit;
+import com.rts.game.pathfinding.Node;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -103,5 +105,22 @@ public class SelectionManager {
      */
     public boolean currentSelectionContains(Entity entity) {
         return currentSelection.contains(entity);
+    }
+
+    /**
+     * sends the move command to all the selected units
+     *
+     * @param x the x vector of the position to move to
+     * @param y the y vector of the position to move to
+     */
+    public void walkCurrentSelectionTo(int x, int y) {
+        ArrayList<Node> spots = World.jps.grid.validNearbyNodes(World.nodeAt(x, y), currentSelection.size());
+        System.out.println("Spots available: " + spots.size());
+        for (int i = 0; i < currentSelection.size(); i++) {
+            Entity e = currentSelection.get(i);
+            if (e instanceof MovingUnit) {
+                ((MovingUnit) e).walker.updatePath(spots.get(i).getX(), spots.get(i).getY());
+            }
+        }
     }
 }
