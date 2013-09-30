@@ -10,7 +10,7 @@ public class Main {
         cfg.useGL20 = true;
         cfg.width = 640;
         cfg.height = 480;
-        cfg.vSyncEnabled = true;
+        cfg.vSyncEnabled = false;
         new LwjglApplication(new RealTimeStrategy(), cfg);
     }
 }

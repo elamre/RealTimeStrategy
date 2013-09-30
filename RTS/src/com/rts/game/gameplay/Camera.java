@@ -92,6 +92,7 @@ public class Camera {
 
     public static void finishBatches() {
         batch.end();
+
     }
 
     private static void handleInput(float delta) {

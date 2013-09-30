@@ -69,32 +69,12 @@ public class World {
         for (int x = 0; x < jps.grid.grid.length; x++) {
             for (int y = 0; y < jps.grid.grid[0].length; y++) {
                 if (!jps.grid.getNode(x, y).isPass()) {
-                    if (!Gdx.input.isKeyPressed(Input.Keys.R))
+                    if (!Gdx.input.isKeyPressed(Input.Keys.R)) {
                         ShapeRenderer.drawRectangle(x, y, 1, 1, true);
-                    // box.filledRect(x, y, 1, 1);
+                    }
                 }
             }
         }
-        //  box.end();
-
-
-/*        box = new ShapeRenderer();
-        box.setProjectionMatrix(Camera.getOrthographicCamera().combined);
-        box.begin(ShapeRenderer.ShapeType.Point);
-        box.setColor(1, 0, 0, 0.8f);
-        for (int x = 0; x < jps.grid.grid.length; x++) {
-            for (int y = 0; y < jps.grid.grid[0].length; y++) {
-                box.point(x + 0.5f, y + 0.5f, 0);
-            }
-        }
-        box.end();*/
-
-
-        // PathfindingDebugger.draw();
-
-        //Camera.batch.begin();
-
-
     }
 
     public void initTestMap() {
@@ -106,12 +86,16 @@ public class World {
             }
         }
 
-        for (int x = 0; x < jps.grid.grid.length; x++) {
-            for (int y = 0; y < jps.grid.grid[0].length; y++) {
+        for (int x = 1; x < jps.grid.grid.length - 1; x++) {
+            for (int y = 1; y < jps.grid.grid[0].length - 1; y++) {
                 if (rand.nextInt(10) == 0) {
-                    EntityManager.addEntity(new Tree(x, y));
+                    // if (jps.grid.grid[x][y].isPass() && jps.grid.grid[x - 1][y].isPass() && jps.grid.grid[x][y - 1].isPass() && jps.grid.grid[x - 1][y - 1].isPass()) {
+                    if (jps.grid.grid[x][y].standing == null && jps.grid.grid[x - 1][y].standing == null && jps.grid.grid[x][y - 1].standing == null && jps.grid.grid[x - 1][y - 1].standing == null) {
+                        EntityManager.addEntity(new Tree(x, y));
+                    } else {
+                        jps.grid.grid[x][y].setPassable(true);
+                    }
                 } else {
-
                     jps.grid.grid[x][y].setPassable(true);
                 }
             }

@@ -43,9 +43,7 @@ public class ClientListener extends Listener {
 
     }
 
-    /**
-     * Called when the remote end is no longer connected. There is no guarantee as to what thread will invoke this method.
-     */
+    /** Called when the remote end is no longer connected. There is no guarantee as to what thread will invoke this method. */
     @Override
     public void disconnected(Connection connection) {
         super.disconnected(connection);    //To change body of overridden methods use File | Settings | File Templates.
@@ -88,9 +86,7 @@ public class ClientListener extends Listener {
         }
     }
 
-    /**
-     * Called when the connection is below the {@link com.esotericsoftware.kryonet.Connection#setIdleThreshold(float) idle threshold}.
-     */
+    /** Called when the connection is below the {@link com.esotericsoftware.kryonet.Connection#setIdleThreshold(float) idle threshold}. */
     @Override
     public void idle(Connection connection) {
         super.idle(connection);    //To change body of overridden methods use File | Settings | File Templates.
